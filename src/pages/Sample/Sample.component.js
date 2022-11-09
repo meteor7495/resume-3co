@@ -3,7 +3,7 @@ import { AlertTypes } from "../../constants/alertTypes.enum";
 import { useDispatch } from "react-redux";
 import { showAlert } from "../../store/AlertsSlice";
 import { Button } from "@mui/material";
-import SpinnerComp from "../../components/SpinnerComp";
+import SpinnerComp from "../../components/SpinnerComp/SpinnerComp";
 import { showLoader } from "../../store/LoadingSlice";
 import { ThemeTypes } from "../../constants/themeTypes.enum";
 import { setTheme } from "../../store/appSlice";

@@ -7,7 +7,7 @@ import LoadingSlice from "./LoadingSlice";
 
 const reducer = combineReducers({
   loading: LoadingSlice,
-  userInfo: userSlice,
+  user: userSlice,
   dir : dirSlice,
   app: appSlice,
   alerts:AlertsSlice
