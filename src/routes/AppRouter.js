@@ -3,7 +3,6 @@ import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import Layout from "../components/Layout/Layout";
 import SpinnerComp from "../components/SpinnerComp";
 import useAuth from "../hooks/useAuth";
-import SamplePage from "../pages/Sample/Sample.component";
 import { publicRoutes } from "./public-routes";
 
 function AppRouter(props) {

@@ -1,4 +1,4 @@
-const primary = "#757575";
+const primary = "#007BFF";
 // const secondary = "#FF5C93";
 // const warning = "#FFC260";
 // const success = "#3CD4A0";
@@ -10,7 +10,7 @@ const lightTheme = {
       main: primary,
       // light: primary,
       // dark: primary,
-      contrastText: "#ffffff"
+      contrastText: "#ffffff",
     },
     // secondary: {
     //   main: '#000',
@@ -18,11 +18,11 @@ const lightTheme = {
     //   dark: '#000'
     // },
     success: {
-      main: "#32D583",
+      main: "#35C85A",
       contrastText: "#FFF",
     },
     error: {
-      main: "#E31B54",
+      main: "#F34F45",
     },
     addBoothBtnColor: {
       main: "#475467",
@@ -37,7 +37,7 @@ const lightTheme = {
       contrastText: "#475467CC",
     },
     background: {
-      main: "#E4E7EC",
+      main: "#F9F9FC",
       light: "#E4E7EC",
       dark: "#E4E7EC",
     },
@@ -99,6 +99,11 @@ const lightTheme = {
       main: "#F8F8F8",
       light: "#000",
       dark: "#fff",
+    },
+    border: {
+      main: "#D1D1D6",
+      light: "#D1D1D6",
+      dark: "#D1D1D6",
     },
     borderColor: {
       main: "rgba(152, 162, 179, 0.3)",

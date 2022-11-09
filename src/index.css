@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* @font-face {
+  font-family: "Inter-Normal";
+  src: url("assets/fonts/Inter-Regular.woff2");
+}
+
+@font-face {
+  font-family: "Inter-Thin";
+  src: url("assets/fonts/Inter-Thin.woff2");
+}
+
+@font-face {
+  font-family: "Inter-Bold";
+  src: url("assets/fonts/Inter-Bold.woff2");
+} */
+
+/* @layer base {
+  html {
+    font-family: Inter-Normal, sans-serif;
+  }
+} */
+
+/* @layer components {
+ } */
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
