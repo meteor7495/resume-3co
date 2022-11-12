@@ -11,10 +11,21 @@ const OrderBook = () => {
   return (
     <div className={`flex flex-col gap-[10px]`}>
       <BoxUi className={`h-[333px] ${classes.orderRed}`}>
-        <OrderBookTable />
+        <OrderBookTable priceType={"sell"} />
       </BoxUi>
-      <BoxUi>2</BoxUi>
-      <BoxUi className={`h-[333px] ${classes.orderGreen}`}>3</BoxUi>
+      <BoxUi>
+        <div
+          className={`flex items-center justify-center gap-[5px] text-[12px] p-[8px] font-bold`}
+        >
+          <span>0.075947</span>
+          <span className={`opacity-50`}>≈</span>
+          <span className={`opacity-50`}>1,585.69</span>
+          <span className={`opacity-50`}>USD</span>
+        </div>
+      </BoxUi>
+      <BoxUi className={`h-[333px] ${classes.orderGreen}`}>
+        <OrderBookTable priceType="buy" />
+      </BoxUi>
     </div>
   );
 };
