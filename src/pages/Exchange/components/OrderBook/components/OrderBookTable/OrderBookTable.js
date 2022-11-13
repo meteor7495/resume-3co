@@ -84,14 +84,14 @@ const OrderBookTable = ({ children, className, priceType }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {rows.map((row,i) => (
               <TableRow
-                key={row.price}
+                key={i}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell
                   className={`${tClasses.cell}${
-                    priceType === "buy" ? " text-error" : " text-success"
+                    priceType === "buy" ? " text-success" : " text-error"
                   }`}
                   align="center"
                 >

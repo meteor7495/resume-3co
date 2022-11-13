@@ -9,7 +9,7 @@ const BoxUi = ({ children, className, ...props }) => {
   return (
     <div
       {...props}
-      className={`p-[10px] border rounded-[10px] ${classes.body} ${className}`}
+      className={`p-[10px] border border-solid rounded-[10px] ${classes.body} ${className}`}
     >
       {children}
     </div>

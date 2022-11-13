@@ -3,6 +3,7 @@ import useStyles from "./Exchange.style";
 import PagesLayout from "../../components/PagesLayout";
 // import MarketPairs from "./components/MarketPairs";
 import OrderBook from "./components/OrderBook";
+import TradingChart from "./components/TradingChart";
 
 export default function Exchange({ children, ...props }) {
   const classes = useStyles();
@@ -14,7 +15,9 @@ export default function Exchange({ children, ...props }) {
           <OrderBook />
         </div>
         {/*275*/}
-        <div className={`flex-[3]`}>ss</div>
+        <div className={`flex-[3]`}>
+          <TradingChart />
+          </div>
         <div className={`flex-[1]`}>ss</div>
         {/*275*/}
       </div>
