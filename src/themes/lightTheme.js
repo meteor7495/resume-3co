@@ -34,7 +34,7 @@ const lightTheme = {
     },
     border: {
       main: "#D1D1D6",
-      light: "#D1D1D6",
+      light: "#F2F2F7",
       dark: "#D1D1D6",
     },
     borderColor: {
@@ -44,7 +44,7 @@ const lightTheme = {
     },
     text: {
       primary: "#1F263F",
-      secondary: "#"
+      secondary: "#",
     },
   },
 };

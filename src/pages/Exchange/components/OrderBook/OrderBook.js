@@ -7,7 +7,7 @@ const OrderBook = () => {
   var classes = useStyles();
   return (
     <div className={`flex flex-col gap-[10px]`}>
-      <BoxUi className={`h-[333px] ${classes.orderRed}`}>
+      <BoxUi className={`h-[337px] ${classes.orderRed}`}>
         <OrderBookTable priceType={"sell"} />
       </BoxUi>
       <BoxUi>
@@ -20,7 +20,7 @@ const OrderBook = () => {
           <span className={`opacity-50`}>USD</span>
         </div>
       </BoxUi>
-      <BoxUi className={`h-[333px] ${classes.orderGreen}`}>
+      <BoxUi className={`h-[337px] ${classes.orderGreen}`}>
         <OrderBookTable priceType="buy" />
       </BoxUi>
     </div>

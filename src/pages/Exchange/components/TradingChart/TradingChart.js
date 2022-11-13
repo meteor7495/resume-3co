@@ -18,7 +18,7 @@ export default function TradingChart() {
           toolbar_bg: "#fff",
           height: 380,
           // hide_top_toolbar: true,
-          hide_side_toolbar: true,
+          // hide_side_toolbar: true,
 
         }}
       />
