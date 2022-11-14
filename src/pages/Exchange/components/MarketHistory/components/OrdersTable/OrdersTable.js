@@ -8,18 +8,20 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import BoxUi from "../../../../../../components/UiKit/BoxUi";
 import ScrollbarsUi from "../../../../../../components/UiKit/PerfectScrollbarUi/ScrollbarsUi";
 import useStyles from "./styles";
+import Icons from "../../../../../../assets/icons";
 
 const OrdersTable = () => {
   var classes = useStyles();
   const tClasses = {
-    headerCell: `border-0 z-[0] text-[10px] font-bold ${classes.headerCell}`,
+    headerCell: `border-0 z-[0] text-[10px] font-bold min-w-[100px] ${classes.headerCell}`,
     cell: "border-0 text-[10px] py-[2.5px] ",
   };
   const { pair, type, buySell } = tableSorts;
+  const [filters, setFilters] = useState({});
   return (
     <BoxUi className={`p-[10px] pt-[5px] h-[240px] ${classes.body}`}>
       <TableContainer className={`overflow-auto h-full w-full`}>
@@ -39,21 +41,33 @@ const OrdersTable = () => {
                   padding="none"
                   align="center"
                 >
-                  <HeaderFilter items={pair} />
+                  <HeaderFilter
+                    onChange={setFilters}
+                    value={filters.pair}
+                    items={pair}
+                  />
                 </TableCell>
                 <TableCell
                   className={tClasses.headerCell}
                   padding="none"
                   align="center"
                 >
-                  <HeaderFilter items={type} />
+                  <HeaderFilter
+                    onChange={setFilters}
+                    value={filters.type}
+                    items={type}
+                  />
                 </TableCell>
                 <TableCell
                   className={tClasses.headerCell}
                   padding="none"
                   align="center"
                 >
-                  <HeaderFilter items={buySell} />
+                  <HeaderFilter
+                    onChange={setFilters}
+                    value={filters.buySell}
+                    items={buySell}
+                  />
                 </TableCell>
                 <TableCell
                   className={tClasses.headerCell}
@@ -119,19 +133,20 @@ const OrdersTable = () => {
 
 const HeaderFilter = ({ value, onChange, items }) => {
   var classes = useStyles();
-  const handleChange = () => {
-    // onChange;
+  const handleChange = (e) => {
+    onChange((s) => ({ ...s, [items.name]: e.target.value }));
   };
   return (
     <Select
-      className={`[&:before]:hidden bg-transparent [&:focus]:bg-transparent [&:hover]:bg-transparent`}
+      className={`[&:before]:hidden [&:after]:hidden bg-transparent [&:hover]:bg-transparent [&.Mui-focused]:bg-transparent [&>div:focus]:bg-transparent ${classes.select}`}
       classes={{ select: `text-[10px] font-bold p-0 ${classes.headerCell}` }}
       variant="filled"
       value={value ? value : "None"}
       onChange={handleChange}
       label="Age"
+      IconComponent={Icons.Vector}
     >
-      {items.map(({ value, name }) => (
+      {items.items.map(({ value, name }) => (
         <MenuItem
           value={value}
           className={`text-[10px] font-bold ${classes.headerCell}`}
@@ -144,20 +159,29 @@ const HeaderFilter = ({ value, onChange, items }) => {
 };
 
 const tableSorts = {
-  pair: [
-    { value: "None", name: "All Pairs" },
-    { value: "CurrentPair", name: "Current Pair" },
-  ],
-  type: [
-    { value: "None", name: "All Types" },
-    { value: "Limit", name: "Limit" },
-    { value: "Market", name: "Market" },
-  ],
-  buySell: [
-    { value: "None", name: "Buy/Sell" },
-    { value: "B", name: "Buy" },
-    { value: "S", name: "Sell" },
-  ],
+  pair: {
+    name: "pair",
+    items: [
+      { value: "None", name: "All Pairs" },
+      { value: "CurrentPair", name: "Current Pair" },
+    ],
+  },
+  type: {
+    name: "type",
+    items: [
+      { value: "None", name: "All Types" },
+      { value: "Limit", name: "Limit" },
+      { value: "Market", name: "Market" },
+    ],
+  },
+  buySell: {
+    name: "buySell",
+    items: [
+      { value: "None", name: "Buy/Sell" },
+      { value: "B", name: "Buy" },
+      { value: "S", name: "Sell" },
+    ],
+  },
 };
 
 function createData(time, pair, type, buySell, price, amount) {

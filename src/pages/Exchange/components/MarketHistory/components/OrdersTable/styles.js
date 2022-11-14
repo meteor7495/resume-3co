@@ -15,4 +15,11 @@ export default makeStyles((theme) => ({
   tableTextColor: {
     color: `${theme.palette.text.primary}80`,
   },
+  select: {
+    "&>svg": {
+      padding: "0px 8px",
+      width: 24,
+      height: 15,
+    },
+  },
 }));
