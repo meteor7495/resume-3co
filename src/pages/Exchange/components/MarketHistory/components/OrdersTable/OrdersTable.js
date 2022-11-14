@@ -149,6 +149,7 @@ const HeaderFilter = ({ value, onChange, items }) => {
       {items.items.map(({ value, name }) => (
         <MenuItem
           value={value}
+          key={name}
           className={`text-[10px] font-bold ${classes.headerCell}`}
         >
           {name}

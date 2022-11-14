@@ -29,6 +29,11 @@ const lightTheme = {
       light: "#E4E7EC",
       dark: "#E4E7EC",
     },
+    input: {
+      main: "#F9F9FC",
+      light: "#E4E7EC",
+      dark: "#E4E7EC",
+    },
     boxUiBackground: {
       main: "#fff",
     },
