@@ -1,7 +1,3 @@
-import {makeStyles} from "@mui/styles";
+import { makeStyles } from "@mui/styles";
 
-export default makeStyles((theme) => ({
-    body: {
-        backgroundColor: `${theme.palette.background.main}`,
-    },
-}));
+export default makeStyles((theme) => ({}));

@@ -7,7 +7,13 @@ import useStyles from "./styles";
 
 const MarketPairs = () => {
   var classes = useStyles();
-  return <BoxUi className={`${classes.body}`}>dd</BoxUi>;
+  return (
+    <BoxUi className={`flex flex-col gap-[10px]`}>
+      <div>dd</div>
+      <div>dd</div>
+      <div>ddh</div>
+    </BoxUi>
+  );
 };
 
 export default MarketPairs;
