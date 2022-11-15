@@ -1,7 +1,7 @@
 import React from "react";
 import ReactApexChart from 'react-apexcharts';
 
-export default function PopularMarketsList({data, options, type}) {
+export default function PopularMarketsList({data, options, type, ...props}) {
     return (
         <ReactApexChart
             type="area"
@@ -35,6 +35,7 @@ export default function PopularMarketsList({data, options, type}) {
                 },
                 ...options
             }}
+            {...props}
         />
     );
 }

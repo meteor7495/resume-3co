@@ -9,6 +9,7 @@ import {setTheme} from "../../../store/appSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {Link} from "react-router-dom";
 import useStyles from './styles'
+import ButtonUi from "../../UiKit/ButtonUi";
 
 const Header = (props) => {
     const classes = useStyles();
@@ -22,9 +23,9 @@ const Header = (props) => {
     return (
         <header className={"body-font border-0 border-b border-solid " + classes.header}>
             <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-                <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+                <Link to={'/'} className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
                     <Logo/>
-                </a>
+                </Link>
                 <nav className="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
                     <Link to={'/'} className={"mr-5 " + classes.link}>
                         Home
@@ -35,30 +36,30 @@ const Header = (props) => {
                     <Link to={'#'} className={"mr-5 " + classes.link}>DEX</Link>
                     <Link to={'#'} className={"mr-5 " + classes.link}>Margin</Link>
                     <Link to={'#'} className={"mr-5 " + classes.link}>Assets</Link>
-                    <Button variant="outlined">
+                    <ButtonUi variant="outlined">
                         Financial
-                    </Button>
+                    </ButtonUi>
                 </nav>
                 <div>
-                    <Button className={'mr-3 ' + classes.loginBtn}>
+                    <ButtonUi className={'mr-3 ' + classes.loginBtn}>
                         Login
-                    </Button>
-                    <Button className={'mr-3'} variant={'contained'}>
+                    </ButtonUi>
+                    <ButtonUi className={'mr-3'} variant={'contained'}>
                         Register
-                    </Button>
-                    <Button className={'mr-3'}
+                    </ButtonUi>
+                    <ButtonUi className={'mr-3'}
                         sx={{minWidth :'auto'}}
                         onClick={() => {
                             theme === 'light' ? themeChangeHandler(ThemeTypes.dark) : themeChangeHandler(ThemeTypes.light)
                         }}
                     >
                         <img src={theme === 'light' ? DarkSvg : LightSvg}/>
-                    </Button>
-                    <Button
+                    </ButtonUi>
+                    <ButtonUi
                         sx={{minWidth :'auto'}}
                     >
                         <img src={NotificationsSvg}/>
-                    </Button>
+                    </ButtonUi>
                 </div>
             </div>
         </header>
