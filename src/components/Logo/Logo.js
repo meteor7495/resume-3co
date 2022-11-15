@@ -1,8 +1,11 @@
 import React from "react";
 import LogoSVG from '../../assets/images/logo.svg'
+import DarkLogoSvg from '../../assets/images/dark-logo.svg'
+import {useSelector} from "react-redux";
 
-export default function Logo({data, options, type}) {
+export default function Logo() {
+    const {theme} = useSelector((s) => s.app);
     return (
-        <img src={LogoSVG} alt={'Logo'}/>
+        <img src={theme === 'light' ? LogoSVG : DarkLogoSvg} alt={'Logo'}/>
     );
 }

@@ -24,22 +24,33 @@ const lightTheme = {
     error: {
       main: "#F34F45",
     },
-    background: {
-      main: "#F9F9FC",
-      light: "#E4E7EC",
-      dark: "#E4E7EC",
-    },
     input: {
       main: "#F9F9FC",
       light: "#E4E7EC",
       dark: "#E4E7EC",
+    },
+    background: {
+      paper: '#F9F9FC',
+      default: '#F9F9FC',
+      main: "#F9F9FC",
+      light: "#E4E7EC",
+      dark: "#E4E7EC",
+    },
+    secondBackground: {
+      main: '#fff',
+    },
+    headerBorderColor:{
+      main: '#E5E5EA',
+    },
+    textColor: {
+      main: '#1F263F',
     },
     boxUiBackground: {
       main: "#fff",
     },
     border: {
       main: "#D1D1D6",
-      light: "#F2F2F7",
+      light: "#D1D1D6",
       dark: "#D1D1D6",
     },
     borderColor: {
@@ -49,7 +60,7 @@ const lightTheme = {
     },
     text: {
       primary: "#1F263F",
-      secondary: "#",
+      secondary: "#"
     },
   },
 };

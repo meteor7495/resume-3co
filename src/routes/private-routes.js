@@ -2,13 +2,11 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { lazy } from "react";
 const SamplePage = lazy(() => import('../pages/Sample/Sample.component'))
 
-export const privateRoutes = (isLoading) => {
+export const privateRoutes = () => {
 
     return (
-      <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<SamplePage />} />
-      </Routes>
-    </BrowserRouter>
+        <>
+            <Route path="/" element={<SamplePage />} />
+        </>
     );
   };
