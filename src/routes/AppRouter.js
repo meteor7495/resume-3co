@@ -3,6 +3,7 @@ import Layout from "../components/Layout/Layout";
 import SpinnerComp from "../components/SpinnerComp/SpinnerComp";
 import {publicRoutes} from "./public-routes";
 import {privateRoutes} from "./private-routes";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 
 function AppRouter({user, isLoading, ...props}) {
 
@@ -10,11 +11,17 @@ function AppRouter({user, isLoading, ...props}) {
     const routes = user ? privateRoutes(isLoading, props) : publicRoutes(isLoading, props);
 
     return (
-        <Layout>
+        <>
             <Suspense fallback={<SpinnerComp/>}>
-                {routes}
+                <BrowserRouter>
+                    <Routes>
+                        <Route element={<Layout/>}>
+                            {routes}
+                        </Route>
+                    </Routes>
+                </BrowserRouter>
             </Suspense>
-        </Layout>
+        </>
     );
 }
 
