@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import useStyles from "./styles";
 
 const InputUi = ({ children, className, inputProps, ...props }) => {
-  var classes = useStyles();
+  const classes = useStyles();
   return (
     <TextField
       {...props}

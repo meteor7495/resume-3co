@@ -9,7 +9,7 @@ import PairsTable from "./components/PairsTable/PairsTable";
 import useStyles from "./styles";
 
 const MarketPairs = () => {
-  var classes = useStyles();
+  const classes = useStyles();
   return (
     <BoxUi className={`flex flex-col gap-[10px] h-[290px]`}>
       <div>
@@ -18,7 +18,7 @@ const MarketPairs = () => {
       <div>
         <PairsSelect />
       </div>
-      <div>
+      <div className="h-full" >
         <PairsTable />
       </div>
     </BoxUi>
@@ -26,7 +26,7 @@ const MarketPairs = () => {
 };
 
 const PairsSelect = () => {
-  var classes = useStyles();
+  const classes = useStyles();
   const [selected, setSelected] = useState("favorites");
   return (
     <div className={`flex gap-[5px] p-[5px] ${classes.PairsSelectWrapper}`}>

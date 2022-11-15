@@ -6,6 +6,7 @@ const primary = "#007BFF";
 
 const lightTheme = {
   palette: {
+    mode: "light",
     primary: {
       main: primary,
       light: `${primary}ed`,
@@ -30,23 +31,23 @@ const lightTheme = {
       dark: "#E4E7EC",
     },
     background: {
-      paper: '#F9F9FC',
-      default: '#F9F9FC',
+      paper: "#F9F9FC",
+      default: "#F9F9FC",
       main: "#F9F9FC",
       light: "#E4E7EC",
       dark: "#E4E7EC",
     },
     secondBackground: {
-      main: '#fff',
+      main: "#fff",
     },
-    headerBorderColor:{
-      main: '#E5E5EA',
+    headerBorderColor: {
+      main: "#E5E5EA",
     },
     textColor: {
-      main: '#1F263F',
+      main: "#1F263F",
     },
-    boxUiBackground: {
-      main: "#fff",
+    box: {
+      background: "#fff",
     },
     border: {
       main: "#D1D1D6",
@@ -60,7 +61,7 @@ const lightTheme = {
     },
     text: {
       primary: "#1F263F",
-      secondary: "#"
+      secondary: "#",
     },
   },
 };

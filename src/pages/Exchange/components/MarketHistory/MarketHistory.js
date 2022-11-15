@@ -6,7 +6,7 @@ import OrdersTable from "./components/OrdersTable/OrdersTable";
 import useStyles from "./styles";
 
 const MarketHistory = () => {
-  var classes = useStyles();
+  const classes = useStyles();
   const tClasses = {
     tabPanel: "pt-[8px]",
     tab: "normal-case p-[6px] min-h-0 text-[12px] font-bold",

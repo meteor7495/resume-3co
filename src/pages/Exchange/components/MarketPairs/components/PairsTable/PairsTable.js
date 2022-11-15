@@ -6,49 +6,66 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import Icons from "../../../../../../assets/icons";
 import ScrollbarsUi from "../../../../../../components/UiKit/PerfectScrollbarUi/ScrollbarsUi";
 import useStyles from "./styles";
 
-function createData(pairs, lastPrice, change) {
-  return { pairs, lastPrice, change };
+function createData(pairs, lastPrice, change, isFavorite) {
+  return { pairs, lastPrice, change, isFavorite };
 }
 
-const rows = [
-  createData("ETH / BTC", 0.00020255, -2.58),
-  createData("KCS / BTC", 0.00013192, 3.17),
-  createData("ETH / USDT", 0.00350255, -1.58),
-  createData("KCS / USDT", 0.00013192, 7.16),
-  createData("XRP / USDT", 0.00002996, -1.31),
-  createData("VET / USDT", 0.00000103, 8.63),
-  createData("ETH / BTC", 0.00020255, -2.58),
-  createData("KCS / BTC", 0.00013192, 3.17),
-  createData("ETH / USDT", 0.00350255, -1.58),
-  createData("KCS / USDT", 0.00013192, 7.16),
-  createData("XRP / USDT", 0.00002996, -1.31),
-  createData("VET / USDT", 0.00000103, 8.63),
-  createData("ETH / BTC", 0.00020255, -2.58),
-  createData("KCS / BTC", 0.00013192, 3.17),
-  createData("ETH / USDT", 0.00350255, -1.58),
-  createData("KCS / USDT", 0.00013192, 7.16),
-  createData("XRP / USDT", 0.00002996, -1.31),
-  createData("VET / USDT", 0.00000103, 8.63),
-  createData("ETH / BTC", 0.00020255, -2.58),
-  createData("KCS / BTC", 0.00013192, 3.17),
-  createData("ETH / USDT", 0.00350255, -1.58),
-  createData("KCS / USDT", 0.00013192, 7.16),
-  createData("XRP / USDT", 0.00002996, -1.31),
-  createData("VET / USDT", 0.00000103, 8.63),
-];
-
 const PairsTable = ({ children, className, priceType }) => {
-  var classes = useStyles();
-  const tClasses = {
-    headerCell: `z-[0] text-[12px]${
-      priceType === "sell" ? " bg-[#fdedec]" : ""
-    }`,
-    cell: "border-0 text-[9px] py-[2.5px]",
+  const classes = useStyles();
+  const { selectedCoin: { baseTicker, pairTicker } = {} } = useSelector(
+    (state) => state.app
+  );
+
+  const [rows, setRows] = useState([
+    createData("ETH / BTC", 0.00020255, -2.58, true),
+    createData("KCS / BTC", 0.00013192, 3.17, false),
+    createData("BTC / USDT", 0.00350255, -1.58, true),
+    createData("KCS / USDT", 0.00013192, 7.16, false),
+    createData("XRP / USDT", 0.00002996, -1.31, true),
+    createData("VET / USDT", 0.00000103, 8.63, false),
+    createData("ETH / BTC", 0.00020255, -2.58, true),
+    createData("KCS / BTC", 0.00013192, 3.17, true),
+    createData("ETH / USDT", 0.00350255, -1.58, false),
+    createData("KCS / USDT", 0.00013192, 7.16, false),
+    createData("XRP / USDT", 0.00002996, -1.31, false),
+    createData("VET / USDT", 0.00000103, 8.63, false),
+    createData("ETH / BTC", 0.00020255, -2.58, true),
+    createData("KCS / BTC", 0.00013192, 3.17, false),
+    createData("ETH / USDT", 0.00350255, -1.58, false),
+    createData("KCS / USDT", 0.00013192, 7.16, true),
+    createData("XRP / USDT", 0.00002996, -1.31, true),
+    createData("VET / USDT", 0.00000103, 8.63, true),
+    createData("ETH / BTC", 0.00020255, -2.58, false),
+    createData("KCS / BTC", 0.00013192, 3.17, true),
+    createData("ETH / USDT", 0.00350255, -1.58, true),
+    createData("KCS / USDT", 0.00013192, 7.16, true),
+    createData("XRP / USDT", 0.00002996, -1.31, true),
+    createData("VET / USDT", 0.00000103, 8.63, true),
+  ]);
+
+  const FavoritesHandler = (index) => {
+    rows[index].isFavorite = !rows[index].isFavorite;
+    setRows((s) => {
+      const old = [...s];
+      old[index].isFavorite = !old[index].isFavorite;
+      return old;
+    });
   };
+
+  const tClasses = {
+    headerCell: `z-[0] text-[12px] ${classes.headerCell}`,
+    cell: "border-0 text-[10px] py-[4px] px-[5px] my-[5px] cursor-pointer",
+  };
+  const numberHandler = (n) =>
+    new Intl.NumberFormat("en-US", {
+      signDisplay: "exceptZero",
+    }).format(n);
   return (
     <TableContainer className={`overflow-auto h-full w-full`}>
       <ScrollbarsUi>
@@ -58,7 +75,7 @@ const PairsTable = ({ children, className, priceType }) => {
               <TableCell
                 className={tClasses.headerCell}
                 padding="none"
-                align="center"
+                align="left"
               >
                 Pairs
               </TableCell>
@@ -79,27 +96,50 @@ const PairsTable = ({ children, className, priceType }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, i) => (
-              <TableRow
-                key={i}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell
-                  className={`${tClasses.cell}${
-                    priceType === "buy" ? " text-success" : " text-error"
-                  }`}
-                  align="center"
+            {rows.map(({ isFavorite, pairs, lastPrice, change }, i) => {
+              const activeClass =
+                `${baseTicker} / ${pairTicker}` === pairs ? classes.active : "";
+
+              return (
+                <TableRow
+                  key={i}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  className={`rounded-[3px] ${classes.TableRow}`}
                 >
-                  {row.pairs}
-                </TableCell>
-                <TableCell className={tClasses.cell} align="center">
-                  {row.lastPrice}
-                </TableCell>
-                <TableCell className={tClasses.cell} align="center">
-                  {row.change}
-                </TableCell>
-              </TableRow>
-            ))}
+                  <TableCell
+                    className={`${activeClass} ${tClasses.cell} flex gap-[5px] font-bold`}
+                    align="left"
+                  >
+                    <span>
+                      <Icons.Favorites
+                        className={`${classes.favorite} ${
+                          isFavorite ? "" : classes.unFavorite
+                        }`}
+                      />
+                    </span>
+                    <span>{pairs}</span>
+                  </TableCell>
+                  <TableCell
+                    className={`${activeClass} ${tClasses.cell}`}
+                    align="center"
+                  >
+                    {lastPrice}
+                  </TableCell>
+                  <TableCell
+                    className={`${activeClass} ${tClasses.cell} ${
+                      change >= 0
+                        ? change === 0
+                          ? ""
+                          : "text-success"
+                        : "text-error"
+                    }`}
+                    align="center"
+                  >
+                    {numberHandler(change)} %
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </ScrollbarsUi>
