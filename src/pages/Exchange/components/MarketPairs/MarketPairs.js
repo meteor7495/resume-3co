@@ -29,8 +29,7 @@ const PairsSelect = () => {
   const classes = useStyles();
   const [selected, setSelected] = useState("favorites");
   return (
-    <div className={`flex gap-[5px] p-[5px] ${classes.PairsSelectWrapper}`}>
-      <div className="opacity-2 hidden"></div>
+    <div className={`flex gap-[5px] p-[5px] rounded-[5px] ${classes.PairsSelectWrapper}`}>
       {PairsTypes.map(({ children, value }) => (
         <Button
           key={value}

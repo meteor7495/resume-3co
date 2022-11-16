@@ -5,6 +5,7 @@ import MarketPairs from "./components/MarketPairs";
 import OrderBook from "./components/OrderBook";
 import TradingChart from "./components/TradingChart";
 import MarketHistory from "./components/MarketHistory";
+import MarketTrade from "./components/MarketTrade/MarketTrade";
 
 export default function Exchange({ children, ...props }) {
   const classes = useStyles();
@@ -19,8 +20,10 @@ export default function Exchange({ children, ...props }) {
           <TradingChart />
           <MarketHistory />
         </div>
-        <div className={`flex-[1]`}>
+        <div className={`flex-[1] flex flex-col gap-[10px]`}>
           <MarketPairs />
+          <MarketTrade type="buy" />
+          <MarketTrade type="sell" />
         </div>
       </div>
     </PagesLayout>
