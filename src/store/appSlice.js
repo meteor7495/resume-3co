@@ -8,7 +8,7 @@ const appSlice = createSlice({
     theme: "light",
     selectedCoin: {
       baseTicker: "BTC",
-      symbol: "BTCUSD",
+      symbol: "BTCUSDT",
       isActive: true,
       pairTicker: "USDT",
     },

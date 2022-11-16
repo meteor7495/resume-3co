@@ -59,8 +59,8 @@ const PairsTable = ({ children, className, priceType }) => {
   };
 
   const tClasses = {
-    headerCell: `z-[0] text-[12px] ${classes.headerCell}`,
-    cell: "border-0 text-[10px] py-[4px] px-[5px] my-[5px] cursor-pointer",
+    headerCell: ` text-[12px] ${classes.headerCell}`,
+    cell: `border-0 text-[10px] py-[4px] px-[5px] cursor-pointer`,
   };
   const numberHandler = (n) =>
     new Intl.NumberFormat("en-US", {
@@ -77,21 +77,21 @@ const PairsTable = ({ children, className, priceType }) => {
                 padding="none"
                 align="left"
               >
-                Pairs
+                <span>Pairs</span>
               </TableCell>
               <TableCell
                 className={tClasses.headerCell}
                 padding="none"
                 align="center"
               >
-                Last Price
+                <span>Last Price</span>
               </TableCell>
               <TableCell
                 className={tClasses.headerCell}
                 padding="none"
                 align="center"
               >
-                Change
+                <span>Change</span>
               </TableCell>
             </TableRow>
           </TableHead>
@@ -101,43 +101,47 @@ const PairsTable = ({ children, className, priceType }) => {
                 `${baseTicker} / ${pairTicker}` === pairs ? classes.active : "";
 
               return (
-                <TableRow
-                  key={i}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  className={`rounded-[3px] ${classes.TableRow}`}
-                >
-                  <TableCell
-                    className={`${activeClass} ${tClasses.cell} flex gap-[5px] font-bold`}
-                    align="left"
+                <>
+                  <TableRow
+                    key={i}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    className={`rounded-[3px] relative ${classes.tableRow}`}
                   >
-                    <span>
-                      <Icons.Favorites
-                        className={`${classes.favorite} ${
-                          isFavorite ? "" : classes.unFavorite
-                        }`}
-                      />
-                    </span>
-                    <span>{pairs}</span>
-                  </TableCell>
-                  <TableCell
-                    className={`${activeClass} ${tClasses.cell}`}
-                    align="center"
-                  >
-                    {lastPrice}
-                  </TableCell>
-                  <TableCell
-                    className={`${activeClass} ${tClasses.cell} ${
-                      change >= 0
+                    <TableCell
+                      className={`rounded-l-[3px] ${activeClass} ${tClasses.cell} flex gap-[5px] font-bold`}
+                      align="left"
+                    >
+                      <span onClick={() => FavoritesHandler(i)} >
+                        <Icons.Favorites
+                          className={`${classes.favorite} ${isFavorite ? "" : classes.unFavorite
+                            }`}
+                        />
+                      </span>
+                      <span>{pairs}</span>
+                    </TableCell>
+                    <TableCell
+                      className={`${activeClass} ${tClasses.cell}`}
+                      align="center"
+                    >
+                      {lastPrice}
+                    </TableCell>
+                    <TableCell
+                      className={`rounded-r-[3px] ${activeClass} ${tClasses.cell} ${change >= 0
                         ? change === 0
                           ? ""
                           : "text-success"
                         : "text-error"
-                    }`}
-                    align="center"
-                  >
-                    {numberHandler(change)} %
-                  </TableCell>
-                </TableRow>
+                        }`}
+                      align="center"
+                    >
+                      {numberHandler(change)} %
+                    </TableCell>
+                    {/* <div className={`absolute w-full flex items-center conta h-full left-0`} >
+                    <div className={`w-full h-[70%] rounded-[3px] ${activeClass}`}></div>
+                  </div> */}
+                  </TableRow>
+                  <div className={`w-full h-[10px]`} ></div>
+                </>
               );
             })}
           </TableBody>
