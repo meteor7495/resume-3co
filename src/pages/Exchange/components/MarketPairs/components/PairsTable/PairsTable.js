@@ -101,9 +101,8 @@ const PairsTable = ({ children, className, priceType }) => {
                 `${baseTicker} / ${pairTicker}` === pairs ? classes.active : "";
 
               return (
-                <>
+                <React.Fragment key={i}>
                   <TableRow
-                    key={i}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     className={`rounded-[3px] relative ${classes.tableRow}`}
                   >
@@ -111,10 +110,11 @@ const PairsTable = ({ children, className, priceType }) => {
                       className={`rounded-l-[3px] ${activeClass} ${tClasses.cell} flex gap-[5px] font-bold`}
                       align="left"
                     >
-                      <span onClick={() => FavoritesHandler(i)} >
+                      <span onClick={() => FavoritesHandler(i)}>
                         <Icons.Favorites
-                          className={`${classes.favorite} ${isFavorite ? "" : classes.unFavorite
-                            }`}
+                          className={`${classes.favorite} ${
+                            isFavorite ? "" : classes.unFavorite
+                          }`}
                         />
                       </span>
                       <span>{pairs}</span>
@@ -126,12 +126,15 @@ const PairsTable = ({ children, className, priceType }) => {
                       {lastPrice}
                     </TableCell>
                     <TableCell
-                      className={`rounded-r-[3px] ${activeClass} ${tClasses.cell} ${change >= 0
-                        ? change === 0
-                          ? ""
-                          : "text-success"
-                        : "text-error"
-                        }`}
+                      className={`rounded-r-[3px] ${activeClass} ${
+                        tClasses.cell
+                      } ${
+                        change >= 0
+                          ? change === 0
+                            ? ""
+                            : "text-success"
+                          : "text-error"
+                      }`}
                       align="center"
                     >
                       {numberHandler(change)} %
@@ -140,8 +143,8 @@ const PairsTable = ({ children, className, priceType }) => {
                     <div className={`w-full h-[70%] rounded-[3px] ${activeClass}`}></div>
                   </div> */}
                   </TableRow>
-                  <div className={`w-full h-[10px]`} ></div>
-                </>
+                  <div className={`w-full h-[10px]`}></div>
+                </React.Fragment>
               );
             })}
           </TableBody>
