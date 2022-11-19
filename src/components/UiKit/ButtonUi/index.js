@@ -1,2 +1,2 @@
-import InputUi from "./InputUi";
-export default InputUi;
+import ButtonUi from "./ButtonUi";
+export default ButtonUi;

@@ -16,34 +16,31 @@ export default function TradingChart() {
           symbol: `BINANCE:${selectedCoin.symbol}`,
           allow_symbol_change: true,
           toolbar_bg: "#fff",
-          height: 380,
-          // withdateranges:false,
+          height: "100%",
+          withdateranges: false,
           hide_top_toolbar: true,
           hide_side_toolbar: true,
-
         }}
       />
     );
   }, [selectedCoin, theme]);
   return (
-    <>
-      <BoxUi className="h-[440px] px-[17px] py-[30px]">
-        {chart ? (
-          chart
-        ) : (
-          <div
-            style={{ zIndex: 100, opacity: 0.7 }}
-            className={`absolute w-full h-full bg-dark ${
-              // selectedCoin.isActive
-              false ? "none" : "flex flex-col items-center justify-center"
-            }`}
-          >
-            <h3 className={"text-light text-center m-2"}>
-              The market is currently inactive for this currency!!
-            </h3>
-          </div>
-        )}
-      </BoxUi>
-    </>
+    <BoxUi className={`h-full px-[17px] py-[30px]`}>
+      {chart ? (
+        chart
+      ) : (
+        <div
+          style={{ zIndex: 100, opacity: 0.7 }}
+          className={`absolute w-full h-full bg-dark ${
+            // selectedCoin.isActive
+            false ? "none" : "flex flex-col items-center justify-center"
+          }`}
+        >
+          <h3 className={"text-light text-center m-2"}>
+            The market is currently inactive for this currency!!
+          </h3>
+        </div>
+      )}
+    </BoxUi>
   );
 }

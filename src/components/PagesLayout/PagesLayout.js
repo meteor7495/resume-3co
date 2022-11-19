@@ -4,9 +4,16 @@ import React from "react";
 import { useSelector } from "react-redux";
 import useStyles from "./styles";
 
-const PagesLayout = ({ children }) => {
+const PagesLayout = ({ children, className, ...props }) => {
   const classes = useStyles();
-  return <div className={`p-[20px] pb-[24px] ${classes.body}`}>{children}</div>;
+  return (
+    <div
+      {...props}
+      className={`p-[20px] pb-[24px] h-full ${classes.body} ${className}`}
+    >
+      {children}
+    </div>
+  );
 };
 
 export default PagesLayout;

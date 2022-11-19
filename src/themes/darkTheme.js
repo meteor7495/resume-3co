@@ -52,8 +52,8 @@ const lightTheme = {
     },
     border: {
       main: "#000000",
-      light: "#D1D1D6",
-      dark: "#D1D1D6",
+      light: "#121213",
+      dark: "#121213",
     },
     text: {
       primary: "#F2F2F7",

@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import BoxUi from "../../../../components/UiKit/BoxUi";
+import ButtonUi from "../../../../components/UiKit/ButtonUi/ButtonUi";
 import InputUi from "../../../../components/UiKit/InputUi";
 import ButtonTab from "../ButtonTab";
 import useStyles from "./styles";
@@ -31,8 +32,8 @@ export default function MarketTrade({ type }) {
   return (
     <BoxUi className={`flex flex-col gap-[4px]`}>
       <div className={`flex flex-col gap-[10px]`}>
-        <div className={`flex gap-[10px]`}>
-          <div className={`flex-[1]`}>{config.title}</div>
+        <div className={`flex gap-[10px] items-center`}>
+          <div className={`flex-[1] text-${config.color}`}>{config.title}</div>
           <div className={`flex-[5]`}>
             <ButtonTab
               buttons={marketTypes}
@@ -48,9 +49,9 @@ export default function MarketTrade({ type }) {
       </div>
       <div></div>
       <div className="flex flex-col">
-        <Button variant="contained" color={config.color}>
+        <ButtonUi variant="contained" color={config.color}>
           {config.title}
-        </Button>
+        </ButtonUi>
       </div>
     </BoxUi>
   );

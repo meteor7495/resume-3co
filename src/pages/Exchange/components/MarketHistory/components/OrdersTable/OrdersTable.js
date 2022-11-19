@@ -23,7 +23,7 @@ const OrdersTable = () => {
   const { pair, type, buySell } = tableSorts;
   const [filters, setFilters] = useState({});
   return (
-    <BoxUi className={`p-[10px] pt-[5px] h-[240px] ${classes.body}`}>
+    <BoxUi className={`p-[10px] pt-[5px] h-full ${classes.body}`}>
       <TableContainer className={`overflow-auto h-full w-full`}>
         <ScrollbarsUi>
           <Table aria-label="simple table" size={"small"} stickyHeader>

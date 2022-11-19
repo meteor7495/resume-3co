@@ -8,7 +8,7 @@ import useStyles from "./styles";
 const MarketHistory = () => {
   const classes = useStyles();
   const tClasses = {
-    tabPanel: "pt-[8px]",
+    tabPanel: "pt-[8px] h-full grow",
     tab: "normal-case p-[6px] min-h-0 text-[12px] font-bold",
   };
   const [tab, setTab] = useState(0);
@@ -24,9 +24,10 @@ const MarketHistory = () => {
     setTab(newValue);
   };
   return (
-    <BoxUi className={`h-[300px] ${classes.body}`}>
-      <Box>
+    <BoxUi className={`h-full`}>
+      <Box className={`h-full flex flex-col`}>
         <Box
+          className={`flex-1`}
           sx={{ borderBottom: 1, borderColor: "divider", width: "fit-content" }}
         >
           <Tabs

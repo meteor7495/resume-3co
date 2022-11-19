@@ -9,7 +9,7 @@ const InputUi = ({ children, className, inputProps, ...props }) => {
   return (
     <TextField
       {...props}
-      className={`w-full ${classes.body} ${className}`}
+      className={`w-full rounded-[5px] ${classes.body} ${className}`}
       InputProps={{
         ...inputProps,
         className: `${classes.body} ${inputProps?.className}`,

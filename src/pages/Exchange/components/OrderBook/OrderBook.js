@@ -6,8 +6,8 @@ import useStyles from "./styles";
 const OrderBook = () => {
   const classes = useStyles();
   return (
-    <div className={`flex flex-col gap-[10px]`}>
-      <BoxUi className={`h-[337px] ${classes.orderRed}`}>
+    <div className={`flex flex-col h-full gap-[10px]`}>
+      <BoxUi className={`flex-[1] min-h-[337px] ${classes.orderRed}`}>
         <OrderBookTable priceType={"sell"} />
       </BoxUi>
       <BoxUi>
@@ -20,7 +20,7 @@ const OrderBook = () => {
           <span className={`opacity-50`}>USD</span>
         </div>
       </BoxUi>
-      <BoxUi className={`h-[337px] ${classes.orderGreen}`}>
+      <BoxUi className={`flex-[1] min-h-[337px] ${classes.orderGreen}`}>
         <OrderBookTable priceType="buy" />
       </BoxUi>
     </div>
