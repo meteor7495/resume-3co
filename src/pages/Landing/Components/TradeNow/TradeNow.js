@@ -8,16 +8,16 @@ export default function TradeNow() {
     const classes = useStyles();
 
     return (
-        <section className={"text-gray-600 py-[56px] " + classes.background}>
+        <section className={"text-gray-600 lg:py-[56px] " + classes.background}>
             <div
                 className={"container mx-auto  px-5 md:flex-row flex-col items-center"}>
-                <div className={`${classes.body} flex w-full px-[62px] py-[36px]`}>
-                    <div className="md:w-1/5 mb-10 md:mb-0">
-                        <img className="max-w-[170px] w-full object-cover object-center rounded" alt="hero"
+                <div className={`${classes.body} flex flex-col lg:flex-row w-full lg:px-[62px] lg:py-[36px] px-[32px] py-[18px]`}>
+                    <div className="lg:w-1/5 mb-10 lg:mb-0">
+                        <img className="lg:max-w-[170px] w-full object-cover object-center rounded" alt="hero"
                              src={TradeNowSvg}/>
                     </div>
                     <div
-                        className="w-1/2 flex flex-col md:items-start md:text-left items-center text-center">
+                        className="lg:w-1/2 flex flex-col md:items-start md:text-left items-center text-center">
                         <Typography variant={'h1'} className={classes.title}>
                             Before they sold out
                         </Typography>

@@ -21,7 +21,7 @@ export default makeStyles((theme) => ({
         marginBottom:60,
     },
     inputStyle:{
-        width:340,
+        width:'calc(100% - 190px)',
         height:60,
         backgroundColor: theme.palette.input.transparent + '!important',
         "& fieldset":{
@@ -36,11 +36,25 @@ export default makeStyles((theme) => ({
             "& input":{
                 backgroundColor: 'transparent!important',
             }
-        }
+        },
+        [theme.breakpoints.down('lg')]: {
+            width:'calc(100% - 110px)',
+        },
+        [theme.breakpoints.down('md')]: {
+            width:'100%',
+        },
     },
     button:{
         height:60,
-        width:170,
+        width:'100%',
+        maxWidth:170,
+        [theme.breakpoints.down('lg')]: {
+            maxWidth:90,
+        },
+        [theme.breakpoints.down('md')]: {
+            marginTop:20,
+            maxWidth:'100%',
+        },
     },
     boxTitle:{
         fontSize: 30,
