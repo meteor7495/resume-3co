@@ -7,6 +7,8 @@ import SolanaSvg from '../../../../assets/images/solana.svg'
 import ArrowUp from '../../../../assets/icons/arrow-up.svg'
 import ArrowDown from '../../../../assets/icons/arrow-down.svg'
 import Charts from "../../../../components/Charts";
+import {Typography} from "@mui/material";
+import ButtonUi from "../../../../components/UiKit/ButtonUi";
 
 export default function PopularMarketsList() {
     const classes = useStyles();
@@ -24,63 +26,69 @@ export default function PopularMarketsList() {
         )
     }
     return (
-        <section className="text-gray-600 body-font">
-            <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
+        <section className={"text-gray-600 body-font " + classes.background}>
+            <div className="container mx-auto flex py-8 lg:py-24 md:flex-row flex-col items-center">
                 <div
-                    className="lg:flex-grow w-full flex flex-col mb-16 md:mb-0 items-center text-center">
-                    <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
-                        Before they sold out
-                    </h1>
-
-                    <div className="flex flex-col w-full">
-                        <div className="overflow-x-auto sm:-mx-6 lg:-mx-12">
-                            <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                    className="lg:flex-grow w-full flex flex-col mb-16 md:mb-0 items-center text-center px-5 lg:px-16">
+                    <Typography className={"hidden lg:block title-font sm:text-[35px] font-[700] text-3xl mb-4 font-medium text-gray-900 " + classes.title}>
+                        Popular crypt ocurrencies
+                    </Typography>
+                    <div className="flex flex-col w-full mt-[36px]">
+                        <div className="overflow-x-auto sm:-mx-6 lg:-mx-12 ">
+                            <div className="inline-block min-w-full">
                                 <div className="overflow-hidden">
-                                    <table className="min-w-full">
-                                        <thead className="border-b">
+                                    <table className={"min-w-full border-0 lg:border rounded-[15px] border-gray-300 border-solid " + classes.table  + ' ' + classes.borderColor} style={{borderSpacing:0}}>
+                                        <thead>
                                         <tr>
                                             <th scope="col-3"
-                                                className="text-sm font-medium text-gray-900 px-6 py-4 text-left w-[400px]">
+                                                className={"hidden lg:table-cell opacity-50 border-b border-0 border-solid border-gray-300 text-sm font-[400] text-[18px] text-gray-900 px-6 py-4 text-left w-[45%] " + classes.borderColor}>
                                                 Name
                                             </th>
                                             <th scope="col"
-                                                className="text-sm font-medium text-gray-900 px-6 py-4 text-center">
+                                                className={"hidden lg:table-cell opacity-50 border-b border-0 border-solid border-gray-300 text-sm font-[400] text-[18px] text-gray-900 px-6 py-4 text-center w-[15%] " + classes.borderColor}>
                                                 Price
                                             </th>
                                             <th scope="col"
-                                                className="text-sm font-medium text-gray-900 px-6 py-4 text-center">
+                                                className={"hidden lg:table-cell opacity-50 border-b border-0 border-solid border-gray-300 text-sm font-[400] text-[18px] text-gray-900 px-6 py-4 text-center w-[15%] " + classes.borderColor}>
                                                 Change
                                             </th>
                                             <th scope="col"
-                                                className="text-sm font-medium text-gray-900 px-6 py-4 text-center w-[120px]">
+                                                className={"hidden lg:table-cell opacity-50 border-b border-0 border-solid border-gray-300 text-sm font-[400] text-[18px] text-gray-900 px-6 py-4 text-center w-[5%] " + classes.borderColor}>
                                                 Chart
                                             </th>
                                             <th scope="col"
-                                                className="text-sm font-medium text-gray-900 px-6 py-4 text-center">
+                                                className={"hidden lg:table-cell opacity-50 border-b border-0 border-solid border-gray-300 text-sm font-[400] text-[18px] text-gray-900 px-6 py-4 text-center w-[10%] " + classes.borderColor}>
                                                 Trade
                                             </th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr className="border-b">
-                                            <td className="flex items-center px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
+                                            <td className={"flex border-b border-0 border-solid lg:border-0 items-center lg:px-6 py-6 lg:py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left" + classes.borderColor}>
                                                 <CoinName
                                                     url={BitcoinSvg}
                                                     name={'Bitcoin'}
                                                     shortName={'BTC'}
                                                 />
                                             </td>
-                                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
+                                            <td className={"text-sm border-b border-0 border-solid lg:border-0 border lg:border-0 text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center" + classes.borderColor}>
                                                 $19,626.7
+                                                <div className={'lg:hidden'}>
+                                                    <span className={'mr-2 text-red-500'}>
+                                                        -1.78%
+                                                    </span>
+                                                    <img src={ArrowDown}/>
+                                                </div>
                                             </td>
-                                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
+                                            <td className="hidden lg:table-cell text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
                                                 <span className={'mr-2 text-emerald-500'}>
                                                     +1.78%
                                                 </span>
                                                 <img src={ArrowUp}/>
                                             </td>
-                                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
+                                            <td className="hidden lg:table-cell text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
                                                 <Charts
+                                                    width={65}
                                                     type="area"
                                                     data={{
                                                         name: 'بازدیدها',
@@ -91,31 +99,38 @@ export default function PopularMarketsList() {
                                                     }}
                                                 />
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-center">
-                                                <button type="button"
-                                                        className="inline-block px-6 py-2 border-2 border-blue-400 text-blue-400 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">Buy
-                                                </button>
+                                            <td className="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-center">
+                                                <ButtonUi variant={'outlined'} className={'text-[14px] font-[700]'}>
+                                                    Buy
+                                                </ButtonUi>
                                             </td>
                                         </tr>
                                         <tr className="border-b">
-                                            <td className="flex items-center px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
+                                            <td className={"flex border-b border-0 border-solid lg:border-0 items-center lg:px-6 py-6 lg:py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left" + classes.borderColor}>
                                                 <CoinName
                                                     url={EtherSvg}
                                                     name={'Ethereum'}
                                                     shortName={'ETH'}
                                                 />
                                             </td>
-                                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
+                                            <td className={"text-sm border-b border-0 border-solid lg:border-0 border lg:border-0 text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center" + classes.borderColor}>
                                                 $19,626.7
+                                                <div className={'lg:hidden'}>
+                                                    <span className={'mr-2 text-red-500'}>
+                                                        -1.78%
+                                                    </span>
+                                                    <img src={ArrowDown}/>
+                                                </div>
                                             </td>
-                                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
+                                            <td className="hidden lg:table-cell text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
                                                 <span className={'mr-2 text-red-500'}>
                                                     -1.78%
                                                 </span>
                                                 <img src={ArrowDown}/>
                                             </td>
-                                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
+                                            <td className="hidden lg:table-cell text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
                                                 <Charts
+                                                    width={65}
                                                     type="area"
                                                     data={{
                                                         name: 'بازدیدها',
@@ -126,31 +141,38 @@ export default function PopularMarketsList() {
                                                     }}
                                                 />
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-center">
-                                                <button type="button"
-                                                        className="inline-block px-6 py-2 border-2 border-blue-400 text-blue-400 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">Buy
-                                                </button>
+                                            <td className="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-center">
+                                                <ButtonUi variant={'outlined'} className={'text-[14px] font-[700]'}>
+                                                    Buy
+                                                </ButtonUi>
                                             </td>
                                         </tr>
                                         <tr className="border-b">
-                                            <td className="flex items-center px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
+                                            <td className={"flex border-b border-0 border-solid lg:border-0 items-center lg:px-6 py-6 lg:py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left" + classes.borderColor}>
                                                 <CoinName
                                                     url={BNBSvg}
                                                     name={'BNB'}
                                                     shortName={'BNB'}
                                                 />
                                             </td>
-                                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
+                                            <td className={"text-sm border-b border-0 border-solid lg:border-0 border lg:border-0 text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center" + classes.borderColor}>
                                                 $19,626.7
+                                                <div className={'lg:hidden'}>
+                                                    <span className={'mr-2 text-red-500'}>
+                                                        -1.78%
+                                                    </span>
+                                                    <img src={ArrowDown}/>
+                                                </div>
                                             </td>
-                                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
+                                            <td className="hidden lg:table-cell text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
                                                 <span className={'mr-2 text-emerald-500'}>
                                                     +1.78%
                                                 </span>
                                                 <img src={ArrowUp}/>
                                             </td>
-                                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
+                                            <td className="hidden lg:table-cell text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
                                                 <Charts
+                                                    width={65}
                                                     type="area"
                                                     data={{
                                                         name: 'بازدیدها',
@@ -161,31 +183,38 @@ export default function PopularMarketsList() {
                                                     }}
                                                 />
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-center">
-                                                <button type="button"
-                                                        className="inline-block px-6 py-2 border-2 border-blue-400 text-blue-400 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">Buy
-                                                </button>
+                                            <td className="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-center">
+                                                <ButtonUi variant={'outlined'} className={'text-[14px] font-[700]'}>
+                                                    Buy
+                                                </ButtonUi>
                                             </td>
                                         </tr>
                                         <tr className="border-b">
-                                            <td className="flex items-center px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
+                                            <td className={"flex border-b border-0 border-solid lg:border-0 items-center lg:px-6 py-6 lg:py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left" + classes.borderColor}>
                                                 <CoinName
                                                     url={SolanaSvg}
                                                     name={'Solana'}
                                                     shortName={'SOL'}
                                                 />
                                             </td>
-                                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
+                                            <td className={"text-sm border-b border-0 border-solid lg:border-0 border lg:border-0 text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center" + classes.borderColor}>
                                                 $19,626.7
+                                                <div className={'lg:hidden'}>
+                                                    <span className={'mr-2 text-red-500'}>
+                                                        -1.78%
+                                                    </span>
+                                                    <img src={ArrowDown}/>
+                                                </div>
                                             </td>
-                                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
+                                            <td className="hidden lg:table-cell text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
                                                 <span className={'mr-2 text-red-500'}>
                                                     -1.78%
                                                 </span>
                                                 <img src={ArrowDown}/>
                                             </td>
-                                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
+                                            <td className="hidden lg:table-cell text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
                                                 <Charts
+                                                    width={65}
                                                     type="area"
                                                     data={{
                                                         name: 'بازدیدها',
@@ -196,11 +225,10 @@ export default function PopularMarketsList() {
                                                     }}
                                                 />
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-center">
-                                                <button type="button"
-                                                        className="inline-block px-6 py-2 border-2 border-blue-400 text-blue-400 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
+                                            <td className="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-center">
+                                                <ButtonUi variant={'outlined'} className={'text-[14px] font-[700]'}>
                                                     Buy
-                                                </button>
+                                                </ButtonUi>
                                             </td>
                                         </tr>
                                         </tbody>

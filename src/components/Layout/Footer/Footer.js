@@ -1,112 +1,98 @@
 import React from "react";
+import {Typography} from "@mui/material";
+import {Link} from "react-router-dom";
+import useStyles from './style'
 // import { Navbar, Nav, NavDropdown, Dropdown, Button } from "react-bootstrap";
 
 const Footer = (props) => {
-
+    const classes = useStyles();
     return (
         <>
             <footer className="text-gray-600 body-font">
                 <div className="container px-5 py-24 mx-auto">
                     <div className="flex flex-wrap md:text-left text-center -mb-10 -mx-4">
-                        <div className="lg:w-1/6 md:w-1/2 w-full px-4">
-                            <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">CATEGORIES</h2>
+                        <div className="lg:w-1/5 md:w-1/2 w-full px-4 text-center">
+                            <Typography variant={'h4'} color={'text.primary'} className={'text-[20px] font-[700] mb-[30px]'}>CATEGORIES</Typography>
                             <nav className="list-none mb-10">
-                                <li>
-                                    <a className="text-gray-600 hover:text-gray-800">First Link</a>
+                                <li className={'mb-[20px]'}>
+                                    <Link to={'/'} className={classes.link}>First Link</Link>
                                 </li>
-                                <li>
-                                    <a className="text-gray-600 hover:text-gray-800">Second Link</a>
+                                <li className={'mb-[20px]'}>
+                                    <Link to={'/'} className={classes.link}>First Link</Link>
                                 </li>
-                                <li>
-                                    <a className="text-gray-600 hover:text-gray-800">Third Link</a>
+                                <li className={'mb-[20px]'}>
+                                    <Link to={'/'} className={classes.link}>First Link</Link>
                                 </li>
-                                <li>
-                                    <a className="text-gray-600 hover:text-gray-800">Fourth Link</a>
+                                <li className={'mb-[20px]'}>
+                                    <Link to={'/'} className={classes.link}>First Link</Link>
                                 </li>
                             </nav>
                         </div>
-                        <div className="lg:w-1/6 md:w-1/2 w-full px-4">
-                            <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">CATEGORIES</h2>
+                        <div className="lg:w-1/5 md:w-1/2 w-full px-4 text-center">
+                            <Typography variant={'h4'} color={'text.primary'} className={'text-[20px] font-[700] mb-[30px]'}>CATEGORIES</Typography>
                             <nav className="list-none mb-10">
-                                <li>
-                                    <a className="text-gray-600 hover:text-gray-800">First Link</a>
+                                <li className={'mb-[20px]'}>
+                                    <Link to={'/'} className={classes.link}>First Link</Link>
                                 </li>
-                                <li>
-                                    <a className="text-gray-600 hover:text-gray-800">Second Link</a>
+                                <li className={'mb-[20px]'}>
+                                    <Link to={'/'} className={classes.link}>First Link</Link>
                                 </li>
-                                <li>
-                                    <a className="text-gray-600 hover:text-gray-800">Third Link</a>
+                                <li className={'mb-[20px]'}>
+                                    <Link to={'/'} className={classes.link}>First Link</Link>
                                 </li>
-                                <li>
-                                    <a className="text-gray-600 hover:text-gray-800">Fourth Link</a>
+                                <li className={'mb-[20px]'}>
+                                    <Link to={'/'} className={classes.link}>First Link</Link>
                                 </li>
                             </nav>
                         </div>
-                        <div className="lg:w-1/6 md:w-1/2 w-full px-4">
-                            <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">CATEGORIES</h2>
+                        <div className="lg:w-1/5 md:w-1/2 w-full px-4 text-center">
+                            <Typography variant={'h4'} color={'text.primary'} className={'text-[20px] font-[700] mb-[30px]'}>CATEGORIES</Typography>
                             <nav className="list-none mb-10">
-                                <li>
-                                    <a className="text-gray-600 hover:text-gray-800">First Link</a>
+                                <li className={'mb-[20px]'}>
+                                    <Link to={'/'} className={classes.link}>First Link</Link>
                                 </li>
-                                <li>
-                                    <a className="text-gray-600 hover:text-gray-800">Second Link</a>
+                                <li className={'mb-[20px]'}>
+                                    <Link to={'/'} className={classes.link}>First Link</Link>
                                 </li>
-                                <li>
-                                    <a className="text-gray-600 hover:text-gray-800">Third Link</a>
+                                <li className={'mb-[20px]'}>
+                                    <Link to={'/'} className={classes.link}>First Link</Link>
                                 </li>
-                                <li>
-                                    <a className="text-gray-600 hover:text-gray-800">Fourth Link</a>
+                                <li className={'mb-[20px]'}>
+                                    <Link to={'/'} className={classes.link}>First Link</Link>
                                 </li>
                             </nav>
                         </div>
-                        <div className="lg:w-1/6 md:w-1/2 w-full px-4">
-                            <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">CATEGORIES</h2>
+                        <div className="lg:w-1/5 md:w-1/2 w-full px-4 text-center">
+                            <Typography variant={'h4'} color={'text.primary'} className={'text-[20px] font-[700] mb-[30px]'}>CATEGORIES</Typography>
                             <nav className="list-none mb-10">
-                                <li>
-                                    <a className="text-gray-600 hover:text-gray-800">First Link</a>
+                                <li className={'mb-[20px]'}>
+                                    <Link to={'/'} className={classes.link}>First Link</Link>
                                 </li>
-                                <li>
-                                    <a className="text-gray-600 hover:text-gray-800">Second Link</a>
+                                <li className={'mb-[20px]'}>
+                                    <Link to={'/'} className={classes.link}>First Link</Link>
                                 </li>
-                                <li>
-                                    <a className="text-gray-600 hover:text-gray-800">Third Link</a>
+                                <li className={'mb-[20px]'}>
+                                    <Link to={'/'} className={classes.link}>First Link</Link>
                                 </li>
-                                <li>
-                                    <a className="text-gray-600 hover:text-gray-800">Fourth Link</a>
+                                <li className={'mb-[20px]'}>
+                                    <Link to={'/'} className={classes.link}>First Link</Link>
                                 </li>
                             </nav>
                         </div>
-                        <div className="lg:w-1/6 md:w-1/2 w-full px-4">
-                            <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">CATEGORIES</h2>
+                        <div className="lg:w-1/5 md:w-1/2 w-full px-4 text-center">
+                            <Typography variant={'h4'} color={'text.primary'} className={'text-[20px] font-[700] mb-[30px]'}>CATEGORIES</Typography>
                             <nav className="list-none mb-10">
-                                <li>
-                                    <a className="text-gray-600 hover:text-gray-800">First Link</a>
+                                <li className={'mb-[20px]'}>
+                                    <Link to={'/'} className={classes.link}>First Link</Link>
                                 </li>
-                                <li>
-                                    <a className="text-gray-600 hover:text-gray-800">Second Link</a>
+                                <li className={'mb-[20px]'}>
+                                    <Link to={'/'} className={classes.link}>First Link</Link>
                                 </li>
-                                <li>
-                                    <a className="text-gray-600 hover:text-gray-800">Third Link</a>
+                                <li className={'mb-[20px]'}>
+                                    <Link to={'/'} className={classes.link}>First Link</Link>
                                 </li>
-                                <li>
-                                    <a className="text-gray-600 hover:text-gray-800">Fourth Link</a>
-                                </li>
-                            </nav>
-                        </div>
-                        <div className="lg:w-1/6 md:w-1/2 w-full px-4">
-                            <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">CATEGORIES</h2>
-                            <nav className="list-none mb-10">
-                                <li>
-                                    <a className="text-gray-600 hover:text-gray-800">First Link</a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-600 hover:text-gray-800">Second Link</a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-600 hover:text-gray-800">Third Link</a>
-                                </li>
-                                <li>
-                                    <a className="text-gray-600 hover:text-gray-800">Fourth Link</a>
+                                <li className={'mb-[20px]'}>
+                                    <Link to={'/'} className={classes.link}>First Link</Link>
                                 </li>
                             </nav>
                         </div>
@@ -145,8 +131,8 @@ const Footer = (props) => {
                               </svg>
                             </a>
                         </span>
-                        <div className="flex md:flex-nowrap flex-wrap justify-center items-end md:justify-start">
-                            <p className="text-gray-500 text-sm text-center sm:text-left">© 2020 Tailblocks —
+                        <div className="flex w-full lg:w-auto md:flex-nowrap flex-wrap justify-center items-end">
+                            <p className="text-gray-500 text-sm text-center lg:text-left">© 2020 Tailblocks —
                                 <a href="https://twitter.com/knyttneve" className="text-gray-600 ml-1" target="_blank"
                                    rel="noopener noreferrer">@knyttneve</a>
                             </p>
