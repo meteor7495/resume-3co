@@ -5,9 +5,14 @@ import storage from "../utils/storage";
 const appSlice = createSlice({
   name: "app",
   initialState: {
-    theme :'light',
-    selectedCoin:{baseTicker: '3CO',symbol: 'BTCUSD',isActive:true,pairTicker:'USDT'},
-    pairData :{data : {}, tab: []}
+    theme: "light",
+    selectedCoin: {
+      baseTicker: "BTC",
+      symbol: "BTCUSDT",
+      isActive: true,
+      pairTicker: "USDT",
+    },
+    pairData: { data: {}, tab: [] },
   },
   reducers: {
     setTheme: (state, action) => {
@@ -22,5 +27,5 @@ const appSlice = createSlice({
   },
 });
 
-export const { setSelectedCoin,setPairData,setTheme } = appSlice.actions;
+export const { setSelectedCoin, setPairData, setTheme } = appSlice.actions;
 export default appSlice.reducer;

@@ -5,14 +5,18 @@ import { useSelector } from "react-redux";
 import useStyles from "./styles";
 
 const InputUi = ({ children, className, inputProps, ...props }) => {
-  var classes = useStyles();
+  const classes = useStyles();
   return (
     <TextField
       {...props}
-      className={`w-full [&,&fieldset]rounded-[5px] ${classes.body} ${className}`}
-      inputProps={{
+      className={`w-full ${classes.body} ${className}`}
+      InputProps={{
         ...inputProps,
-        className: `px-[12px] py-[8px] ${classes.body} ${inputProps?.className}`,
+        className: `${classes.body} ${inputProps?.className}`,
+        classes: {
+          notchedOutline: `rounded-[5px]`,
+          input: `rounded-[5px] px-[12px] py-[8px]`,
+        },
       }}
     >
       {children}

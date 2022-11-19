@@ -1,25 +1,33 @@
 import { makeStyles } from "@mui/styles";
 
 export default makeStyles((theme) => ({
-  body: {
-    borderColor: theme.palette.border.light,
-  },
   tableRow: {
-    "&:nth-of-type(odd)": {
-      backgroundColor: `${theme.palette.primary.main}0d`,
-    },
+    "&:hover>td": {
+      background: `${theme.palette.primary.main}0d`,
+    }
   },
   headerCell: {
+    background: `${theme.palette.box.background}`,
     color: `${theme.palette.text.primary}80`,
+    "&>span": {
+      background: `${theme.palette.box.background}`,
+    }
   },
-  tableTextColor: {
-    color: `${theme.palette.text.primary}80`,
-  },
-  select: {
-    "&>svg": {
-      padding: "0px 8px",
-      width: 24,
-      height: 15,
+  unFavorite: {
+    "&>path": {
+      fill: `${theme.palette.text.primary}33`,
     },
+    "&:hover": {
+      "&>path": {
+        fill: `${theme.palette.primary.main}80`,
+      },
+    },
+  },
+  active: {
+    background: `${theme.palette.primary.main}1a`,
+    "&:hover": {
+      background: `${theme.palette.primary.main}1a`,
+
+    }
   },
 }));

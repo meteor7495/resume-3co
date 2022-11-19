@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import useStyles from "./styles";
 
 const BoxUi = ({ children, className, ...props }) => {
-  var classes = useStyles();
+  const classes = useStyles();
   return (
     <div
       {...props}

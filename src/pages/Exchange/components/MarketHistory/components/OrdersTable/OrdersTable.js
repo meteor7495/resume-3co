@@ -15,7 +15,7 @@ import useStyles from "./styles";
 import Icons from "../../../../../../assets/icons";
 
 const OrdersTable = () => {
-  var classes = useStyles();
+  const classes = useStyles();
   const tClasses = {
     headerCell: `border-0 z-[0] text-[10px] font-bold min-w-[100px] ${classes.headerCell}`,
     cell: "border-0 text-[10px] py-[2.5px] ",
@@ -132,7 +132,7 @@ const OrdersTable = () => {
 };
 
 const HeaderFilter = ({ value, onChange, items }) => {
-  var classes = useStyles();
+  const classes = useStyles();
   const handleChange = (e) => {
     onChange((s) => ({ ...s, [items.name]: e.target.value }));
   };

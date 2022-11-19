@@ -6,7 +6,7 @@ import { showAlert } from "../../store/AlertsSlice";
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Toastify(props) {
-  // var classes = useStyles();
+  // const classes = useStyles();
   const { notify } = useSelector(s => s.alerts);
   const dispatch = useDispatch();
   useEffect(() => {

@@ -47,10 +47,10 @@ const rows = [
 ];
 
 const OrderBookTable = ({ children, className, priceType }) => {
-  var classes = useStyles();
+  const classes = useStyles();
   const tClasses = {
-    headerCell: `border-0 z-[0] text-[10px]${
-      priceType === "sell" ? " bg-[#fdedec]" : ""
+    headerCell: `border-0 z-[0] text-[10px] ${
+      priceType === "sell" ? classes.sellHeader : ""
     }`,
     cell: "border-0 text-[9px] py-[2.5px]",
   };
@@ -59,32 +59,32 @@ const OrderBookTable = ({ children, className, priceType }) => {
       <ScrollbarsUi>
         <Table aria-label="simple table" size={"small"} stickyHeader>
           <TableHead>
-            <TableRow>
+            <TableRow className={classes.headerWra}>
               <TableCell
                 className={tClasses.headerCell}
                 padding="none"
                 align="center"
               >
-                Price (BTC)
+                <span>Price (BTC)</span>
               </TableCell>
               <TableCell
                 className={tClasses.headerCell}
                 padding="none"
                 align="center"
               >
-                Amount (ETH)
+                <span>Amount (ETH)</span>
               </TableCell>
               <TableCell
                 className={tClasses.headerCell}
                 padding="none"
                 align="center"
               >
-                Total (BTC)
+                <span>Total (BTC)</span>
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row,i) => (
+            {rows.map((row, i) => (
               <TableRow
                 key={i}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

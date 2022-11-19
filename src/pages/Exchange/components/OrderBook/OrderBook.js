@@ -4,7 +4,7 @@ import OrderBookTable from "./components/OrderBookTable/OrderBookTable";
 import useStyles from "./styles";
 
 const OrderBook = () => {
-  var classes = useStyles();
+  const classes = useStyles();
   return (
     <div className={`flex flex-col gap-[10px]`}>
       <BoxUi className={`h-[337px] ${classes.orderRed}`}>
