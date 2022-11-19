@@ -62,6 +62,10 @@ const lightTheme = {
             primary: "#F2F2F7",
             secondary: "#"
         },
+        button:{
+            menuButtonBg: '#121213'
+
+        }
     },
 };
 
