@@ -1,5 +1,6 @@
-import { Button } from "@mui/material";
+import { Button, InputAdornment } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import BoxUi from "../../../../components/UiKit/BoxUi";
 import ButtonUi from "../../../../components/UiKit/ButtonUi/ButtonUi";
 import InputUi from "../../../../components/UiKit/InputUi";
@@ -10,6 +11,9 @@ export default function MarketTrade({ type }) {
   const [config, setConfig] = useState({});
   const classes = useStyles();
   const [marketType, setMarketType] = useState("limit");
+  const { selectedCoin: { baseTicker, pairTicker } = {} } = useSelector(
+    (state) => state.app
+  );
   useEffect(() => {
     switch (type) {
       case "buy":
@@ -38,14 +42,42 @@ export default function MarketTrade({ type }) {
             <ButtonTab
               buttons={marketTypes}
               selected={marketType}
-              classes={{ button: "font-bold px-[20px] py-[0px] box-content" }}
+              classes={{ button: "px-[20px] py-[4px] box-content" }}
               setSelected={setMarketType}
               className={`justify-center gap-[10] `}
             />
           </div>
         </div>
-        <InputUi />
-        <InputUi />
+        <InputUi
+          InputProps={{
+            endAdornment: (
+              <InputAdornment className="z-[1]" position="end">
+                <ButtonUi
+                  className={`h-[39px] p-[0] min-w-[46px]`}
+                  variant="outlined"
+                >
+                  {baseTicker}
+                </ButtonUi>
+              </InputAdornment>
+            ),
+            classes: { root: "p-[0]" },
+          }}
+        />
+        <InputUi
+          InputProps={{
+            endAdornment: (
+              <InputAdornment className="z-[1]" position="end">
+                <ButtonUi
+                  className={`h-[39px] p-[0] min-w-[46px]`}
+                  variant="outlined"
+                >
+                  {pairTicker}
+                </ButtonUi>
+              </InputAdornment>
+            ),
+            classes: { root: "p-[0]" },
+          }}
+        />
       </div>
       <div></div>
       <div className="flex flex-col">

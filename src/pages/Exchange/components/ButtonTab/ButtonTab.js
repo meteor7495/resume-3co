@@ -12,7 +12,7 @@ const ButtonTab = ({
   const classes = useStyles();
   return (
     <div
-      className={`flex gap-[5px] p-[5px] rounded-[5px] ${
+      className={`flex gap-[5px] p-[5px] items-center rounded-[5px] ${
         classes.PairsSelectWrapper
       }${className ? " " + className : ""}`}
     >
@@ -22,7 +22,7 @@ const ButtonTab = ({
           key={value}
           className={`min-w-0 p-[5px] rounded-[3px] h-[20px] text-[12px] ${
             selected === value
-              ? `border-2 [&:hover]:border-2 ${classes.selected}`
+              ? `border-2 hover:border-2 font-bold ${classes.selected}`
               : classes.unSelected
           }${button ? " " + button : ""}`}
           variant="outlined"

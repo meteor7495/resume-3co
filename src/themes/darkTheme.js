@@ -32,6 +32,7 @@ const lightTheme = {
       transparent: "rgba(242, 242, 247, 0.07)",
       placeholder: "#F2F2F7",
       border: "#121213",
+      hover: "#007bff66",
     },
     background: {
       paper: "#1C1C1E",

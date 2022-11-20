@@ -26,9 +26,15 @@ export default function Exchange({ children, ...props }) {
           </div>
         </div>
         <div className={`flex-[1] flex flex-col gap-[10px]`}>
-          <MarketPairs />
-          <MarketTrade type="buy" />
-          <MarketTrade type="sell" />
+          <div className="grow">
+            <MarketPairs />
+          </div>
+          <div className="flex-1">
+            <MarketTrade type="buy" />
+          </div>
+          <div className="flex-1">
+            <MarketTrade type="sell" />
+          </div>
         </div>
       </div>
     </PagesLayout>

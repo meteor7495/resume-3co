@@ -6,5 +6,8 @@ export default makeStyles((theme) => ({
     "& fieldset": {
       borderColor: theme.palette.border.main,
     },
+    "&:hover fieldset": {
+      borderColor: theme.palette.input.hover + " !important",
+    },
   },
 }));
