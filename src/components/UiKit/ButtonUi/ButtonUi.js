@@ -8,8 +8,7 @@ const ButtonUi = ({ children, className, ...props }) => {
   return (
     <Button
       {...props}
-      className={`shadow-none ${className}`}
-      style={{ textTransform: "none" }}
+      className={`shadow-none normal-case ${className}`}
       disableElevation
     >
       {children}

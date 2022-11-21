@@ -13,7 +13,7 @@ const MarketPairs = () => {
   const classes = useStyles();
   const [selected, setSelected] = useState("favorites");
   return (
-    <BoxUi className={`flex flex-col gap-[10px] h-full`}>
+    <>
       <div>
         <InputUi placeholder="Search..." />
       </div>
@@ -24,10 +24,10 @@ const MarketPairs = () => {
           setSelected={setSelected}
         />
       </div>
-      <div className="h-full">
+      <div className="h-full grow"  >
         <PairsTable />
       </div>
-    </BoxUi>
+    </>
   );
 };
 

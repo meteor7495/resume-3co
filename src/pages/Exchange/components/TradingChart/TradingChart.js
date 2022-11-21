@@ -25,7 +25,7 @@ export default function TradingChart() {
     );
   }, [selectedCoin, theme]);
   return (
-    <BoxUi className={`h-full px-[17px] py-[30px]`}>
+    <>
       {chart ? (
         chart
       ) : (
@@ -41,6 +41,6 @@ export default function TradingChart() {
           </h3>
         </div>
       )}
-    </BoxUi>
+    </>
   );
 }
