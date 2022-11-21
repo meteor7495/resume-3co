@@ -32,7 +32,7 @@ export default function MarketTrade({ type }) {
         break;
     }
   }, [type]);
-
+  const isMarket = marketType === "market";
   return (
     <BoxUi className={`flex flex-col gap-[4px]`}>
       <div className={`flex flex-col gap-[10px]`}>
@@ -48,38 +48,24 @@ export default function MarketTrade({ type }) {
             />
           </div>
         </div>
-        <InputUi
-          InputProps={{
-            endAdornment: (
-              <InputAdornment className="z-[1]" position="end">
-                <ButtonUi
-                  className={`h-[39px] p-[0] min-w-[46px]`}
-                  variant="outlined"
-                >
-                  {baseTicker}
-                </ButtonUi>
-              </InputAdornment>
-            ),
-            classes: { root: "p-[0]" },
-          }}
+        <TradeInput
+          bestPrice={isMarket}
+          placeholder="Price"
+          name={baseTicker}
         />
-        <InputUi
-          InputProps={{
-            endAdornment: (
-              <InputAdornment className="z-[1]" position="end">
-                <ButtonUi
-                  className={`h-[39px] p-[0] min-w-[46px]`}
-                  variant="outlined"
-                >
-                  {pairTicker}
-                </ButtonUi>
-              </InputAdornment>
-            ),
-            classes: { root: "p-[0]" },
-          }}
-        />
+        <TradeInput placeholder="Amount" name={pairTicker} />
       </div>
-      <div></div>
+      <AssetsSelect />
+      <div className="flex gap-[12px]">
+        <div className="flex text-[8px] justify-between flex-1">
+          <div>{isMarket ? "Availabe" : "Total"}</div>
+          <div>0.08686 {baseTicker}</div>
+        </div>
+        <div className="flex text-[8px] justify-between flex-1 opacity-50">
+          <div>{isMarket ? "Volume" : "Fee"}</div>
+          <div>0.00051 {baseTicker}</div>
+        </div>
+      </div>
       <div className="flex flex-col">
         <ButtonUi variant="contained" color={config.color}>
           {config.title}
@@ -88,6 +74,51 @@ export default function MarketTrade({ type }) {
     </BoxUi>
   );
 }
+
+const AssetsSelect = () => {
+  const classes = useStyles();
+  const className = `rounded-[2px] text-[8px] px-[20px] py-[3px] text-center cursor-pointer flex-1 ${classes.assetsSelect}`;
+  return (
+    <div className={`flex gap-[12px]`}>
+      <div className={className}>25%</div>
+      <div className={className}>50%</div>
+      <div className={className}>75%</div>
+      <div className={className}>100%</div>
+    </div>
+  );
+};
+
+const TradeInput = ({ name, bestPrice, ...props }) => {
+  const classes = useStyles();
+  return (
+    <>
+      {bestPrice ? (
+        <div
+          className={`text-center text-[12px] border border-solid rounded-[5px] pt-[10px] pb-[9px] ${classes.bestPrice}`}
+        >
+          Best Market Price
+        </div>
+      ) : (
+        <InputUi
+          {...props}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment className="z-[1]" position="end">
+                <div
+                  className={`h-[38px] flex items-center justify-center text-[14px] font-bold p-[0] min-w-[46px] border border-solid rounded-[5px] ${classes.input}`}
+                  variant="outlined"
+                >
+                  {name}
+                </div>
+              </InputAdornment>
+            ),
+            classes: { root: "p-[0]" },
+          }}
+        />
+      )}
+    </>
+  );
+};
 
 const marketTypes = [
   { children: "Limit", value: "limit" },

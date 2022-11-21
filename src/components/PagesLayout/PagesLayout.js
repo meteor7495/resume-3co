@@ -9,7 +9,7 @@ const PagesLayout = ({ children, className, ...props }) => {
   return (
     <div
       {...props}
-      className={`p-[20px] pb-[24px] mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 h-full ${classes.body} ${className}`}
+      className={`p-[20px] pb-[24px] mx-auto max-w-[1380px] h-full ${classes.body} ${className}`}
     >
       {children}
     </div>

@@ -52,7 +52,7 @@ const OrderBookTable = ({ children, className, priceType }) => {
     headerCell: `border-0 z-[0] text-[10px] ${
       priceType === "sell" ? classes.sellHeader : ""
     }`,
-    cell: "border-0 text-[9px] px-[15px] py-[2.5px]",
+    cell: "border-0 text-[9px] px-[12px] py-[2.5px]",
   };
   return (
     <TableContainer className={`overflow-auto h-full w-full`}>

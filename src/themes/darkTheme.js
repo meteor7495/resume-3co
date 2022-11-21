@@ -45,11 +45,14 @@ const lightTheme = {
     secondBackground: {
       main: "#1C1C1E",
     },
+    headerBorderColor: {
+      main: "#000000",
+    },
     textColor: {
       main: "#F2F2F7",
     },
-    headerBorderColor: {
-      main: "#000000",
+    box: {
+      background: "#1B1C1D",
     },
     border: {
       main: "#000000",
@@ -63,14 +66,6 @@ const lightTheme = {
     button: {
       menuButtonBg: "#121213",
     },
-    box: {
-      background: "#1B1C1D",
-    },
-    // border: {
-    //   main: "#D1D1D6",
-    //   light: "#D1D1D6",
-    //   dark: "#D1D1D6",
-    // },
   },
 };
 
