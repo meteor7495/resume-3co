@@ -27,9 +27,9 @@ const OrdersTable = () => {
     <BoxUi className={`p-[5px] lg:p-[10px] pt-[5px] h-full ${classes.body}`}>
       <TableContainer className={`overflow-auto h-full w-full`}>
         <ScrollbarsUi>
-          {width > 1024 ? (
-            <Table aria-label="simple table" size={"small"} stickyHeader>
-              <OrdersTableHead />
+          <Table aria-label="simple table" size={"small"} stickyHeader>
+            <OrdersTableHead />
+            {width > 1024 ? (
               <TableBody>
                 {rows.map((row, i) => (
                   <TableRow
@@ -69,10 +69,10 @@ const OrdersTable = () => {
                   </TableRow>
                 ))}
               </TableBody>
-            </Table>
-          ) : (
-            <ResponsiveTable rows={rows} />
-          )}
+            ) : (
+              <ResponsiveTable rows={rows} />
+            )}
+          </Table>
         </ScrollbarsUi>
       </TableContainer>
     </BoxUi>
@@ -84,33 +84,28 @@ const ResponsiveTable = ({ rows }) => {
   const cell = "border-0 text-[10px] py-[2.5px] ";
 
   return (
-    <Table aria-label="simple table" size={"small"} stickyHeader>
-      <OrdersTableHead />
-      <TableBody>
-        {rows.map((row, i) => (
-          <>
-            <TableRow
-              key={i}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              className={`${
-                row.buySell === "Buy" ? classes.buy : classes.sell
-              }`}
-            >
-              <TableCell className={`rounded-l-[3px] ${cell}`} align="center">
-                {row.time}
-              </TableCell>
-              <TableCell className={`${cell}`} align="center">
-                <span>{row.type}</span>/<span>{row.pair}</span>
-              </TableCell>
-              <TableCell className={`rounded-r-[3px] ${cell}`} align="center">
-                {row.price}
-              </TableCell>
-            </TableRow>
-            <div className={`w-full h-[10px]`}></div>
-          </>
-        ))}
-      </TableBody>
-    </Table>
+    <TableBody>
+      {rows.map((row, i) => (
+        <>
+          <TableRow
+            key={i}
+            sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+            className={`${row.buySell === "Buy" ? classes.buy : classes.sell}`}
+          >
+            <TableCell className={`rounded-l-[3px] ${cell}`} align="center">
+              {row.time}
+            </TableCell>
+            <TableCell className={`${cell}`} align="center">
+              <span>{row.type}</span>/<span>{row.pair}</span>
+            </TableCell>
+            <TableCell className={`rounded-r-[3px] ${cell}`} align="center">
+              {row.price}
+            </TableCell>
+          </TableRow>
+          <div className={`w-full h-[10px]`}></div>
+        </>
+      ))}
+    </TableBody>
   );
 };
 

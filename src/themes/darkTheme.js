@@ -66,6 +66,11 @@ const lightTheme = {
     button: {
       menuButtonBg: "#121213",
     },
+
+    orderBook: {
+      sellBackground: "#271718",
+      buyBackground: "#131615",
+    },
   },
 };
 

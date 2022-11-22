@@ -37,7 +37,7 @@ export default function MarketTrade({ type }) {
     <BoxUi className={`flex flex-col gap-[4px]`}>
       <div className={`flex flex-col gap-[10px]`}>
         <div className={`flex gap-[10px] items-center`}>
-          <div className={`flex-[1] text-${config.color}`}>{config.title}</div>
+          <div className={`flex-[1] font-bold text-${config.color}`}>{config.title}</div>
           <div className={`flex-[5]`}>
             <ButtonTab
               buttons={marketTypes}
@@ -57,17 +57,17 @@ export default function MarketTrade({ type }) {
       </div>
       <AssetsSelect />
       <div className="flex gap-[12px]">
-        <div className="flex text-[8px] justify-between flex-1">
+        <div className="flex text-[10px] justify-between flex-1">
           <div>{isMarket ? "Availabe" : "Total"}</div>
           <div>0.08686 {baseTicker}</div>
         </div>
-        <div className="flex text-[8px] justify-between flex-1 opacity-50">
+        <div className="flex text-[10px] justify-between flex-1 opacity-50">
           <div>{isMarket ? "Volume" : "Fee"}</div>
           <div>0.00051 {baseTicker}</div>
         </div>
       </div>
       <div className="flex flex-col">
-        <ButtonUi variant="contained" color={config.color}>
+        <ButtonUi variant="contained" className=" font-bold" color={config.color}>
           {config.title}
         </ButtonUi>
       </div>

@@ -50,7 +50,7 @@ const OrderBookTable = ({ children, className, priceType }) => {
   const classes = useStyles();
   const tClasses = {
     headerCell: `border-0 z-[0] text-[10px] ${
-      priceType === "sell" ? classes.sellHeader : ""
+      priceType === "sell" ? classes.sellHeader : classes.buyHeader
     }`,
     cell: "border-0 text-[9px] px-[12px] py-[2.5px]",
   };
