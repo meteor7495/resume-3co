@@ -24,7 +24,7 @@ const MarketPairs = () => {
           setSelected={setSelected}
         />
       </div>
-      <div className="h-full grow"  >
+      <div className="h-full"  >
         <PairsTable />
       </div>
     </>

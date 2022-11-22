@@ -9,17 +9,13 @@ export default makeStyles((theme) => ({
       backgroundColor: `${theme.palette.primary.main}0d`,
     },
   },
-  headerCell: {
-    color: `${theme.palette.text.primary}80`,
+  buy: {
+    backgroundColor: `${theme.palette.success.main}1a`,
+  },
+  sell: {
+    backgroundColor: `${theme.palette.error.main}1a`,
   },
   tableTextColor: {
     color: `${theme.palette.text.primary}80`,
-  },
-  select: {
-    "&>svg": {
-      padding: "0px 8px",
-      width: 24,
-      height: 15,
-    },
   },
 }));

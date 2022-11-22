@@ -16,8 +16,6 @@ export default function Exchange({ children, ...props }) {
   const { selectedCoin: { baseTicker, pairTicker } = {} } = useSelector(
     (state) => state.app
   );
-
-  console.log(width);
   return (
     <PagesLayout className={classes.body}>
       {width > 1024 ? (
@@ -50,15 +48,23 @@ export default function Exchange({ children, ...props }) {
       ) : (
         <div className={`flex flex-col lg:hidden gap-[10px] h-full`}>
           <CollapseUi name={"Chart"}>
-            <div className="min-h-[440px] px-[22px] py-[10px]">
+            <div className="min-h-[440px] px-[10px] py-[10px]">
               <TradingChart />
             </div>
           </CollapseUi>
           <CollapseUi name={baseTicker + "/" + pairTicker}>
-            <div className="flex flex-col gap-[10px] min-h-[350px] px-[22px] py-[10px]">
+            <div className="flex flex-col gap-[10px] h-[350px] px-[22px] py-[10px]">
               <MarketPairs />
             </div>
           </CollapseUi>
+          <div className=" block h-[420px]">
+            <OrderBook />
+          </div>
+          <MarketTrade type="buy" />
+          <MarketTrade type="sell" />
+          <div className=" block h-[290px]">
+            <MarketHistory />
+          </div>
         </div>
       )}
     </PagesLayout>

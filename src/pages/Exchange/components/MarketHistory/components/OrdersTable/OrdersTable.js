@@ -13,6 +13,8 @@ import BoxUi from "../../../../../../components/UiKit/BoxUi";
 import ScrollbarsUi from "../../../../../../components/UiKit/PerfectScrollbarUi/ScrollbarsUi";
 import useStyles from "./styles";
 import Icons from "../../../../../../assets/icons";
+import { useSelector } from "react-redux";
+import OrdersTableHead from "../OrdersTableHead";
 
 const OrdersTable = () => {
   const classes = useStyles();
@@ -20,173 +22,122 @@ const OrdersTable = () => {
     headerCell: `border-0 z-[0] text-[10px] font-bold min-w-[100px] ${classes.headerCell}`,
     cell: "border-0 text-[10px] py-[2.5px] ",
   };
-  const { pair, type, buySell } = tableSorts;
-  const [filters, setFilters] = useState({});
+  const { width } = useSelector((s) => s.width);
   return (
-    <BoxUi className={`p-[10px] pt-[5px] h-full ${classes.body}`}>
+    <BoxUi className={`p-[5px] lg:p-[10px] pt-[5px] h-full ${classes.body}`}>
       <TableContainer className={`overflow-auto h-full w-full`}>
         <ScrollbarsUi>
-          <Table aria-label="simple table" size={"small"} stickyHeader>
-            <TableHead>
-              <TableRow>
-                <TableCell
-                  className={tClasses.headerCell}
-                  padding="none"
-                  align="center"
-                >
-                  Time
-                </TableCell>
-                <TableCell
-                  className={tClasses.headerCell}
-                  padding="none"
-                  align="center"
-                >
-                  <HeaderFilter
-                    onChange={setFilters}
-                    value={filters.pair}
-                    items={pair}
-                  />
-                </TableCell>
-                <TableCell
-                  className={tClasses.headerCell}
-                  padding="none"
-                  align="center"
-                >
-                  <HeaderFilter
-                    onChange={setFilters}
-                    value={filters.type}
-                    items={type}
-                  />
-                </TableCell>
-                <TableCell
-                  className={tClasses.headerCell}
-                  padding="none"
-                  align="center"
-                >
-                  <HeaderFilter
-                    onChange={setFilters}
-                    value={filters.buySell}
-                    items={buySell}
-                  />
-                </TableCell>
-                <TableCell
-                  className={tClasses.headerCell}
-                  padding="none"
-                  align="center"
-                >
-                  Price
-                </TableCell>
-                <TableCell
-                  className={tClasses.headerCell}
-                  padding="none"
-                  align="center"
-                >
-                  Amount
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row, i) => (
-                <TableRow
-                  key={i}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  className={classes.tableRow}
-                >
-                  <TableCell className={`${tClasses.cell}`} align="center">
-                    {row.time}
-                  </TableCell>
-                  <TableCell
-                    className={`${tClasses.cell} ${classes.tableTextColor}`}
-                    align="center"
+          {width > 1024 ? (
+            <Table aria-label="simple table" size={"small"} stickyHeader>
+              <OrdersTableHead />
+              <TableBody>
+                {rows.map((row, i) => (
+                  <TableRow
+                    key={i}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    className={classes.tableRow}
                   >
-                    {row.pair}
-                  </TableCell>
-                  <TableCell
-                    className={`${tClasses.cell} ${classes.tableTextColor}`}
-                    align="center"
-                  >
-                    {row.type}
-                  </TableCell>
-                  <TableCell
-                    className={`${tClasses.cell} ${
-                      row.buySell === "Buy" ? "text-success" : "text-error"
-                    }`}
-                    align="center"
-                  >
-                    {row.buySell}
-                  </TableCell>
-                  <TableCell className={tClasses.cell} align="center">
-                    {row.price}
-                  </TableCell>
-                  <TableCell className={tClasses.cell} align="center">
-                    {`${row.amount.value} ${row.amount.symbol}`}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+                    <TableCell className={`${tClasses.cell}`} align="center">
+                      {row.time}
+                    </TableCell>
+                    <TableCell
+                      className={`${tClasses.cell} ${classes.tableTextColor}`}
+                      align="center"
+                    >
+                      {row.pair}
+                    </TableCell>
+                    <TableCell
+                      className={`${tClasses.cell} ${classes.tableTextColor}`}
+                      align="center"
+                    >
+                      {row.type}
+                    </TableCell>
+                    <TableCell
+                      className={`${tClasses.cell} ${
+                        row.buySell === "Buy" ? "text-success" : "text-error"
+                      }`}
+                      align="center"
+                    >
+                      {row.buySell}
+                    </TableCell>
+                    <TableCell className={tClasses.cell} align="center">
+                      {row.price}
+                    </TableCell>
+                    <TableCell className={tClasses.cell} align="center">
+                      {`${row.amount.value} ${row.amount.symbol}`}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          ) : (
+            <ResponsiveTable rows={rows} />
+          )}
         </ScrollbarsUi>
       </TableContainer>
     </BoxUi>
   );
 };
 
-const HeaderFilter = ({ value, onChange, items }) => {
+const ResponsiveTable = ({ rows }) => {
   const classes = useStyles();
-  const handleChange = (e) => {
-    onChange((s) => ({ ...s, [items.name]: e.target.value }));
-  };
-  return (
-    <Select
-      className={`[&:before]:hidden [&:after]:hidden bg-transparent [&:hover]:bg-transparent [&.Mui-focused]:bg-transparent [&>div:focus]:bg-transparent ${classes.select}`}
-      classes={{ select: `text-[10px] font-bold p-0 ${classes.headerCell}` }}
-      variant="filled"
-      value={value ? value : "None"}
-      onChange={handleChange}
-      label="Age"
-      IconComponent={Icons.Vector}
-    >
-      {items.items.map(({ value, name }) => (
-        <MenuItem
-          value={value}
-          key={name}
-          className={`text-[10px] font-bold ${classes.headerCell}`}
-        >
-          {name}
-        </MenuItem>
-      ))}
-    </Select>
-  );
-};
+  const cell = "border-0 text-[10px] py-[2.5px] ";
 
-const tableSorts = {
-  pair: {
-    name: "pair",
-    items: [
-      { value: "None", name: "All Pairs" },
-      { value: "CurrentPair", name: "Current Pair" },
-    ],
-  },
-  type: {
-    name: "type",
-    items: [
-      { value: "None", name: "All Types" },
-      { value: "Limit", name: "Limit" },
-      { value: "Market", name: "Market" },
-    ],
-  },
-  buySell: {
-    name: "buySell",
-    items: [
-      { value: "None", name: "Buy/Sell" },
-      { value: "B", name: "Buy" },
-      { value: "S", name: "Sell" },
-    ],
-  },
+  return (
+    <Table aria-label="simple table" size={"small"} stickyHeader>
+      <OrdersTableHead />
+      <TableBody>
+        {rows.map((row, i) => (
+          <>
+            <TableRow
+              key={i}
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              className={`${
+                row.buySell === "Buy" ? classes.buy : classes.sell
+              }`}
+            >
+              <TableCell className={`rounded-l-[3px] ${cell}`} align="center">
+                {row.time}
+              </TableCell>
+              <TableCell className={`${cell}`} align="center">
+                <span>{row.type}</span>/<span>{row.pair}</span>
+              </TableCell>
+              <TableCell className={`rounded-r-[3px] ${cell}`} align="center">
+                {row.price}
+              </TableCell>
+            </TableRow>
+            <div className={`w-full h-[10px]`}></div>
+          </>
+        ))}
+      </TableBody>
+    </Table>
+  );
 };
 
 function createData(time, pair, type, buySell, price, amount) {
   return { time, pair, type, buySell, price, amount };
+}
+
+function nFormatter(num, digits) {
+  const lookup = [
+    { value: 1, symbol: "" },
+    { value: 1e3, symbol: "K" },
+    { value: 1e6, symbol: "M" },
+    { value: 1e9, symbol: "G" },
+    { value: 1e12, symbol: "T" },
+    { value: 1e15, symbol: "P" },
+    { value: 1e18, symbol: "E" },
+  ];
+  const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+  var item = lookup
+    .slice()
+    .reverse()
+    .find(function (item) {
+      return num >= item.value;
+    });
+  return item
+    ? `${(num / item.value).toFixed(digits).replace(rx, "$1")} ${item.symbol}`
+    : "0";
 }
 
 const rows = [

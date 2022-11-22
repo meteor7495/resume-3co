@@ -9,7 +9,7 @@ const MarketHistory = () => {
   const classes = useStyles();
   const tClasses = {
     tabPanel: "pt-[8px] h-full grow",
-    tab: "normal-case p-[6px] min-h-0 text-[12px] font-bold",
+    tab: "normal-case p-[6px] min-h-0 min-w-[80px] lg:min-w-[90px] text-[10px] lg:text-[12px] font-bold opacity-50",
   };
   const [tab, setTab] = useState(0);
 
@@ -18,6 +18,9 @@ const MarketHistory = () => {
       id: `simple-tab-${index}`,
       "aria-controls": `simple-tabpanel-${index}`,
       className: tClasses.tab,
+      classes:{
+        selected:"opacity-100"
+      }
     };
   }
   const handleChange = (event, newValue) => {
@@ -27,14 +30,17 @@ const MarketHistory = () => {
     <BoxUi className={`h-full`}>
       <Box className={`h-full flex flex-col`}>
         <Box
-          className={`flex-1`}
+          className={`flex-1 grow w-full lg:w-fit`}
           sx={{ borderBottom: 1, borderColor: "divider", width: "fit-content" }}
         >
           <Tabs
             value={tab}
+            className="w-full"
             onChange={handleChange}
-            aria-label="basic tabs example"
-            classes={{ flexContainer: "gap-[20px]", root: "min-h-0" }}
+            classes={{
+              flexContainer: " justify-between lg:justify-start flex lg:gap-[20px]",
+              root: "min-h-0",
+            }}
           >
             <Tab label="Open Orders" {...a11yProps(0)} />
             <Tab label="Order History" {...a11yProps(1)} />
@@ -45,10 +51,10 @@ const MarketHistory = () => {
           <OrdersTable />
         </TabPanel>
         <TabPanel classes={{ root: tClasses.tabPanel }} value={tab} index={1}>
-          Item Two
+          <OrdersTable />
         </TabPanel>
         <TabPanel classes={{ root: tClasses.tabPanel }} value={tab} index={2}>
-          Item Three
+          <OrdersTable />
         </TabPanel>
       </Box>
     </BoxUi>

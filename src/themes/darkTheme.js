@@ -38,7 +38,7 @@ const lightTheme = {
       paper: "#1C1C1E",
       default: "#1C1C1E",
       main: "#121213",
-      light: "#E4E7EC",
+      light: "#1B1C1D",
       dark: "#E4E7EC",
       lightBlue: "rgba(242, 242, 247, 0.07)",
     },
