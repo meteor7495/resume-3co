@@ -8,7 +8,8 @@ const CollapseUi = ({
   children,
   name,
   className,
-  classes: { button, collapse } = {},
+  classes: { button, collapse, vector } = {},
+  open,
   ...props
 }) => {
   const classes = useStyles();
@@ -23,7 +24,7 @@ const CollapseUi = ({
         <div
           className={`rounded-[3px] flex items-center justify-center w-[25px] h-[25px] ${
             open ? "rotate-180" : ""
-          } ${classes.vector}`}
+          } ${vector} ${classes.vector}`}
         >
           <Icons.Vector className={`w-[11px] h-[7px]`} />
         </div>

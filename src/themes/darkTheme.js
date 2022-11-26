@@ -71,6 +71,10 @@ const lightTheme = {
       sellBackground: "#271718",
       buyBackground: "#131615",
     },
+    sidebar: {
+      buttonBg: "#1212134d",
+      vectorBg: "#121213",
+    },
   },
 };
 
