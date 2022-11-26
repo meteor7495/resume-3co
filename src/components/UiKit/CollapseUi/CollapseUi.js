@@ -9,7 +9,7 @@ const CollapseUi = ({
   name,
   className,
   classes: { button, collapse, vector } = {},
-  open,
+  open: openProp,
   ...props
 }) => {
   const classes = useStyles();

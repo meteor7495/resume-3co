@@ -97,7 +97,7 @@ const Header = (props) => {
                         Margin
                       </Link>
                       <Link
-                        to={routes.walletPage}
+                        to={routes.wallet.index}
                         className={"mr-5 " + classes.link}
                       >
                         Assets
