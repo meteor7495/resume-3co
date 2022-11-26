@@ -16,7 +16,7 @@ const CollapseUi = ({
   return (
     <BoxUi className={`p-[0] flex flex-col rounded-[15px] ${className}`}>
       <Button
-        className={`h-full border-b border-solid rounded-[15px] flex gap-[10px] h-[45px] normal-case text-[15px] ${classes.button} ${button}`}
+        className={`h-full border-b border-solid rounded-[15px] flex justify-between px-[20px] gap-[10px] h-[45px] normal-case text-[15px] ${classes.button} ${button}`}
         onClick={() => setOpen((o) => !o)}
       >
         <div>{name}</div>

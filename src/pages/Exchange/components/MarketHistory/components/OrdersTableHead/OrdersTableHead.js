@@ -30,6 +30,7 @@ const OrdersTableHead = ({ filterValue, items }) => {
       <TableRow>
         {header.map(({ name, filter }) => (
           <TableCell
+            key={name}
             className={tClasses.headerCell}
             padding="none"
             align="center"
@@ -105,7 +106,7 @@ const tableSorts = {
 
 const responsiveHeaderItems = [
   { name: "Time" },
-  { name: "Type/Pair" },
+  { name: "Pair/Type" },
   { name: "Price/Amount" },
 ];
 const headerItems = [

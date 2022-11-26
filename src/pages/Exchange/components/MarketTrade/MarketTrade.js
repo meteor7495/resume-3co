@@ -34,7 +34,7 @@ export default function MarketTrade({ type }) {
   }, [type]);
   const isMarket = marketType === "market";
   return (
-    <BoxUi className={`flex flex-col gap-[4px]`}>
+    <BoxUi className={`flex flex-col gap-[10px] lg:gap-[4px]`}>
       <div className={`flex flex-col gap-[10px]`}>
         <div className={`flex gap-[10px] items-center`}>
           <div className={`flex-[1] font-bold text-${config.color}`}>{config.title}</div>

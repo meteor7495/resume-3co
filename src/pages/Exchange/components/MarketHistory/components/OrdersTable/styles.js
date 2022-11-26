@@ -18,4 +18,7 @@ export default makeStyles((theme) => ({
   tableTextColor: {
     color: `${theme.palette.text.primary}80`,
   },
+  responsivPair: {
+    color: `${theme.palette.text.primary}80`
+  },
 }));
