@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import PagesLayout from "../../../../components/PagesLayout";
@@ -9,59 +10,50 @@ import useStyles from "./AssetsLayout.style";
 
 export default function AssetsLayout({ pages, ...props }) {
   const classes = useStyles();
-  let { pathname } = useLocation();
-  const isActive = (path) => {
-    if (Array.isArray(path)) {
-      let active;
-      path.forEach(() => {
-        if (`${routes.wallet.index}${path}` === pathname) {
-          active = true;
-        }
-      });
-      return active;
-    } else {
-      return `${routes.wallet.index}${path}` === pathname;
-    }
-  };
-  const linkClassName = `px-[20px] p-y[6px] text-[15px] ${classes.CollapseLink}`;
   return (
     <PagesLayout
       className={classes.body}
       sidebar={
         <div className="flex flex-col gap-[10px]">
-          <Link className="flex flex-col" to={``}>
+          <WalletLink activeDisable className="px-0 py-0" to={``}>
             <ButtonUi
               className={`py-[18px] text-[20px] font-bold rounded-[10px] leading-none ${
-                isActive("") ? classes.activeOverview : classes.overview
+                IsActive("") ? classes.activeOverview : classes.overview
               }`}
               variant="outlined"
             >
               Overview
             </ButtonUi>
-          </Link>
+          </WalletLink>
           <BoxUi className={`flex gap-[10px] flex-col`}>
             <WalletCollapse name="Spot">
-              <div className={`p-[15px] flex flex-col gap-[10px]`}>
-                <Link to={routes.wallet.assets} className={linkClassName}>
-                  Assets
-                </Link>
-                <Link to={routes.wallet.deposit} className={linkClassName}>
-                  Deposit
-                </Link>
-                <Link to={routes.wallet.withdraw} className={linkClassName}>
-                  Withdraw
-                </Link>
-              </div>
+              <WalletLink to={routes.wallet.assets}>Assets</WalletLink>
+              <WalletLink to={routes.wallet.deposit}>Deposit</WalletLink>
+              <WalletLink to={routes.wallet.withdraw}>Withdraw</WalletLink>
             </WalletCollapse>
-            <div
-              className={` py-[11px] rounded-[15px] px-[20px] text-[15px] font-bold ${classes.CollapseUiButton}`}
+            <WalletLink
+              activeDisable
+              to={routes.wallet.financial}
+              className="px-0 py-0"
             >
-              Financial
-            </div>
-            <WalletCollapse name="Spot">
-              <Link to={routes.wallet.withdraw} className={linkClassName}>
+              <Button
+                className={`h-full rounded-[15px] flex justify-between px-[20px] gap-[10px] h-[45px] normal-case text-[15px] border-b-0  font-bold ${classes.CollapseUiButton} ${
+                  IsActive(routes.wallet.financial)
+                    ? classes.activeOverview
+                    : classes.overview
+                }`}
+              >
+                Financial
+              </Button>
+            </WalletLink>
+            <WalletCollapse name="History">
+              <WalletLink to={routes.wallet.historyAllAssets}>
+                All Assets
+              </WalletLink>
+              <WalletLink to={routes.wallet.historyDeposit}>Deposit</WalletLink>
+              <WalletLink to={routes.wallet.historyWithdraw}>
                 Withdraw
-              </Link>
+              </WalletLink>
             </WalletCollapse>
           </BoxUi>
         </div>
@@ -72,7 +64,17 @@ export default function AssetsLayout({ pages, ...props }) {
   );
 }
 
-const WalletCollapse = ({ ...props }) => {
+const WalletLink = ({ className, activeDisable, to, ...props }) => {
+  const classes = useStyles();
+  const linkClassName = `px-[20px] flex flex-col py-[4px] text-[15px] ${
+    classes.CollapseLink
+  } ${
+    IsActive(to) && !activeDisable ? `${classes.activeLink}` : ""
+  } ${className}`;
+  return <Link {...props} to={to} className={`${linkClassName}`} />;
+};
+
+const WalletCollapse = ({ children, ...props }) => {
   const classes = useStyles();
   return (
     <CollapseUi
@@ -82,6 +84,23 @@ const WalletCollapse = ({ ...props }) => {
         button: `border-b-0  font-bold ${classes.CollapseUiButton}`,
         vector: classes.vector,
       }}
-    ></CollapseUi>
+    >
+      <div className={`p-[15px] flex flex-col gap-[10px]`}>{children}</div>
+    </CollapseUi>
   );
+};
+
+const IsActive = (path) => {
+  let { pathname } = useLocation();
+  if (Array.isArray(path)) {
+    let active;
+    path.forEach(() => {
+      if (`${routes.wallet.index}/${path}` === pathname) {
+        active = true;
+      }
+    });
+    return active;
+  } else {
+    return `${routes.wallet.index}${path ? "/" + path : ""}` === pathname;
+  }
 };

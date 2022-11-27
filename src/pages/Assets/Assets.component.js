@@ -24,6 +24,7 @@ export default function Assets({ children, ...props }) {
         {pages.map(({ name, ...props }) => (
           <Route key={name} {...props} />
         ))}
+          <Route path="*" element={<div>404</div>} />
       </Route>
     </Routes>
   );

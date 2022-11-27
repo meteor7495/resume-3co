@@ -16,12 +16,17 @@ export default makeStyles((theme) => ({
     },
   },
   CollapseUiButton: {
-    backgroundColor:`${theme.palette.sidebar.buttonBg}`
+    backgroundColor: `${theme.palette.sidebar.buttonBg}`,
+    color: theme.palette.text.primary,
   },
-  vector:{
-    backgroundColor:`${theme.palette.sidebar.vectorBg}`
+  vector: {
+    backgroundColor: `${theme.palette.sidebar.vectorBg}`,
   },
-  CollapseLink:{
-color: theme.palette.text.primary,
-  }
+  CollapseLink: {
+    color: theme.palette.text.primary,
+  },
+  activeLink: {
+    backgroundColor: `${theme.palette.primary.main}0d`,
+    color: theme.palette.primary.main,
+  },
 }));
