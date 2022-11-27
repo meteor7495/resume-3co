@@ -1,4 +1,4 @@
-import React, {useEffect, Fragment} from "react";
+import React, { useEffect, Fragment } from "react";
 import Logo from "../../Logo";
 import DarkSvg from '../../../assets/icons/dark.svg'
 import LightSvg from '../../../assets/icons/light.svg'
@@ -11,9 +11,9 @@ import {Link, useNavigate} from "react-router-dom";
 import useStyles from './styles'
 import ButtonUi from "../../UiKit/ButtonUi";
 
-import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-
+import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import routes from "../../../configs/routes";
 
 const Header = (props) => {
     const classes = useStyles();
@@ -105,26 +105,66 @@ const Header = (props) => {
                             </div>
                         </div>
 
-                        <Disclosure.Panel className={"lg:hidden"}>
-                            <nav className={"absolute lg:ml-auto lg:mr-auto flex flex-col w-full z-10 flex-wrap items-center text-base justify-center " + classes.menuBg}>
-                                <Link to={'/'} className={"lg:mr-5 mb-3 lg:mb-0 mt-3 lg:mt-0 " + classes.link}>
-                                    Home
-                                </Link>
-                                <Link to={'/exchange'} className={"lg:mr-5 mb-3 lg:mb-0 " + classes.link}>Exchange</Link>
-                                <Link to={'#'} className={"lg:mr-5 mb-3 lg:mb-0 " + classes.link}>Trade Bot</Link>
-                                <Link to={'#'} className={"lg:mr-5 mb-3 lg:mb-0 " + classes.link}>NFT Market</Link>
-                                <Link to={'#'} className={"lg:mr-5 mb-3 lg:mb-0 " + classes.link}>DEX</Link>
-                                <Link to={'#'} className={"lg:mr-5 mb-3 lg:mb-0 " + classes.link}>Margin</Link>
-                                <Link to={'#'} className={"lg:mr-5 mb-3 lg:mb-0 " + classes.link}>Assets</Link>
-                                <ButtonUi className={'mb-3 lg:mb-0'} variant="outlined">
-                                    Financial
-                                </ButtonUi>
-                            </nav>
-                        </Disclosure.Panel>
-                    </>
-                )}
-            </Disclosure>
-            {/*<header className={"body-font border-0 border-b border-solid " + classes.header}>
+            <Disclosure.Panel className={"lg:hidden"}>
+              <nav
+                className={
+                  "absolute lg:ml-auto lg:mr-auto flex flex-col w-full z-10 flex-wrap items-center text-base justify-center " +
+                  classes.menuBg
+                }
+              >
+                <Link
+                  to={"/"}
+                  className={
+                    "lg:mr-5 mb-3 lg:mb-0 mt-3 lg:mt-0 " + classes.link
+                  }
+                >
+                  Home
+                </Link>
+                <Link
+                  to={"/exchange"}
+                  className={"lg:mr-5 mb-3 lg:mb-0 " + classes.link}
+                >
+                  Exchange
+                </Link>
+                <Link
+                  to={"#"}
+                  className={"lg:mr-5 mb-3 lg:mb-0 " + classes.link}
+                >
+                  Trade Bot
+                </Link>
+                <Link
+                  to={"#"}
+                  className={"lg:mr-5 mb-3 lg:mb-0 " + classes.link}
+                >
+                  NFT Market
+                </Link>
+                <Link
+                  to={"#"}
+                  className={"lg:mr-5 mb-3 lg:mb-0 " + classes.link}
+                >
+                  DEX
+                </Link>
+                <Link
+                  to={"#"}
+                  className={"lg:mr-5 mb-3 lg:mb-0 " + classes.link}
+                >
+                  Margin
+                </Link>
+                <Link
+                  to={"#"}
+                  className={"lg:mr-5 mb-3 lg:mb-0 " + classes.link}
+                >
+                  Assets
+                </Link>
+                <ButtonUi className={"mb-3 lg:mb-0"} variant="outlined">
+                  Financial
+                </ButtonUi>
+              </nav>
+            </Disclosure.Panel>
+          </>
+        )}
+      </Disclosure>
+      {/*<header className={"body-font border-0 border-b border-solid " + classes.header}>
                 <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
                     <Link to={'/'} className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
                         <Logo/>
@@ -166,8 +206,7 @@ const Header = (props) => {
                     </div>
                 </div>
             </header>*/}
-        </>
-    );
+    </>
+  );
 };
 export default Header;
-

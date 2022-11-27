@@ -4,6 +4,7 @@ import Landing from "../pages/Landing/Landing.component";
 import Authentication from "../pages/Authentication/Authentication.component";
 
 const ExchangePage = lazy(() => import("../pages/Exchange/Exchange.component"));
+const AssetsPage = lazy(() => import("../pages/Assets/Assets.component"));
 
 export const publicRoutes = () => {
   return (
@@ -15,6 +16,7 @@ export const publicRoutes = () => {
         <Route path="/two-factor-auth" element={<Authentication page={'twoFactorAuth'}/>} />
         <Route path="/verification-code" element={<Authentication page={'verificationCode'}/>} />
         <Route path="/exchange" element={<ExchangePage />} />
+        <Route path="/wallet/*" element={<AssetsPage />} />
         <Route path="/" element={<Landing />} />
       </>
   );
