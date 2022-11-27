@@ -7,7 +7,7 @@ import {Button} from "@mui/material";
 import {ThemeTypes} from "../../../constants/themeTypes.enum";
 import {setTheme} from "../../../store/appSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import useStyles from './styles'
 import ButtonUi from "../../UiKit/ButtonUi";
 
@@ -19,6 +19,7 @@ const Header = (props) => {
     const classes = useStyles();
     const {theme} = useSelector((s) => s.app);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const themeChangeHandler = (theme) => {
         dispatch(setTheme(theme));
     };
@@ -29,7 +30,7 @@ const Header = (props) => {
             <Disclosure as="nav"  className={"body-font " + classes.header}>
                 {({ open }) => (
                     <>
-                        <div className={"mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 border-0 border-b border-solid lg:border-0 " + classes.header}>
+                        <div className={"mx-auto container px-2 sm:px-6 lg:px-8 border-0 border-b border-solid lg:border-0 " + classes.header}>
                             <div className="relative flex h-16 items-center justify-between">
                                 <div className="absolute inset-y-0 right-0 flex items-center lg:hidden">
                                     <ButtonUi className={'mr-3'}
@@ -80,10 +81,10 @@ const Header = (props) => {
                                 </div>
                                 <div className="absolute hidden lg:flex inset-y-0 right-0 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                                     <div>
-                                        <ButtonUi className={'mr-3 ' + classes.loginBtn}>
+                                        <ButtonUi onClick={() => navigate('/login')} className={'mr-3 ' + classes.loginBtn}>
                                             Login
                                         </ButtonUi>
-                                        <ButtonUi className={'mr-3'} variant={'contained'}>
+                                        <ButtonUi onClick={() => navigate('/register')} className={'mr-3'} variant={'contained'}>
                                             Register
                                         </ButtonUi>
                                         <ButtonUi className={'mr-3'}

@@ -1,12 +1,12 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { lazy } from "react";
-const SamplePage = lazy(() => import('../pages/Sample/Sample.component'))
+import Landing from "../pages/Landing/Landing.component";
 
 export const privateRoutes = () => {
 
     return (
         <>
-            <Route path="/" element={<SamplePage />} />
+          <Route path="/" element={<Landing />} />
         </>
     );
   };

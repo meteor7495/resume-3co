@@ -34,8 +34,8 @@ function Index(props) {
 export default Index;
 
 const responseHandler = (setWidth) => {
-  var body = document.getElementsByTagName("BODY")[0];
-  var width = body.offsetWidth;
+  let body = document.getElementsByTagName("BODY")[0];
+  let width = body.offsetWidth;
   setWidth(width);
 
   const onResizeEvent = () => {

@@ -30,10 +30,8 @@ axios.interceptors.response.use(
   (error) => {
     let message =  error.response?.data || error.message;
     if(error.response.status === 401){
-      console.log('unauthorized');
       message = { ...message , unAuthorize : true  };
     }else if(error.response.status === 403){
-      console.log('unVerified');
       message = { ...message , unAuthorize : true , unVerified : true  };
     }else {
       message = {...message, unAuthorize: false};
