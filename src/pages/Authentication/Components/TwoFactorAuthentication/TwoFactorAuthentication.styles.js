@@ -12,6 +12,9 @@ export default makeStyles((theme) => ({
             fontWeight: 700,
         }
     },
+    textColor:{
+        color: theme.palette.text.primary+'!important'
+    },
     text:{
         fontSize: 15,
         fontWeight: 400,
@@ -21,7 +24,7 @@ export default makeStyles((theme) => ({
         marginBottom:60,
     },
     inputStyle:{
-        width:'calc(100% - 190px)',
+        width:'100%',
         height:60,
         backgroundColor: theme.palette.input.transparent + '!important',
         "& fieldset":{
@@ -37,28 +40,10 @@ export default makeStyles((theme) => ({
                 backgroundColor: 'transparent!important',
             }
         },
-        [theme.breakpoints.up('lg')]: {
-            width:'calc(100% - 120px)',
-            maxWidth: '280px'
-        },
-        [theme.breakpoints.down('lg')]: {
-            width:'calc(100% - 110px)',
-        },
-        [theme.breakpoints.down('md')]: {
-            width:'100%',
-        },
     },
     button:{
         height:60,
-        width:'100%',
-        maxWidth:170,
-        [theme.breakpoints.down('lg')]: {
-            maxWidth:90,
-        },
-        [theme.breakpoints.down('md')]: {
-            marginTop:20,
-            maxWidth:'100%',
-        },
+        width:'100%'
     },
     boxTitle:{
         fontSize: 30,
@@ -71,5 +56,40 @@ export default makeStyles((theme) => ({
         maxWidth: 150,
         marginTop: 15,
         color: theme.palette.text.primary+'!important',
+    },
+    borderColor:{
+        borderColor: theme.palette.input.border
+    },
+    pinInputWrapper:{
+        "& .sc-bcXHqe":{
+            width:'100%',
+        },
+        "& .kQWrbv":{
+            width: 44,
+            height:56,
+            marginRight:9,
+            backgroundColor: theme.palette.input.transparent + '!important',
+            boxShadow: 'none!important',
+            borderColor: theme.palette.input.border,
+            color: theme.palette.text.primary
+        },
+        "& .jfBcaH":{
+            width: 44,
+            height:56,
+            marginRight:9,
+            backgroundColor:theme.palette.success.alertBg+'!important',
+            borderColor:theme.palette.success.main+'!important',
+            color:theme.palette.success.main+'!important',
+            boxShadow: 'none!important',
+        },
+        "& .bJVynL":{
+            width: 44,
+            height:56,
+            marginRight:9,
+            backgroundColor:theme.palette.error.alertBg+'!important',
+            borderColor:theme.palette.error.main+'!important',
+            color:theme.palette.error.main+'!important',
+            boxShadow: 'none!important',
+        },
     }
 }));

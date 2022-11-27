@@ -6,6 +6,7 @@ const alertsSlice = createSlice({
     visible: false,
     type: "",
     text: "",
+    key: 0,
   },
   reducers: {
     showAlert(state, action) {

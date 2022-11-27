@@ -12,6 +12,7 @@ import ButtonUi from "../../../../components/UiKit/ButtonUi";
 
 export default function PopularMarketsList() {
     const classes = useStyles();
+
     const CoinName = ({url, name, shortName}) => {
         return (
             <>

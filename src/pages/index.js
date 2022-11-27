@@ -8,21 +8,20 @@ import Toastify from "../components/Toastify/Toastify";
 import useAuth from "../hooks/useAuth";
 
 function Index(props) {
-    const {theme} = useSelector((s) => s.app);
-    const {getUser, user, isLoading} = useAuth();
+  const {theme} = useSelector((s) => s.app);
+  const {getUser, user, isLoading} = useAuth();
+  useMemo(() => {
+    getUser();
+  }, []);
 
-    useMemo(() => {
-        getUser();
-    }, []);
-
-    return (
-        <ThemeProvider theme={Themes[theme]}>
-            <CssBaseline/>
-            <Toastify/>
-            <LoaderComponent/>
-            <AppRouter isLoading={isLoading} user={user} {...props} />
-        </ThemeProvider>
-    );
+  return (
+    <ThemeProvider theme={Themes[theme]}>
+      <CssBaseline/>
+      <Toastify/>
+      <LoaderComponent/>
+      <AppRouter isLoading={isLoading} user={user} {...props} />
+    </ThemeProvider>
+  );
 }
 
 export default Index;

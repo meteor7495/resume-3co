@@ -28,9 +28,9 @@ export default function Welcome(props) {
                     <Typography className={classes.text}>
                         Buy and Sell Cryptocurrencies and Invest in 3Co Exchange . . .
                     </Typography>
-                    <div className="flex justify-center flex-wrap w-full">
+                    <div className="flex justify-center lg:justify-start flex-wrap w-full">
                         <InputUi placeholder={'Email address'} className={`${classes.inputStyle}`}/>
-                        <ButtonUi variant={'contained'} className={classes.button + ' ml-0 md:ml-5'}>
+                        <ButtonUi variant={'contained'} className={classes.button + ' ml-0 lg:ml-5'}>
                             Register
                         </ButtonUi>
                     </div>
