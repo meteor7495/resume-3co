@@ -10,15 +10,19 @@ const CollapseUi = ({
   className,
   classes: { button, collapse, vector } = {},
   open: openProp,
+  setOpen: setOpenProp,
   ...props
 }) => {
   const classes = useStyles();
-  const [open, setOpen] = useState();
+  const [localOpen, setLocalOpen] = useState();
+  const open = openProp ? openProp : localOpen;
+  const setOpen = setOpenProp ? setOpenProp : setLocalOpen;
+
   return (
     <BoxUi className={`p-[0] flex flex-col rounded-[15px] ${className}`}>
       <Button
         className={`h-full border-b border-solid rounded-[15px] flex justify-between px-[20px] gap-[10px] h-[45px] normal-case text-[15px] ${classes.button} ${button}`}
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => setOpen(!open)}
       >
         <div>{name}</div>
         <div

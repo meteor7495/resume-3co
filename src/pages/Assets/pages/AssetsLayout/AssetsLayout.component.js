@@ -10,6 +10,28 @@ import useStyles from "./AssetsLayout.style";
 
 export default function AssetsLayout({ pages, ...props }) {
   const classes = useStyles();
+  const [open, setOpen] = useState("");
+  const isActive = IsActive();
+  useEffect(() => {
+    if (
+      isActive([
+        routes.wallet.assets,
+        routes.wallet.deposit,
+        routes.wallet.withdraw,
+      ])
+    ) {
+      setOpen("spot");
+    } else if (
+      isActive([
+        routes.wallet.historyAllAssets,
+        routes.wallet.historyDeposit,
+        routes.wallet.historyWithdraw,
+      ])
+    ) {
+      setOpen("history");
+    }
+  }, []);
+
   return (
     <PagesLayout
       className={classes.body}
@@ -18,7 +40,7 @@ export default function AssetsLayout({ pages, ...props }) {
           <Link to={""} className={`flex flex-col ${classes.CollapseLink}`}>
             <Button
               className={`h-full rounded-[10px] h-[60px] px-[20px] justify-start gap-[10px] h-[45px] normal-case text-[15px] text-[20px] border border-solid justify-center font-bold rounded-[10px] font-bold leading-none ${
-                IsActive("")
+                isActive("")
                   ? `font-bold border border-solid ${classes.buttonActive} ${classes.activeOverview}`
                   : `${classes.OverviewButton} ${classes.overview}`
               }`}
@@ -36,7 +58,11 @@ export default function AssetsLayout({ pages, ...props }) {
             Overview
           </WalletLink> */}
           <BoxUi className={`flex gap-[10px] flex-col`}>
-            <WalletCollapse name="Spot">
+            <WalletCollapse
+              open={open === "spot"}
+              setOpen={(o) => setOpen(o ? "spot" : "")}
+              name="Spot"
+            >
               <WalletLink to={routes.wallet.assets}>Assets</WalletLink>
               <WalletLink to={routes.wallet.deposit}>Deposit</WalletLink>
               <WalletLink to={routes.wallet.withdraw}>Withdraw</WalletLink>
@@ -50,7 +76,11 @@ export default function AssetsLayout({ pages, ...props }) {
             >
               Financial
             </WalletLink>
-            <WalletCollapse name="History">
+            <WalletCollapse
+              open={open === "history"}
+              setOpen={(o) => setOpen(o ? "history" : "")}
+              name="History"
+            >
               <WalletLink to={routes.wallet.historyAllAssets}>
                 All Assets
               </WalletLink>
@@ -79,13 +109,14 @@ const WalletLink = ({
 }) => {
   const classes = useStyles();
   const linkClassName = `flex flex-col ${classes.CollapseLink}`;
+  const isActive = IsActive();
   return (
     <Link {...props} to={to} className={`${linkClassName}`}>
       <Button
         className={`h-full rounded-[${rounded ? rounded : 5}px] h-[${
           height ? height : "30"
         }px] px-[20px] justify-start gap-[10px] h-[45px] normal-case text-[15px] ${className} ${
-          IsActive(to)
+          isActive(to)
             ? `font-bold border border-solid ${
                 isButton ? classes.buttonActive : ""
               } ${classes.activeOverview}`
@@ -113,17 +144,20 @@ const WalletCollapse = ({ children, ...props }) => {
   );
 };
 
-const IsActive = (path) => {
+const IsActive = () => {
   let { pathname } = useLocation();
-  if (Array.isArray(path)) {
-    let active;
-    path.forEach(() => {
-      if (`${routes.wallet.index}/${path}` === pathname) {
-        active = true;
-      }
-    });
-    return active;
-  } else {
-    return `${routes.wallet.index}${path ? "/" + path : ""}` === pathname;
-  }
+  const isActive = (path) => {
+    if (Array.isArray(path)) {
+      let active;
+      path.forEach((p) => {
+        if (`${routes.wallet.index}${p ? "/" + p : ""}` === pathname) {
+          active = true;
+        }
+      });
+      return active;
+    } else {
+      return `${routes.wallet.index}${path ? "/" + path : ""}` === pathname;
+    }
+  };
+  return isActive;
 };
