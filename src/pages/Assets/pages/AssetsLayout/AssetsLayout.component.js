@@ -15,16 +15,26 @@ export default function AssetsLayout({ pages, ...props }) {
       className={classes.body}
       sidebar={
         <div className="flex flex-col gap-[10px]">
-          <WalletLink activeDisable className="px-0 py-0" to={``}>
-            <ButtonUi
-              className={`py-[18px] text-[20px] font-bold rounded-[10px] leading-none ${
-                IsActive("") ? classes.activeOverview : classes.overview
+          <Link to={""} className={`flex flex-col ${classes.CollapseLink}`}>
+            <Button
+              className={`h-full rounded-[10px] h-[60px] px-[20px] justify-start gap-[10px] h-[45px] normal-case text-[15px] text-[20px] border border-solid justify-center font-bold rounded-[10px] font-bold leading-none ${
+                IsActive("")
+                  ? `font-bold border border-solid ${classes.buttonActive} ${classes.activeOverview}`
+                  : `${classes.OverviewButton} ${classes.overview}`
               }`}
-              variant="outlined"
             >
               Overview
-            </ButtonUi>
-          </WalletLink>
+            </Button>
+          </Link>
+          {/* <WalletLink
+            isButton
+            height={60}
+            className={`text-[20px] border border-solid justify-center font-bold rounded-[10px] font-bold leading-none`}
+            to={``}
+            rounded={10}
+          >
+            Overview
+          </WalletLink> */}
           <BoxUi className={`flex gap-[10px] flex-col`}>
             <WalletCollapse name="Spot">
               <WalletLink to={routes.wallet.assets}>Assets</WalletLink>
@@ -32,19 +42,13 @@ export default function AssetsLayout({ pages, ...props }) {
               <WalletLink to={routes.wallet.withdraw}>Withdraw</WalletLink>
             </WalletCollapse>
             <WalletLink
-              activeDisable
+              isButton
+              className="h-[45px] font-bold"
               to={routes.wallet.financial}
-              className="px-0 py-0"
+              height={45}
+              rounded={15}
             >
-              <Button
-                className={`h-full rounded-[15px] flex justify-between px-[20px] gap-[10px] h-[45px] normal-case text-[15px] border-b-0  font-bold ${classes.CollapseUiButton} ${
-                  IsActive(routes.wallet.financial)
-                    ? classes.activeOverview
-                    : classes.overview
-                }`}
-              >
-                Financial
-              </Button>
+              Financial
             </WalletLink>
             <WalletCollapse name="History">
               <WalletLink to={routes.wallet.historyAllAssets}>
@@ -64,14 +68,34 @@ export default function AssetsLayout({ pages, ...props }) {
   );
 }
 
-const WalletLink = ({ className, activeDisable, to, ...props }) => {
+const WalletLink = ({
+  className,
+  isButton,
+  height,
+  children,
+  rounded,
+  to,
+  ...props
+}) => {
   const classes = useStyles();
-  const linkClassName = `px-[20px] flex flex-col py-[4px] text-[15px] ${
-    classes.CollapseLink
-  } ${
-    IsActive(to) && !activeDisable ? `${classes.activeLink}` : ""
-  } ${className}`;
-  return <Link {...props} to={to} className={`${linkClassName}`} />;
+  const linkClassName = `flex flex-col ${classes.CollapseLink}`;
+  return (
+    <Link {...props} to={to} className={`${linkClassName}`}>
+      <Button
+        className={`h-full rounded-[${rounded ? rounded : 5}px] h-[${
+          height ? height : "30"
+        }px] px-[20px] justify-start gap-[10px] h-[45px] normal-case text-[15px] ${className} ${
+          IsActive(to)
+            ? `font-bold border border-solid ${
+                isButton ? classes.buttonActive : ""
+              } ${classes.activeOverview}`
+            : `${isButton ? classes.button : ""} ${classes.overview}`
+        }`}
+      >
+        {children}
+      </Button>
+    </Link>
+  );
 };
 
 const WalletCollapse = ({ children, ...props }) => {
@@ -81,11 +105,10 @@ const WalletCollapse = ({ children, ...props }) => {
       {...props}
       className={`border-0`}
       classes={{
-        button: `border-b-0  font-bold ${classes.CollapseUiButton}`,
-        vector: classes.vector,
+        button: `border-b-0 font-bold ${classes.CollapseUiButton}`,
       }}
     >
-      <div className={`p-[15px] flex flex-col gap-[10px]`}>{children}</div>
+      <div className={`pt-[15px] flex flex-col gap-[10px]`}>{children}</div>
     </CollapseUi>
   );
 };

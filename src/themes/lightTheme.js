@@ -39,7 +39,7 @@ const lightTheme = {
     },
     background: {
       paper: "#F9F9FC",
-      default: "#F9F9FC",
+      default: "#fff",
       main: "#F9F9FC",
       light: "#fff",
       dark: "#E4E7EC",

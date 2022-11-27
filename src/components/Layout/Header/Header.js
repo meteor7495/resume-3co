@@ -67,12 +67,12 @@ const Header = (props) => {
                                             <Link to={'/'} className={"mr-5 " + classes.link}>
                                                 Home
                                             </Link>
-                                            <Link to={'/exchange'} className={"mr-5 " + classes.link}>Exchange</Link>
+                                            <Link to={routes.exchange} className={"mr-5 " + classes.link}>Exchange</Link>
                                             <Link to={'#'} className={"mr-5 " + classes.link}>Trade Bot</Link>
                                             <Link to={'#'} className={"mr-5 " + classes.link}>NFT Market</Link>
                                             <Link to={'#'} className={"mr-5 " + classes.link}>DEX</Link>
                                             <Link to={'#'} className={"mr-5 " + classes.link}>Margin</Link>
-                                            <Link to={'#'} className={"mr-5 " + classes.link}>Assets</Link>
+                                            <Link to={routes.wallet.index} className={"mr-5 " + classes.link}>Assets</Link>
                                             <ButtonUi variant="outlined">
                                                 Financial
                                             </ButtonUi>
@@ -121,7 +121,7 @@ const Header = (props) => {
                   Home
                 </Link>
                 <Link
-                  to={"/exchange"}
+                  to={routes.exchange}
                   className={"lg:mr-5 mb-3 lg:mb-0 " + classes.link}
                 >
                   Exchange
@@ -151,7 +151,7 @@ const Header = (props) => {
                   Margin
                 </Link>
                 <Link
-                  to={"#"}
+                  to={routes.wallet.index}
                   className={"lg:mr-5 mb-3 lg:mb-0 " + classes.link}
                 >
                   Assets

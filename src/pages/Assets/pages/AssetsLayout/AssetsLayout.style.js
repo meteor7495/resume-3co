@@ -8,7 +8,6 @@ export default makeStyles((theme) => ({
     backgroundColor: `${theme.palette.primary.main}0d`,
   },
   overview: {
-    backgroundColor: "transparent",
     borderColor: theme.palette.border.main,
     color: theme.palette.text.primary,
     "&:hover": {
@@ -18,9 +17,16 @@ export default makeStyles((theme) => ({
   CollapseUiButton: {
     backgroundColor: `${theme.palette.sidebar.buttonBg}`,
     color: theme.palette.text.primary,
+    borderColor: theme.palette.border.main,
   },
-  vector: {
-    backgroundColor: `${theme.palette.sidebar.vectorBg}`,
+  buttonActive: {},
+  button: {
+    color: theme.palette.text.primary,
+    borderColor: theme.palette.border.main,
+    backgroundColor: `${theme.palette.sidebar.buttonBg}`,
+  },
+  OverviewButton: {
+    backgroundColor: theme.palette.box.background
   },
   CollapseLink: {
     color: theme.palette.text.primary,
@@ -28,5 +34,6 @@ export default makeStyles((theme) => ({
   activeLink: {
     backgroundColor: `${theme.palette.primary.main}0d`,
     color: theme.palette.primary.main,
+    borderColor: theme.palette.primary.main,
   },
 }));

@@ -10,7 +10,7 @@ export default makeStyles((theme) => ({
     color: theme.palette.text.primary,
   },
   vector: {
-    backgroundColor: theme.palette.input.main,
+    backgroundColor: theme.palette.sidebar.vectorBg,
     "&>svg>path": {
       fill: theme.palette.primary.main,
     },
