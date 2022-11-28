@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import useStyles from "./OverviewPage.style";
+import useStyles from "./SpotAssets.style";
 
-export default function Assets({ children, ...props }) {
+export default function SpotAssets({ children, ...props }) {
   const classes = useStyles();
   return (
     <div>

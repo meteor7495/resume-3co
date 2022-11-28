@@ -6,7 +6,7 @@ import BoxUi from "../../../../components/UiKit/BoxUi";
 import ButtonUi from "../../../../components/UiKit/ButtonUi";
 import CollapseUi from "../../../../components/UiKit/CollapseUi/CollapseUi";
 import routes from "../../../../configs/routes";
-import useStyles from "./AssetsLayout.style";
+import useStyles from "./styles";
 
 export default function AssetsLayout({ pages, ...props }) {
   const classes = useStyles();
