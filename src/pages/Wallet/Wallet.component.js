@@ -7,10 +7,13 @@ export default function Assets({ children, ...props }) {
   const OverviewPage = lazy(() =>
     import("./pages/Overview/Overview.component")
   );
+  const SpotAssetsPage = lazy(() =>
+  import("./pages/SpotAssets/SpotAssets.component")
+);
 
   const pages = [
     { name: "overview", path: "", element: <OverviewPage /> },
-    { name: "assets", path: routes.wallet.assets, element: <OverviewPage /> },
+    { name: "assets", path: routes.wallet.assets, element: <SpotAssetsPage /> },
   ];
   return (
     <Routes>
