@@ -9,8 +9,10 @@ export default function OverviewHeader({
   setVisibility,
   ...props
 }) {
+  // {width > 1024 ? (
+
   return (
-    <div className={`flex gap-[10px] leading-none`}>
+    <div className={`flex flex-col lg:flex-row gap-[10px] leading-none`}>
       <BoxUi
         className={`flex flex-[3] h-auto flex-col items-center justify-center`}
       >
@@ -60,7 +62,7 @@ const numberHandler = ({ number, visibility }) => {
     : number.toLocaleString(undefined, { minimumFractionDigits: 5 });
 };
 const seriesValues = {
-  Spot: 0,
+  Spot: 10,
   Financial: 0,
   Margin: 0,
   "NFT Market": 0,
@@ -74,6 +76,13 @@ const PieChart = () => {
     chart: {
       type: "donut",
     },
+
+    plotOptions: {
+      pie: {
+        offsetX: "-100px",
+      },
+    },
+
     legend: {
       horizontalAlign: "Left",
       fontSize: "13px",
@@ -85,26 +94,26 @@ const PieChart = () => {
         width: "15px",
         height: "15px",
       },
+      floating: false,
     },
+
     colors: ["#4478A8", "#AA70B9", "#B34848", "#6ABF5C"],
+
     dataLabels: {
       enabled: false,
     },
+
     labels: Object.keys(seriesValues),
-    // labels: Object.entries(seriesValues).map(([k, v]) => `${k}: ${v}%`),
-    // responsive: [
-    //   {
-    //     breakpoint: 480,
-    //     options: {
-    //       chart: {
-    //         width: 200,
-    //       },
-    //       legend: {
-    //         position: "bottom",
-    //       },
-    //     },
-    //   },
-    // ],
+    responsive: [
+      {
+        breakpoint: 1024,
+        options: {
+          legend: {
+            floating: true,
+          },
+        },
+      },
+    ],
   };
   return (
     <div className={`flex`}>

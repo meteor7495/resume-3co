@@ -11,10 +11,10 @@ const PagesLayout = ({ children, className, sidebar, ...props }) => {
       {...props}
       className={`${classes.body} ${className}`}
     >
-      <div className={`p-[20px] pb-[24px] mx-auto max-w-[1380px] h-full ${
+      <div className={`p-[15px] lg:p-[20px] pb-[24px] mx-auto max-w-[1380px] h-full ${
         sidebar ? "flex gap-[10px] " : ""
       }`} >
-        {sidebar && <div className={`flex-[1]`}>{sidebar}</div>}
+        {sidebar && <div className={`hidden lg:block flex-[1]`}>{sidebar}</div>}
         {sidebar ? <div className={`flex-[4]`}>{children}</div> : children}
       </div>
     </div>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import OverviewHeader from "../../components/OverviewHeader/OverviewHeader";
 import TransactionCard from "../../components/TransactionCard/TransactionCard";
 
-export default function Assets({ children, ...props }) {
+export default function Overview({ children, ...props }) {
   const [visibility, setVisibility] = useState(true);
 
   return (
