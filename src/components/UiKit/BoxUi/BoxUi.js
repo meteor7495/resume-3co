@@ -1,7 +1,4 @@
-import { Container } from "@mui/material";
-import { Box } from "@mui/system";
 import React from "react";
-import { useSelector } from "react-redux";
 import useStyles from "./styles";
 
 const BoxUi = ({ children, className, ...props }) => {

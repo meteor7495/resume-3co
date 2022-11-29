@@ -1,14 +1,19 @@
-import React from "react";
-import BoxUi from "../../../../components/UiKit/BoxUi";
+import React, { useState } from "react";
 import OverviewHeader from "../../components/OverviewHeader/OverviewHeader";
-import useStyles from "./Overview.style";
+import TransactionCard from "../../components/TransactionCard/TransactionCard";
 
 export default function Assets({ children, ...props }) {
-  const classes = useStyles();
+  const [visibility, setVisibility] = useState(true);
+
   return (
-    <div className={`flex lg:flex-col gap-[10px]`}>
-      <OverviewHeader />
-      <div className={`text-[20px]`}>www</div>
+    <div className={`flex flex-col gap-[10px]`}>
+      <OverviewHeader visibility={visibility} setVisibility={setVisibility} />
+      <div className={`flex flex-col gap-[10px]`}>
+        <TransactionCard visibility={visibility} title="Spot" btc={0.075947} usd={1585.69} />
+        <TransactionCard visibility={visibility} title="Financial" btc={0.075947} usd={1585.69} />
+        <TransactionCard visibility={visibility} title="Margin" btc={0} usd={0} />
+        <TransactionCard visibility={visibility} title="NFT Market" btc={0} usd={0} />
+      </div>
     </div>
   );
 }

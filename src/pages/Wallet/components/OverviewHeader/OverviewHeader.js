@@ -1,10 +1,14 @@
 import { Lock, Visibility, VisibilityOff } from "@mui/icons-material";
-import React, { useState } from "react";
+import React from "react";
 import ReactApexChart from "react-apexcharts";
 import BoxUi from "../../../../components/UiKit/BoxUi";
 
-export default function OverviewHeader({ pages, ...props }) {
-  const [visibility, setVisibility] = useState(true);
+export default function OverviewHeader({
+  pages,
+  visibility,
+  setVisibility,
+  ...props
+}) {
   return (
     <div className={`flex gap-[10px] leading-none`}>
       <BoxUi
@@ -27,10 +31,10 @@ export default function OverviewHeader({ pages, ...props }) {
         </div>
         <div className={`py-[13px] flex gap-[5px]`}>
           <span className={`text-[20px] font-bold items-center flex`}>
-            <NumberHandler number={2.62} visibility={visibility} /> BTC
+            {numberHandler({ number: 2.62, visibility })} BTC
           </span>
           <span className={`opacity-50 text-center flex items-center`}>
-            ≈ <NumberHandler number={1585.69} visibility={visibility} /> USD
+            ≈ {numberHandler({ number: 1585.69, visibility })} USD
           </span>
         </div>
         <div
@@ -39,23 +43,21 @@ export default function OverviewHeader({ pages, ...props }) {
           <span className={`flex`}>
             <Lock className="text-[16px]" />
           </span>
-          <span>
-            <NumberHandler number={1585.69} visibility={visibility} /> USD
-          </span>
+          <span>{numberHandler({ number: 1585.69, visibility })} USD</span>
         </div>
       </BoxUi>
-      <BoxUi className={`flex flex-col flex-[2] gap-[15px] text-center `}>
+      <BoxUi className={`flex flex-col flex-[2] text-center `}>
         <div>Asset Portfolio</div>
-        <div className={`flex flex-col`}>
-          <PieChart />
-        </div>
+        <PieChart />
       </BoxUi>
     </div>
   );
 }
 
-const NumberHandler = ({ number, visibility }) => {
-  return visibility ? "****" : number.toLocaleString();
+const numberHandler = ({ number, visibility }) => {
+  return visibility
+    ? "****"
+    : number.toLocaleString(undefined, { minimumFractionDigits: 5 });
 };
 const seriesValues = {
   Spot: 0,
@@ -65,21 +67,31 @@ const seriesValues = {
 };
 const PieChart = () => {
   const data = Object.values(seriesValues);
-  const series = data.filter((v) => v !== 0).length > 0 ? data : [];
+  const isData = data.filter((v) => v !== 0).length > 0;
+  const series = isData ? data : [];
 
   const options = {
     chart: {
       type: "donut",
     },
-    noData: {
-      text: "No data text",
-      align: "left",
-      verticalAlign: "middle",
+    legend: {
+      horizontalAlign: "Left",
+      fontSize: "13px",
+      formatter: function (seriesName, opts) {
+        const value = opts.w.globals.series[opts.seriesIndex];
+        return [`${seriesName}: ${value ? value : 0}%`];
+      },
+      markers: {
+        width: "15px",
+        height: "15px",
+      },
     },
+    colors: ["#4478A8", "#AA70B9", "#B34848", "#6ABF5C"],
     dataLabels: {
       enabled: false,
     },
-    labels: Object.entries(seriesValues).map(([k, v]) => `${k}: ${v}%`),
+    labels: Object.keys(seriesValues),
+    // labels: Object.entries(seriesValues).map(([k, v]) => `${k}: ${v}%`),
     // responsive: [
     //   {
     //     breakpoint: 480,
@@ -95,12 +107,20 @@ const PieChart = () => {
     // ],
   };
   return (
-    <ReactApexChart
-      options={options}
-      width="100%"
-      height="100%"
-      series={series}
-      type="donut"
-    />
+    <div className={`flex`}>
+      {!isData && (
+        <div className={`grow flex flex-col justify-center text-center`}>
+          No data
+        </div>
+      )}
+      <ReactApexChart
+        className={isData ? "grow" : "w-[150px]"}
+        options={options}
+        width="100%"
+        height="100%"
+        series={series}
+        type="donut"
+      />
+    </div>
   );
 };
