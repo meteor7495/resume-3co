@@ -7,6 +7,8 @@ import LoadingSlice from "./LoadingSlice";
 import LayoutSettings from "./LayoutSettings";
 import logger from "redux-logger";
 import WidthSlice from "./WidthSlice";
+import marketsSlice from "./marketsSlice";
+import modalSlice from "./ModalSlice";
 
 const reducer = combineReducers({
   loading: LoadingSlice,
@@ -16,6 +18,8 @@ const reducer = combineReducers({
   alerts:AlertsSlice,
   layoutSettings: LayoutSettings,
   width: WidthSlice,
+  markets: marketsSlice,
+  modal: modalSlice,
 });
 
 export const store = configureStore({

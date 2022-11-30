@@ -7,6 +7,7 @@ import LoaderComponent from "../components/LoaderComponent/LoaderComponent";
 import Toastify from "../components/Toastify/Toastify";
 import useAuth from "../hooks/useAuth";
 import { setWidth } from "../store/WidthSlice";
+import ModalUi from "../components/UiKit/ModalUi";
 
 function Index(props) {
   const { theme } = useSelector((s) => s.app);

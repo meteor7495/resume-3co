@@ -5,6 +5,7 @@ import Authentication from "../pages/Authentication/Authentication.component";
 
 const ExchangePage = lazy(() => import("../pages/Exchange/Exchange.component"));
 const AssetsPage = lazy(() => import("../pages/Assets/Assets.component"));
+const Profile = lazy(() => import('../pages/Profile/Profile.component'))
 
 export const publicRoutes = () => {
   return (

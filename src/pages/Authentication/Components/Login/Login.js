@@ -28,6 +28,7 @@ import {AlertTypes} from "../../../../constants/alertTypes.enum";
 import * as yup from "yup";
 import useAuth from "../../../../hooks/useAuth";
 import {PinInput} from "react-input-pin-code";
+import PasswordInputUi from "../../../../components/UiKit/PasswordInputUi";
 
 const schema = yup.object({
   email: yup.string(),
@@ -87,31 +88,7 @@ export default function Login(props) {
               <Controller
                 name="password"
                 control={control}
-                render={({field}) => <FormControl className={'w-full'} variant="outlined">
-                  <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                  <OutlinedInput
-                    {...field}
-                    inputProps={{
-                      type: "password",
-                      autoComplete: 'new-password'
-                    }}
-                    className={`${classes.inputStyle}`}
-                    id="outlined-adornment-password"
-                    type={showPassword ? 'text' : 'password'}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          edge="end"
-                        >
-                          {showPassword ? <VisibilityOff/> : <Visibility/>}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                    label="Password"
-                  />
-                </FormControl>}
+                render={({field}) => <PasswordInputUi {...field} label={'Password'} className={`mt-5 mb-5 ${classes.inputStyle}`}/>}
               />
               <FormGroup>
                 <FormControlLabel className={'mt-3 text-[14px] font-[400] ' + classes.textColor}

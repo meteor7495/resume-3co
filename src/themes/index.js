@@ -8,6 +8,22 @@ import { createTheme } from "@mui/material";
 //   src: `url(${Vazir})`
 // }
 const overrides = {
+  components: {
+    MuiDialogContent: {
+      styleOverrides: {
+        root: {
+          padding: 20
+        }
+      }
+    },
+    MuiDialogActions: {
+      styleOverrides: {
+        root: {
+          padding: 20
+        }
+      }
+    },
+  }
   // typography: {
   //   h1: {
   //     fontSize: "3rem",
