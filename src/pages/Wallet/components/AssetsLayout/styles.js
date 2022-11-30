@@ -1,8 +1,9 @@
 import { makeStyles } from "@mui/styles";
+import { elementHight } from "../../../../constants/elementHight.enum";
 
 export default makeStyles((theme) => ({
   body: {
-    minHeight: "calc(100vh - 64px)",
+    minHeight: `calc(100vh - ${elementHight.header}px)`,
   },
   activeOverview: {
     backgroundColor: `${theme.palette.primary.main}0d`,
@@ -26,7 +27,7 @@ export default makeStyles((theme) => ({
     backgroundColor: `${theme.palette.sidebar.buttonBg}`,
   },
   OverviewButton: {
-    backgroundColor: theme.palette.box.background
+    backgroundColor: theme.palette.box.background,
   },
   CollapseLink: {
     color: theme.palette.text.primary,

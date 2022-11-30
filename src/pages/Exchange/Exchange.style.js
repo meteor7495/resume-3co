@@ -5,7 +5,7 @@ export default makeStyles((theme) => ({
     backgroundColor: theme.palette.background.main,
     "&>div": {
       height: "calc(100vh - 64px)",
-      [theme.breakpoints.down("md")]: {
+      [theme.breakpoints.down("lg")]: {
         height: "100%",
         minHeight: "100vh",
       },

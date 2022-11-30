@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import AssetsLayout from "./components/AssetsLayout/AssetsLayout";
 import routes from "../../configs/routes";
 
-export default function Assets({ children, ...props }) {
+export default function Wallet({ children, ...props }) {
   const OverviewPage = lazy(() =>
     import("./pages/Overview/Overview.component")
   );
