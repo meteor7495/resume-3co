@@ -29,7 +29,7 @@ export default function SpotAssets({ children, ...props }) {
           }
         >
           <SearchBox className={`block lg:hidden`} />
-          <WalletTable className={`h-[700px]`} header={headerItems} rows={rows} />
+          <WalletTable className={`h-[700px] lg:h-full`} header={headerItems} rows={rows} />
         </BoxUi>
       </div>
     </div>

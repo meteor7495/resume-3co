@@ -1,6 +1,7 @@
 import { Refresh } from "@mui/icons-material";
 import BoxUi from "../../../../../../components/UiKit/BoxUi";
 import ButtonUi from "../../../../../../components/UiKit/ButtonUi";
+// import WalletTable from "../../../../components/WalletTable/WalletTable";
 import useStyles from "./styles.js";
 export default function DepositRecord({ children, ...props }) {
   const classes = useStyles();
@@ -24,6 +25,8 @@ export default function DepositRecord({ children, ...props }) {
           </div>
         </div>
       }
-    ></BoxUi>
+    >
+      {/* <WalletTable /> */}
+    </BoxUi>
   );
 }

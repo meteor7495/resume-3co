@@ -1,12 +1,25 @@
-import {createSlice} from "@reduxjs/toolkit";
-import _ from 'lodash';
+import { createSlice } from "@reduxjs/toolkit";
+import _ from "lodash";
 
+const defaultSettings = {
+  header: {
+    display: true,
+  },
+  footer: {
+    main: {
+      display: true,
+    },
+    copyRight: {
+      display: true,
+    },
+    linksSection: {
+      display: true,
+    },
+  },
+};
 
 function generateSettings(_defaultSettings, _newSettings) {
-  return _.merge(
-    _defaultSettings,
-    _newSettings
-  )
+  return _.merge(_defaultSettings, _newSettings);
 }
 
 const layoutSettingsSlice = createSlice({
@@ -14,29 +27,16 @@ const layoutSettingsSlice = createSlice({
   initialState: {},
   reducers: {
     resetSettings() {
-      return {
-        header: {
-          display: true
-        },
-        footer: {
-          main: {
-            display: true
-          },
-          copyRight: {
-            display: true
-          },
-          linksSection: {
-            display: true
-          },
-        },
-      };
+      return defaultSettings;
     },
     setSettings(state, action) {
-      const mainAction = generateSettings({}, {...action.payload})
-      return {...state, ...mainAction};
+      const mainAction = generateSettings(defaultSettings, {
+        ...action.payload,
+      });
+      return mainAction;
     },
   },
 });
 
-export const {setSettings, resetSettings} = layoutSettingsSlice.actions;
+export const { setSettings, resetSettings } = layoutSettingsSlice.actions;
 export default layoutSettingsSlice.reducer;
