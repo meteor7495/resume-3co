@@ -8,12 +8,25 @@ export default function Wallet({ children, ...props }) {
     import("./pages/Overview/Overview.component")
   );
   const SpotAssetsPage = lazy(() =>
-  import("./pages/SpotAssets/SpotAssets.component")
-);
+    import("./pages/SpotAssets/SpotAssets.component")
+  );
+
+  const SpotDepositPage = lazy(() =>
+    import("./pages/SpotDeposit/SpotDeposit.component")
+  );
 
   const pages = [
     { name: "overview", path: "", element: <OverviewPage /> },
-    { name: "assets", path: routes.wallet.assets, element: <SpotAssetsPage /> },
+    {
+      name: "assets",
+      path: routes.wallet.spot.assets,
+      element: <SpotAssetsPage />,
+    },
+    {
+      name: "deposit",
+      path: routes.wallet.spot.deposit,
+      element: <SpotDepositPage />,
+    },
   ];
   return (
     <Routes>

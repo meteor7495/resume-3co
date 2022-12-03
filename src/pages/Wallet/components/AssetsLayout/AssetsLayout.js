@@ -15,17 +15,17 @@ export default function AssetsLayout({ pages, ...props }) {
   useEffect(() => {
     if (
       isActive([
-        routes.wallet.assets,
-        routes.wallet.deposit,
-        routes.wallet.withdraw,
+        routes.wallet.spot.assets,
+        routes.wallet.spot.deposit,
+        routes.wallet.spot.withdraw,
       ])
     ) {
       setOpen("spot");
     } else if (
       isActive([
-        routes.wallet.historyAllAssets,
-        routes.wallet.historyDeposit,
-        routes.wallet.historyWithdraw,
+        routes.wallet.history.allAssets,
+        routes.wallet.history.deposit,
+        routes.wallet.history.withdraw,
       ])
     ) {
       setOpen("history");
@@ -63,9 +63,9 @@ export default function AssetsLayout({ pages, ...props }) {
               setOpen={(o) => setOpen(o ? "spot" : "")}
               name="Spot"
             >
-              <WalletLink to={routes.wallet.assets}>Assets</WalletLink>
-              <WalletLink to={routes.wallet.deposit}>Deposit</WalletLink>
-              <WalletLink to={routes.wallet.withdraw}>Withdraw</WalletLink>
+              <WalletLink to={routes.wallet.spot.assets}>Assets</WalletLink>
+              <WalletLink to={routes.wallet.spot.deposit}>Deposit</WalletLink>
+              <WalletLink to={routes.wallet.spot.withdraw}>Withdraw</WalletLink>
             </WalletCollapse>
             <WalletLink
               isButton
@@ -81,11 +81,11 @@ export default function AssetsLayout({ pages, ...props }) {
               setOpen={(o) => setOpen(o ? "history" : "")}
               name="History"
             >
-              <WalletLink to={routes.wallet.historyAllAssets}>
+              <WalletLink to={routes.wallet.history.allAssets}>
                 All Assets
               </WalletLink>
-              <WalletLink to={routes.wallet.historyDeposit}>Deposit</WalletLink>
-              <WalletLink to={routes.wallet.historyWithdraw}>
+              <WalletLink to={routes.wallet.history.deposit}>Deposit</WalletLink>
+              <WalletLink to={routes.wallet.history.withdraw}>
                 Withdraw
               </WalletLink>
             </WalletCollapse>

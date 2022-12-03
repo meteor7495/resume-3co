@@ -14,30 +14,21 @@ export default function SpotAssets({ children, ...props }) {
     <div className={`flex flex-col gap-[10px] h-full `}>
       <TransactionCard title={"Spot"} btc={0.000345345} usd={12.23} />
       <div className={`flex flex-col ${classes.tableWrapper}`}>
-        <BoxUi className={`flex p-0 flex-col grow`}>
-          <div
-            className={`py-[10px] px-[20px] flex items-center gap-[38px] border-0 border-b border-solid ${classes.tabelHeader}`}
-          >
-            <div className={`font-bold`}>Assets</div>
-            <InputUi
-              className={`max-w-[250px]`}
-              placeholder="Search..."
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment
-                    // className="z-[1]"
-                    position="end"
-                  >
-                    <Search className="opacity-50" />
-                  </InputAdornment>
-                ),
-                classes: { root: "p-[0] pr-[8px]" },
-              }}
-            />
-          </div>
-          <div className={`p-[15px] h-full`}>
-            <WalletTable header={headerItems} rows={rows} />
-          </div>
+        <BoxUi
+          className={`flex p-0 flex-col grow`}
+          classes={{
+            header: "gap-[38px] flex items-center",
+            body: "h-full gap-[10px] flex flex-col",
+          }}
+          header={
+            <>
+              <div className={`font-bold`}>Assets</div>
+              <SearchBox className={`hidden lg:block max-w-[250px]`} />
+            </>
+          }
+        >
+          <SearchBox className={`block lg:hidden`} />
+          <WalletTable header={headerItems} rows={rows} />
         </BoxUi>
       </div>
     </div>
@@ -51,6 +42,26 @@ const headerItems = [
   { name: "Frozen" },
   { name: "Operation", className: "text-end" },
 ];
+
+const SearchBox = ({ ...props }) => {
+  return (
+    <InputUi
+      {...props}
+      placeholder="Search..."
+      InputProps={{
+        endAdornment: (
+          <InputAdornment
+            // className="z-[1]"
+            position="end"
+          >
+            <Search className="opacity-50" />
+          </InputAdornment>
+        ),
+        classes: { root: "p-[0] pr-[8px]" },
+      }}
+    />
+  );
+};
 
 const CoinEl = ({ name, tiker, icon }) => {
   const classes = useStyles();
@@ -74,7 +85,6 @@ const NumberEl = ({ value }) => {
 };
 
 function createData(coin, amount, available, frozen, price) {
-  console.log(amount, available, frozen);
   return [
     { children: <CoinEl {...coin} />, align: "left", className: `w-[250px]` },
     { children: <NumberEl value={amount} /> },

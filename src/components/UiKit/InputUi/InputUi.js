@@ -15,6 +15,7 @@ const InputUi = ({ children, className, InputProps, ...props }) => {
         className: `${classes.body} ${InputProps?.className}`,
         classes: {
           ...InputProps?.classes,
+          root:`w-full ${InputProps?.classes?.root}`,
           notchedOutline: `rounded-[5px] ${classes.notchedOutline} ${InputProps?.classes?.notchedOutline}`,
           input: `rounded-[5px] px-[12px] py-[8px] ${InputProps?.classes?.input}`,
         },

@@ -12,6 +12,7 @@ import BoxUi from "../../../../components/UiKit/BoxUi";
 import ScrollbarsUi from "../../../../components/UiKit/PerfectScrollbarUi/ScrollbarsUi";
 import useStyles from "./styles";
 import WalletTableHead from "../WalletTableHead";
+import { ReactComponent as NothingHere } from "../../../../assets/svg/NothingHere.svg";
 
 const WalletTable = ({ header, rows }) => {
   const classes = useStyles();
@@ -22,34 +23,45 @@ const WalletTable = ({ header, rows }) => {
   return (
     <div className={`flex flex-col h-full`}>
       <BoxUi
-        className={`p-[5px] flex flex-col lg:p-[10px] pt-0 lg:pt-0 h-full ${classes.body}`}
+        className={`p-[5px] flex flex-col lg:p-[10px] pt-0 lg:pt-0 h-full relative ${classes.body}`}
       >
         <TableContainer className={`overflow-auto h-full w-full`}>
           <ScrollbarsUi>
             <Table aria-label="simple table" size={"small"} stickyHeader>
               <WalletTableHead header={header} />
               <TableBody>
-                {rows.map((cells, i) => (
-                  <TableRow
-                    key={i}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    className={classes.tableRow}
-                  >
-                    {cells.map(({ className, align, ...props }) => {
-                      return (
-                        <TableCell
-                          {...props}
-                          className={`${tClasses.cell} ${className}`}
-                          align={align ? align : "center"}
-                        />
-                      );
-                    })}
-                  </TableRow>
-                ))}
+                {rows?.length > 0 &&
+                  rows.map((cells, i) => (
+                    <TableRow
+                      key={i}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                      }}
+                      className={classes.tableRow}
+                    >
+                      {cells.map(({ className, align, ...props }) => {
+                        return (
+                          <TableCell
+                            {...props}
+                            className={`${tClasses.cell} ${className}`}
+                            align={align ? align : "center"}
+                          />
+                        );
+                      })}
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </ScrollbarsUi>
         </TableContainer>
+        {!rows?.length > 0 && (
+          <div
+            className={`h-full w-full flex flex-col absolute items-center justify-center gap-[16px] ${classes.tableTextColor}`}
+          >
+            <div>No Data!</div>
+            <NothingHere className={`w-[210px] h-[180px]`} />
+          </div>
+        )}
       </BoxUi>
       <div className="flex items-center flex-col pt-[15px]">
         <Pagination

@@ -8,13 +8,17 @@ const routes = {
   wallet: {
     index: "/wallet",
     overview: "overview",
-    assets: "spot/assets",
-    deposit: "spot/deposit",
-    withdraw: "spot/withdraw",
+    spot: {
+      assets: "spot/assets",
+      deposit: "spot/deposit",
+      withdraw: "spot/withdraw",
+    },
     financial: "financial",
-    historyAllAssets: "history/all-assets",
-    historyDeposit: "history/deposit",
-    historyWithdraw: "history/withdraw",
+    history: {
+      allAssets: "history/all-assets",
+      deposit: "history/deposit",
+      withdraw: "history/withdraw",
+    },
   },
   //wallet-end
   //private-end
