@@ -21,4 +21,9 @@ export default makeStyles((theme) => ({
   responsivPair: {
     color: `${theme.palette.text.primary}80`
   },
+  previousNext:{
+    "&>svg>path":{
+      fill:theme.palette.primary.main,
+    }
+  }
 }));
