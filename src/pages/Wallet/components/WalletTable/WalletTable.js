@@ -14,14 +14,14 @@ import useStyles from "./styles";
 import WalletTableHead from "../WalletTableHead";
 import { ReactComponent as NothingHere } from "../../../../assets/svg/NothingHere.svg";
 
-const WalletTable = ({ header, rows }) => {
+const WalletTable = ({ header, rows, className }) => {
   const classes = useStyles();
   const tClasses = {
     headerCell: `border-0 z-[0] text-[15px] font-bold min-w-[100px] ${classes.headerCell}`,
     cell: "border-0 text-[15px] py-[2.5px] [&:last-child]:rounded-l-[5px] [&:first-child]:rounded-l-[5px]",
   };
   return (
-    <div className={`flex flex-col h-full`}>
+    <div className={`flex flex-col h-full ${className}`}>
       <BoxUi
         className={`p-[5px] flex flex-col lg:p-[10px] pt-0 lg:pt-0 h-full relative ${classes.body}`}
       >

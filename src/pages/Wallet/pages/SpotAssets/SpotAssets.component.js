@@ -4,6 +4,7 @@ import React from "react";
 import BoxUi from "../../../../components/UiKit/BoxUi";
 import ButtonUi from "../../../../components/UiKit/ButtonUi";
 import InputUi from "../../../../components/UiKit/InputUi/InputUi";
+import SearchUi from "../../../../components/UiKit/SearchUi/SearchUi";
 import TransactionCard from "../../components/TransactionCard/TransactionCard";
 import WalletTable from "../../components/WalletTable/WalletTable";
 import useStyles from "./SpotAssets.style";
@@ -17,7 +18,7 @@ export default function SpotAssets({ children, ...props }) {
         <BoxUi
           className={`flex p-0 flex-col grow`}
           classes={{
-            header: "gap-[38px] flex items-center",
+            header: "gap-[38px] flex items-center flex-col lg:flex-row",
             body: "h-full gap-[10px] flex flex-col",
           }}
           header={
@@ -28,7 +29,7 @@ export default function SpotAssets({ children, ...props }) {
           }
         >
           <SearchBox className={`block lg:hidden`} />
-          <WalletTable header={headerItems} rows={rows} />
+          <WalletTable className={`h-[700px]`} header={headerItems} rows={rows} />
         </BoxUi>
       </div>
     </div>
@@ -43,24 +44,8 @@ const headerItems = [
   { name: "Operation", className: "text-end" },
 ];
 
-const SearchBox = ({ ...props }) => {
-  return (
-    <InputUi
-      {...props}
-      placeholder="Search..."
-      InputProps={{
-        endAdornment: (
-          <InputAdornment
-            // className="z-[1]"
-            position="end"
-          >
-            <Search className="opacity-50" />
-          </InputAdornment>
-        ),
-        classes: { root: "p-[0] pr-[8px]" },
-      }}
-    />
-  );
+const SearchBox = (props) => {
+  return <SearchUi {...props} />;
 };
 
 const CoinEl = ({ name, tiker, icon }) => {
