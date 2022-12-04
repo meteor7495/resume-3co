@@ -1,53 +1,26 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import useStyles from "./Information.styles";
 import {Controller, useFormContext} from "react-hook-form";
 import InputUi from "../../../../components/UiKit/InputUi";
 import {Typography} from "@mui/material";
 import ButtonUi from "../../../../components/UiKit/ButtonUi";
-import {showAlert} from "../../../../store/AlertsSlice";
-import {AlertTypes} from "../../../../constants/alertTypes.enum";
-import {useDispatch, useSelector} from "react-redux";
-import BusinessDealSvg from "../../../../assets/images/business-deal.svg";
-import BusinessDealDarkSvg from "../../../../assets/images/business-deal-dark.svg";
-import WelcomeSvg from "../../../../assets/images/welcome-background.png";
-import WelcomeDarkSvg from "../../../../assets/images/welcome-background-dark.png";
+import {useDispatch} from "react-redux";
 import useAuth from "../../../../hooks/useAuth";
-import {useNavigate} from "react-router-dom";
 import AutocompleteUi from "../../../../components/UiKit/AutocompleteUi/AutocompleteUi";
 
 export default function PopularMarketsList() {
   const methods = useFormContext();
-  const {control, formState, getValues} = methods;
+  const {control, reset, formState, getValues} = methods;
   const {errors} = formState;
-
   const classes = useStyles();
-  const {theme} = useSelector((s) => s.app);
-  const imageUrl = theme === 'light' ? BusinessDealSvg : BusinessDealDarkSvg;
-  const backgroundUrl = theme === 'light' ? WelcomeSvg : WelcomeDarkSvg;
-  const [showPassword, setShowPassword] = useState(false)
   const {updateUser, getUser} = useAuth();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const onSubmit = data => {
     updateUser(data)
   };
-  const notifyHandler = ({message, alertType, key}) => {
-    dispatch(showAlert({notify: {message, type: alertType, visible: true, key},}));
-  };
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword)
-  }
-  useEffect(() => {
-    Object.keys(errors).forEach(function (key, index) {
-      setTimeout(() => {
-        notifyHandler(errors[key].message, AlertTypes.danger, index)
-      }, 100)
-    });
-
-  }, [errors])
   useEffect(async () => {
     const data = await getUser()
-    console.log('datadatadata', data)
+    reset(data);
   }, [])
   return (
     <section className={"text-gray-600 body-font border border-solid " + classes.body}>
@@ -65,8 +38,9 @@ export default function PopularMarketsList() {
             <Controller
               name="fullName"
               control={control}
-              render={({field}) => <InputUi {...field} placeholder={'Full Name'}
-                                            className={`${classes.inputStyle}`}/>}
+              render={({field}) => <InputUi {...field} id={'fullName'} placeholder={'Full Name'}
+                                className={`${classes.inputStyle}`}/>
+              }
             />
           </div>
           <div className={'w-[100%] lg:w-[49%] mt-4 lg:mt-0'}>
@@ -76,7 +50,7 @@ export default function PopularMarketsList() {
             <Controller
               name="email"
               control={control}
-              render={({field}) => <InputUi {...field} placeholder={'Email Address'}
+              render={({field}) => <InputUi {...field} id={'email'} placeholder={'Email Address'}
                                             className={`${classes.inputStyle}`}/>}
             />
           </div>
@@ -87,7 +61,7 @@ export default function PopularMarketsList() {
             <Controller
               name="language"
               control={control}
-              render={({field}) => <AutocompleteUi options={
+              render={({field}) => <AutocompleteUi id={'language'} options={
                 [
                   {label: 'English', value: 'English'},
                 ]
@@ -101,7 +75,7 @@ export default function PopularMarketsList() {
             <Controller
               name="currency"
               control={control}
-              render={({field}) => <AutocompleteUi options={
+              render={({field}) => <AutocompleteUi id={'currency'} options={
                 [
                   {label: 'USD', value: 'USD'},
                 ]

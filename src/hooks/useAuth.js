@@ -5,6 +5,7 @@ import useAxios from "../hooks/useAxios";
 import {showAlert} from '../store/AlertsSlice';
 import {AlertTypes} from '../constants/alertTypes.enum';
 import {useNavigate} from 'react-router-dom'
+import {setModal} from "../store/ModalSlice";
 
 const useAuth = () => {
 
@@ -127,7 +128,7 @@ const useAuth = () => {
   };
   const requestResetPassword = async (requestVerificationCodeDTO) => {
     setIsLoading(true)
-    const response = await post('/user/profile/reset-password', requestVerificationCodeDTO,
+    const response = await post('/user/reset-password', requestVerificationCodeDTO,
       {headers: {'Content-Type': 'multipart/form-data'}});
     if (response !== null) {
       dispatch(showAlert({
@@ -137,6 +138,22 @@ const useAuth = () => {
         key: 0
       }))
       navigate('/choose-password?email=' + requestVerificationCodeDTO?.email)
+    }
+    setIsLoading(false)
+  };
+  const resendPassword = async (requestVerificationCodeDTO) => {
+    setIsLoading(true)
+    const response = await post('/user/resend-code', requestVerificationCodeDTO,
+      {headers: {'Content-Type': 'multipart/form-data'}});
+    console.log('responseresponseresponse',response)
+    if (response !== null) {
+      dispatch(showAlert({
+        type: AlertTypes.success,
+        visible: true,
+        message: 'Verification Code sent Successfully',
+        key: 0
+      }))
+      //navigate('/choose-password?email=' + requestVerificationCodeDTO?.email)
     }
     setIsLoading(false)
   };
@@ -163,7 +180,18 @@ const useAuth = () => {
     setIsLoading(true)
     const response = await post('/user/tfa/active', TFAActivatorDTO,
       {headers: {'Content-Type': 'multipart/form-data'}});
-    console.log('responseresponseresponseresponseresponse',response)
+    console.log('responseresponseresponseuser',response)
+    dispatch(setUser(response));
+    dispatch((setModal({visible: false, id: ''})))
+    setIsLoading(false)
+    return response
+  };
+  const TFADeActivator = async (TFAActivatorDTO) => {
+    setIsLoading(true)
+    const response = await put('/user/tfa/deactive', TFAActivatorDTO,
+      {headers: {'Content-Type': 'multipart/form-data'}});
+    console.log('responseresponseresponseuser',response)
+    dispatch(setUser(response));
     setIsLoading(false)
     return response
   };
@@ -188,6 +216,7 @@ const useAuth = () => {
         type: AlertTypes.success,
         message: 'Email verified successfully'
       }))
+      navigate('/')
     }
 
     setIsLoading(false)
@@ -202,7 +231,7 @@ const useAuth = () => {
   return {
     user, token, login, getUser, registerUser,
     logOut, updateUser, updatePassword, requestVerificationCode,
-    verifyCode, isLoading, requestResetPassword, resetPassword, TFAGenerator, TFAActivator, DisableAccount
+    verifyCode, isLoading, requestResetPassword, resendPassword, resetPassword, TFAGenerator, TFAActivator, DisableAccount, TFADeActivator
   };
 };
 export default useAuth;

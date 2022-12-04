@@ -5,17 +5,10 @@ import {Controller, useFormContext} from "react-hook-form";
 import InputUi from "../../../../components/UiKit/InputUi";
 import ButtonUi from "../../../../components/UiKit/ButtonUi";
 import {useDispatch, useSelector} from "react-redux";
-import WelcomeSvg from "../../../../assets/images/welcome-background.png";
-import WelcomeDarkSvg from "../../../../assets/images/welcome-background-dark.png";
 import useAuth from "../../../../hooks/useAuth";
-import {useNavigate} from "react-router-dom";
 import {showAlert} from "../../../../store/AlertsSlice";
 import {AlertTypes} from "../../../../constants/alertTypes.enum";
 import {setModal} from "../../../../store/ModalSlice";
-import disableAccountLight from '../../../../assets/images/disableAccountLight.svg'
-import disableAccountDark from '../../../../assets/images/disableAccountDark.svg'
-import securityLight from '../../../../assets/images/securityLight.svg'
-import securityDark from '../../../../assets/images/securityDark.svg'
 import DisableAccount from "./Components/DisableAccount/DisableAccount";
 import TFAuthentication from "./Components/TFAuthentication/TFAuthentication";
 
@@ -24,23 +17,15 @@ export default function Security() {
   const {control, formState, getValues} = methods;
   const {errors} = formState;
   const classes = useStyles();
-  const {theme} = useSelector((s) => s.app);
-  const activatePopUpImage = theme === 'light' ? securityLight : securityDark;
-  const disablePopUpImage = theme === 'light' ? disableAccountLight : disableAccountDark;
-  const backgroundUrl = theme === 'light' ? WelcomeSvg : WelcomeDarkSvg;
-  const [showPassword, setShowPassword] = useState(false)
-  const {updatePassword} = useAuth();
-  const navigate = useNavigate();
+  const {updatePassword, TFADeActivator} = useAuth();
   const dispatch = useDispatch();
+  const {user} = useSelector((s) => s);
   const onSubmit = data => {
     updatePassword(data)
   };
   const notifyHandler = ({message, alertType, key}) => {
     dispatch(showAlert({notify: {message, type: alertType, visible: true, key},}));
   };
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword)
-  }
   useEffect(() => {
     Object.keys(errors).forEach(function (key, index) {
       setTimeout(() => {
@@ -49,14 +34,11 @@ export default function Security() {
     });
 
   }, [errors])
-  const [open, setOpen] = useState(false)
-  const handleTooltipClose = () => {
-    setOpen(false);
-  };
+  const [tfaStatus,setTfaStatus] = useState(false);
+  useEffect(() => {
+    setTfaStatus(user?.user?.isTfaActive)
+  },[user,dispatch])
 
-  const handleTooltipOpen = () => {
-    setOpen(true);
-  };
   return (
     <section className={"text-gray-600 body-font border border-solid " + classes.body}>
       <div className="container mx-auto flex flex-wrap py-5 lg:py-5 px-5 md:flex-row flex-col items-center">
@@ -94,12 +76,26 @@ export default function Security() {
             </Typography>
             <div className={'w-full flex justify-between items-center'}>
               <Typography className={'text-[1rem] font-[400]'}>
-                Status: <span className={'text-error font-[700]'}>Not Active!</span>
+                Status: {
+                tfaStatus ?
+                  <span className={'text-success font-[700]'}>Active!</span>
+                  :
+                  <span className={'text-error font-[700]'}>Not Active!</span>
+                }
               </Typography>
-              <ButtonUi onClick={() => dispatch((setModal({visible: true, id: 'activate'})))} variant={'outlined'}
-                        className={`w-[127px] h-[42px] ${classes.button}`}>
-                Activate
-              </ButtonUi>
+              {
+                tfaStatus ?
+                  <ButtonUi onClick={() => TFADeActivator()} variant={'outlined'}
+                            className={`w-[127px] h-[42px] ${classes.button}`}>
+                    Deactivate
+                  </ButtonUi>
+                  :
+                  <ButtonUi onClick={() => dispatch((setModal({visible: true, id: 'activate'})))} variant={'outlined'}
+                            className={`w-[127px] h-[42px] ${classes.button}`}>
+                    Activate
+                  </ButtonUi>
+              }
+
             </div>
           </div>
           <div className={'w-[100%] lg:w-[49%] mt-4'}>
@@ -136,7 +132,9 @@ export default function Security() {
         </div>
       </div>
       <DisableAccount/>
-      <TFAuthentication/>
+      {
+        !tfaStatus && <TFAuthentication/>
+      }
     </section>
   );
 }

@@ -3,7 +3,7 @@ import useStyles from "./TFActivation.styles";
 
 import {useSelector} from "react-redux";
 
-export default function YourPlatform(props) {
+export default function TFActivation(props) {
   const {theme} = useSelector((s) => s.app);
   const classes = useStyles();
   return (

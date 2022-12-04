@@ -2,8 +2,6 @@ import React from "react";
 import SideBar from "./Components/SideBar/SideBar";
 import Information from "./Components/Information/Information";
 import Security from "./Components/Security/Security";
-import DisableAccount from "./Components/DisableAccount/DisableAccount";
-import TFActivation from "./Components/TFActivation/TFActivation";
 import useStyles from './Profile.styles'
 import {FormProvider, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
@@ -49,8 +47,6 @@ export default function Profile() {
                 <Security/>
               </FormProvider>
             </div>
-            <DisableAccount/>
-            <TFActivation/>
           </div>
         </div>
       </div>

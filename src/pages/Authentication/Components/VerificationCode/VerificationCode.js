@@ -1,9 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import useStyles from "./VerificationCode.styles";
 import WelcomeSvg from '../../../../assets/images/welcome-background.png'
 import WelcomeDarkSvg from '../../../../assets/images/welcome-background-dark.png'
-import BusinessDealSvg from '../../../../assets/images/business-deal.svg'
-import BusinessDealDarkSvg from '../../../../assets/images/business-deal-dark.svg'
 import {useDispatch, useSelector} from "react-redux";
 import {Typography} from "@mui/material";
 import ButtonUi from "../../../../components/UiKit/ButtonUi";
@@ -15,8 +13,7 @@ import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import {showAlert} from "../../../../store/AlertsSlice";
 import {AlertTypes} from "../../../../constants/alertTypes.enum";
 import * as yup from "yup";
-import {useNavigate} from "react-router-dom";
-
+import {useNavigate, useSearchParams} from "react-router-dom";
 
 const schema = yup.object({
   verificationCode: yup.string(),
@@ -24,17 +21,18 @@ const schema = yup.object({
 
 export default function VerificationCode(props) {
   const classes = useStyles();
-  const {verifyCode} = useAuth();
+  const {verifyCode, resendPassword} = useAuth();
   const {theme} = useSelector((s) => s.app);
   const {user} = useSelector((s) => s);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const dispatch = useDispatch();
   const backgroundUrl = theme === 'light' ? WelcomeSvg : WelcomeDarkSvg;
   const {control, register, handleSubmit, formState: {errors}} = useForm({
     resolver: yupResolver(schema)
   });
   const onSubmit = data => {
-    Object.assign(data, {email: user.email,verificationCode: values.join('')})
+    Object.assign(data, {email: searchParams.get('email'), verificationCode: values.join('')})
     verifyCode(data)
   };
   const notifyHandler = ({message, alertType, key}) => {
@@ -68,23 +66,24 @@ export default function VerificationCode(props) {
               by your mobile application
             </Typography>
             <form onSubmit={handleSubmit(onSubmit)}>
-
-
-                <Controller
-                  name="verificationCode"
-                  control={control}
-                  render={({field}) => <div className={classes.pinInputWrapper}> <PinInput type="text"
-                    id={'verificationCode'}
-                    name={'verificationCode'}
-                    values={values}
-                    placeholder={''}
-                    onChange={(value, index, values) => setValues(values)}
-                  /> </div>}
-                />
-
-
+              <Controller
+                name="verificationCode"
+                control={control}
+                render={({field}) => <div className={classes.pinInputWrapper}><PinInput type="text"
+                                                                                        id={'verificationCode'}
+                                                                                        name={'verificationCode'}
+                                                                                        values={values}
+                                                                                        placeholder={''}
+                                                                                        onChange={(value, index, values) => setValues(values)}
+                /></div>}
+              />
               <ButtonUi type={'submit'} variant={'contained'} className={`mt-3 ${classes.button}`}>
                 Verify Code
+              </ButtonUi>
+              <ButtonUi type={'button'} variant={'text'}
+                        onClick={() => resendPassword({email: searchParams.get('email')})}
+                        className={`mt-3 ${classes.button}`}>
+                Resend the code
               </ButtonUi>
             </form>
           </BoxUi>
