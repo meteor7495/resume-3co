@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
 import ResetPassword from "./Components/ResetPassword/ResetPassword";

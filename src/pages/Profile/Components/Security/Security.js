@@ -20,6 +20,7 @@ export default function Security() {
   const {updatePassword, TFADeActivator} = useAuth();
   const dispatch = useDispatch();
   const {user} = useSelector((s) => s);
+  const {modal} = useSelector((s) => s);
   const onSubmit = data => {
     updatePassword(data)
   };
@@ -37,7 +38,7 @@ export default function Security() {
   const [tfaStatus,setTfaStatus] = useState(false);
   useEffect(() => {
     setTfaStatus(user?.user?.isTfaActive)
-  },[user,dispatch])
+  },[user])
 
   return (
     <section className={"text-gray-600 body-font border border-solid " + classes.body}>
@@ -133,7 +134,7 @@ export default function Security() {
       </div>
       <DisableAccount/>
       {
-        !tfaStatus && <TFAuthentication/>
+        !tfaStatus && modal?.id === 'activate' && modal?.visible === true && <TFAuthentication/>
       }
     </section>
   );

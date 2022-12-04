@@ -9,22 +9,20 @@ import {Typography} from "@mui/material";
 import ButtonUi from "../../../../components/UiKit/ButtonUi";
 import { PinInput } from 'react-input-pin-code';
 import BoxUi from "../../../../components/UiKit/BoxUi";
+import useAuth from "../../../../hooks/useAuth";
 
 export default function TwoFactorAuthentication(props) {
   const classes = useStyles();
   const {theme} = useSelector((s) => s.app);
-  const imageUrl = theme === 'light' ? BusinessDealSvg : BusinessDealDarkSvg;
   const backgroundUrl = theme === 'light' ? WelcomeSvg : WelcomeDarkSvg;
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword)
-  }
-  const handleClickShowConfirmPassword = () => {
-    setShowConfirmPassword(!showConfirmPassword)
-  }
+  const {tfaSignIn} = useAuth();
   const [values, setValues] = React.useState(['', '', '','', '', '']);
+
+  const onSubmit = () => {
+    let data = values.join('')
+    tfaSignIn({tfaCode:data})
+  };
+
   return (
     <section className={"text-gray-600 body-font " + classes.body} style={{
       backgroundImage: 'url(' + backgroundUrl + ') ',
@@ -49,7 +47,7 @@ export default function TwoFactorAuthentication(props) {
                 onChange={(value, index, values) => setValues(values)}
               />
             </div>
-            <ButtonUi variant={'contained'} className={`mt-3 ${classes.button}`}>
+            <ButtonUi onClick={() => onSubmit()} variant={'contained'} className={`mt-3 ${classes.button}`}>
               Verify Code
             </ButtonUi>
           </BoxUi>

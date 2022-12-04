@@ -1,10 +1,10 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useMemo} from "react";
 import useStyles from "./Information.styles";
 import {Controller, useFormContext} from "react-hook-form";
 import InputUi from "../../../../components/UiKit/InputUi";
 import {Typography} from "@mui/material";
 import ButtonUi from "../../../../components/UiKit/ButtonUi";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import useAuth from "../../../../hooks/useAuth";
 import AutocompleteUi from "../../../../components/UiKit/AutocompleteUi/AutocompleteUi";
 
@@ -14,14 +14,14 @@ export default function PopularMarketsList() {
   const {errors} = formState;
   const classes = useStyles();
   const {updateUser, getUser} = useAuth();
+  const {user} = useSelector((s) => s.user);
   const dispatch = useDispatch();
   const onSubmit = data => {
     updateUser(data)
   };
-  useEffect(async () => {
-    const data = await getUser()
-    reset(data);
-  }, [])
+  useEffect( () => {
+    reset(user);
+  }, [user])
   return (
     <section className={"text-gray-600 body-font border border-solid " + classes.body}>
       <div className="container mx-auto flex flex-wrap py-5 lg:py-5 px-5 md:flex-row flex-col items-center">

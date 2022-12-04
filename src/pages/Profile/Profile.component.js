@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import SideBar from "./Components/SideBar/SideBar";
 import Information from "./Components/Information/Information";
 import Security from "./Components/Security/Security";
@@ -6,6 +6,8 @@ import useStyles from './Profile.styles'
 import {FormProvider, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import {useDispatch} from "react-redux";
+import {resetSettings} from "../../store/LayoutSettings";
 
 
 export default function Profile() {

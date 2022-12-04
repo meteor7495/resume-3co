@@ -57,10 +57,25 @@ const useAuth = () => {
           key: 0
         }
       }))
-      navigate('/')
+      console.log('responseresponseresponse',response)
+      if(response?.user?.isTfaActive){
+        navigate('/two-factor-auth')
+      }else{
+        navigate('/two-factor-auth')
+        //navigate('/')
+      }
+
     }
     setIsLoading(false)
     return response;
+  }
+  const tfaSignIn = async (tfaSignInDTO) => {
+    setIsLoading(true)
+    const response = await post('/user/tfa/login', tfaSignInDTO,
+      {headers: {'Content-Type': 'multipart/form-data'}});
+    console.log('response:::',response)
+    setIsLoading(false)
+    return response
   };
 
   const registerUser = async (registerCredentialsDTO) => {
@@ -229,7 +244,7 @@ const useAuth = () => {
   };
 
   return {
-    user, token, login, getUser, registerUser,
+    user, token, login, getUser, registerUser, tfaSignIn,
     logOut, updateUser, updatePassword, requestVerificationCode,
     verifyCode, isLoading, requestResetPassword, resendPassword, resetPassword, TFAGenerator, TFAActivator, DisableAccount, TFADeActivator
   };

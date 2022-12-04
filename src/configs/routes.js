@@ -3,6 +3,8 @@ const routes = {
   //public-end
   //private
   exchange: "/exchange",
+  profile: '/profile',
+  twoFactorAuth: '/two-factor-auth',
   //wallet
   walletPage: "/wallet/*",
   wallet: {
