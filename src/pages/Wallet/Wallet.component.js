@@ -1,4 +1,4 @@
-import React, { lazy } from "react";
+import React, { lazy, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import AssetsLayout from "./components/AssetsLayout/AssetsLayout";
 import routes from "../../configs/routes";
@@ -14,7 +14,6 @@ export default function Wallet({ children, ...props }) {
   const SpotDepositPage = lazy(() =>
     import("./pages/SpotDeposit/SpotDeposit.component")
   );
-
   const pages = [
     { name: "overview", path: "", element: <OverviewPage /> },
     {

@@ -21,12 +21,16 @@ const lightTheme = {
     success: {
       main: "#35C85A",
       contrastText: "#FFF",
-      alertBg: '#F5FCF6',
+      alertBg: "#F5FCF6",
     },
     error: {
       main: "#F34F45",
       contrastText: "#FFF",
-      alertBg: '#FEF6F5',
+      alertBg: "#FEF6F5",
+    },
+    warning: {
+      main: "#FFCC00",
+      contrastText: "#FFF",
     },
     input: {
       main: "#F9F9FC",

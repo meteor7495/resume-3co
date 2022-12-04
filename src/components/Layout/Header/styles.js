@@ -3,7 +3,7 @@ import { makeStyles } from "@mui/styles";
 export default makeStyles(theme => ({
     header:{
         background: theme.palette.secondBackground.main,
-        borderColor: theme.palette.headerBorderColor.main
+        borderColor: theme.palette.border.main
     },
     menuBg:{
         background: theme.palette.secondBackground.main
@@ -16,6 +16,5 @@ export default makeStyles(theme => ({
     },
     buttonColor:{
         background: theme.palette.button.menuButtonBg,
-        color: theme.palette.textColor.main
     }
 }));

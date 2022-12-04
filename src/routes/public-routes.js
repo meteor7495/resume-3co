@@ -2,7 +2,7 @@ import { Route } from "react-router-dom";
 import Landing from "../pages/Landing/Landing.component";
 import Authentication from "../pages/Authentication/Authentication.component";
 
-export const publicRoutes = () => {
+export const publicRoutes = (isLoading) => {
   return (
     <>
       <Route path="/login" element={<Authentication page={"login"} />} />
@@ -25,7 +25,16 @@ export const publicRoutes = () => {
       />
 
       <Route path="/" element={<Landing />} />
-      <Route path="*" element={<Authentication page={"login"} />} />
+      <Route
+        path="*"
+        element={
+          isLoading ? (
+            <div className="w-full h-full flex flex-col items-center " >Please wait...</div>
+          ) : (
+            <Authentication page={"login"} />
+          )
+        }
+      />
     </>
   );
 };

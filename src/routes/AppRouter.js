@@ -3,9 +3,7 @@ import Layout from "../components/Layout/Layout";
 import SpinnerComp from "../components/SpinnerComp/SpinnerComp";
 import { publicRoutes } from "./public-routes";
 import { privateRoutes } from "./private-routes";
-import { Route, Routes, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { resetSettings } from "../store/LayoutSettings";
+import { Route, Routes } from "react-router-dom";
 
 function AppRouter({ user, isLoading, ...props }) {
   //const routes = publicRoutes(isLoading, props);
@@ -16,13 +14,6 @@ function AppRouter({ user, isLoading, ...props }) {
       user ? privateRoutes(isLoading, props) : publicRoutes(isLoading, props)
     );
   }, [user]);
-  const dispatch = useDispatch();
-
-  let { pathname } = useLocation();
-  useEffect(() => {
-    dispatch(resetSettings());
-    console.log("resetSettings", pathname);
-  }, [pathname]);
   return (
     <>
       <Suspense fallback={<SpinnerComp />}>

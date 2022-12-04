@@ -8,10 +8,15 @@ import MarketHistory from "./components/MarketHistory";
 import MarketTrade from "./components/MarketTrade/MarketTrade";
 import BoxUi from "../../components/UiKit/BoxUi";
 import CollapseUi from "../../components/UiKit/CollapseUi/CollapseUi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setSettings } from "../../store/LayoutSettings";
 
 export default function Exchange({ children, ...props }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setSettings({ footerMainDisplay: false }));
+  }, []);
   const { width } = useSelector((s) => s.width);
   const { selectedCoin: { baseTicker, pairTicker } = {} } = useSelector(
     (state) => state.app

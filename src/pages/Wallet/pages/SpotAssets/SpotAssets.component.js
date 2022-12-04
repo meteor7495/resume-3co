@@ -29,7 +29,7 @@ export default function SpotAssets({ children, ...props }) {
           }
         >
           <SearchBox className={`block lg:hidden`} />
-          <WalletTable className={`h-[700px] lg:h-full`} header={headerItems} rows={rows} />
+          <WalletTable className={`h-[700px] lg:h-full`} pagination={{count:10}} header={headerItems} rows={rows} />
         </BoxUi>
       </div>
     </div>
@@ -182,8 +182,8 @@ const SOL = (
         y2="15.3561"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#00FFA3" />
-        <stop offset="1" stop-color="#DC1FFF" />
+        <stop stopColor="#00FFA3" />
+        <stop offset="1" stopColor="#DC1FFF" />
       </linearGradient>
       <linearGradient
         id="paint1_linear_961_134"
@@ -193,8 +193,8 @@ const SOL = (
         y2="15.3561"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#00FFA3" />
-        <stop offset="1" stop-color="#DC1FFF" />
+        <stop stopColor="#00FFA3" />
+        <stop offset="1" stopColor="#DC1FFF" />
       </linearGradient>
       <linearGradient
         id="paint2_linear_961_134"
@@ -204,8 +204,8 @@ const SOL = (
         y2="15.3561"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#00FFA3" />
-        <stop offset="1" stop-color="#DC1FFF" />
+        <stop stopColor="#00FFA3" />
+        <stop offset="1" stopColor="#DC1FFF" />
       </linearGradient>
     </defs>
   </svg>

@@ -2,24 +2,15 @@ import { createSlice } from "@reduxjs/toolkit";
 import _ from "lodash";
 
 const defaultSettings = {
-  header: {
-    display: true,
-  },
-  footer: {
-    main: {
-      display: true,
-    },
-    copyRight: {
-      display: true,
-    },
-    linksSection: {
-      display: true,
-    },
-  },
+  headerDisplay: true,
+  footerMainDisplay: true,
+  footerCopyRightDisplay: true,
+  footerLinksSectionDisplay: true,
 };
 
-function generateSettings(_defaultSettings, _newSettings) {
-  return _.merge(_defaultSettings, _newSettings);
+function generateSettings(_newSettings) {
+  const newSettings = { ...defaultSettings, ..._newSettings };
+  return newSettings;
 }
 
 const layoutSettingsSlice = createSlice({
@@ -29,11 +20,8 @@ const layoutSettingsSlice = createSlice({
     resetSettings() {
       return defaultSettings;
     },
-    setSettings(state, action) {
-      const mainAction = generateSettings(defaultSettings, {
-        ...action.payload,
-      });
-      return mainAction;
+    setSettings(state, { payload }) {
+      return generateSettings(payload);
     },
   },
 });

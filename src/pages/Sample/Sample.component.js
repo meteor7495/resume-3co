@@ -8,6 +8,7 @@ import { showLoader } from "../../store/LoadingSlice";
 import { ThemeTypes } from "../../constants/themeTypes.enum";
 import { setTheme } from "../../store/appSlice";
 import useStyles from "./Sample.style";
+import { resetSettings } from "../../store/LayoutSettings";
 
 export default function SamplePage({ children, ...props }) {
     const dispatch = useDispatch();
@@ -15,7 +16,9 @@ export default function SamplePage({ children, ...props }) {
   const notifyHandler = (alertType) => {
     dispatch(showAlert({notify: { message: "Sample Yo", type: alertType },}));
   };
-
+  useEffect(() => {
+    dispatch(resetSettings());
+  }, []);
   const themeChangeHandler = (alertType) => {
     dispatch(setTheme(alertType));
   };

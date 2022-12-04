@@ -14,7 +14,7 @@ import useStyles from "./styles";
 import WalletTableHead from "../WalletTableHead";
 import { ReactComponent as NothingHere } from "../../../../assets/svg/NothingHere.svg";
 
-const WalletTable = ({ header, rows, className }) => {
+const WalletTable = ({ header, rows, className, pagination }) => {
   const classes = useStyles();
   const tClasses = {
     headerCell: `border-0 z-[0] text-[15px] font-bold min-w-[100px] ${classes.headerCell}`,
@@ -63,22 +63,26 @@ const WalletTable = ({ header, rows, className }) => {
           </div>
         )}
       </BoxUi>
-      <div className="flex items-center flex-col pt-[15px]">
-        <Pagination
-          count={10}
-          color="primary"
-          renderItem={(item) => (
-            <PaginationItem
-              classes={{
-                previousNext: classes.previousNext,
-                page: "leading-none",
-              }}
-              variant="text"
-              {...item}
-            />
-          )}
-        />
-      </div>
+      {console.log({ ...pagination })}
+      {pagination && (
+        <div className="flex items-center flex-col pt-[15px]">
+          <Pagination
+            {...pagination}
+            color="primary"
+            size="small"
+            renderItem={(item) => (
+              <PaginationItem
+                classes={{
+                  previousNext: classes.previousNext,
+                  page: "leading-none",
+                }}
+                variant="text"
+                {...item}
+              />
+            )}
+          />
+        </div>
+      )}
     </div>
   );
 };

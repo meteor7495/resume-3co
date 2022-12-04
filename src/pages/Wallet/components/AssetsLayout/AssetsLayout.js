@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import PagesLayout from "../../../../components/PagesLayout";
 import BoxUi from "../../../../components/UiKit/BoxUi";
@@ -7,8 +8,28 @@ import ButtonUi from "../../../../components/UiKit/ButtonUi";
 import CollapseUi from "../../../../components/UiKit/CollapseUi/CollapseUi";
 import routes from "../../../../configs/routes";
 import useStyles from "./styles";
+import { setSettings } from "../../../../store/LayoutSettings";
 
 export default function AssetsLayout({ pages, ...props }) {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(
+      setSettings({
+        headerSidebar: (setOpen) => (
+          <Sidebar responsive setClose={() => setOpen((o) => !o)} />
+        ),
+      })
+    );
+  }, []);
+  return (
+    <PagesLayout className={classes.body} sidebar={<Sidebar />}>
+      <Outlet />
+    </PagesLayout>
+  );
+}
+
+const Sidebar = ({ responsive, setClose }) => {
   const classes = useStyles();
   const [open, setOpen] = useState("");
   const isActive = IsActive();
@@ -31,72 +52,93 @@ export default function AssetsLayout({ pages, ...props }) {
       setOpen("history");
     }
   }, []);
-
   return (
-    <PagesLayout
-      className={classes.body}
-      sidebar={
-        <div className="flex flex-col gap-[10px]">
-          <Link to={""} className={`flex flex-col ${classes.CollapseLink}`}>
-            <Button
-              className={`h-full rounded-[10px] h-[60px] px-[20px] justify-start gap-[10px] h-[45px] normal-case text-[15px] text-[20px] border border-solid justify-center font-bold rounded-[10px] font-bold leading-none ${
-                isActive("")
-                  ? `font-bold border border-solid ${classes.buttonActive} ${classes.activeOverview}`
-                  : `${classes.OverviewButton} ${classes.overview}`
-              }`}
-            >
-              Overview
-            </Button>
-          </Link>
-          {/* <WalletLink
-            isButton
-            height={60}
-            className={`text-[20px] border border-solid justify-center font-bold rounded-[10px] font-bold leading-none`}
-            to={``}
-            rounded={10}
+    <div className={`flex flex-col gap-[10px]`}>
+      <Link
+        onClick={setClose}
+        to={responsive ? routes.wallet.index : ""}
+        className={`flex flex-col ${classes.CollapseLink}`}
+      >
+        <Button
+          className={`h-full rounded-[10px] h-[60px] px-[20px] justify-start gap-[10px] h-[45px] normal-case text-[15px] text-[20px] border border-solid justify-center font-bold rounded-[10px] font-bold leading-none ${
+            isActive("")
+              ? `font-bold border border-solid ${classes.buttonActive} ${classes.activeOverview}`
+              : `${classes.OverviewButton} ${classes.overview}`
+          }`}
+        >
+          Overview
+        </Button>
+      </Link>
+      <BoxUi className={`flex gap-[10px] flex-col`}>
+        <WalletCollapse
+          open={open === "spot"}
+          setOpen={(o) => setOpen(o ? "spot" : "")}
+          name="Spot"
+        >
+          <WalletLink
+            setClose={setClose}
+            responsive={responsive}
+            to={routes.wallet.spot.assets}
           >
-            Overview
-          </WalletLink> */}
-          <BoxUi className={`flex gap-[10px] flex-col`}>
-            <WalletCollapse
-              open={open === "spot"}
-              setOpen={(o) => setOpen(o ? "spot" : "")}
-              name="Spot"
-            >
-              <WalletLink to={routes.wallet.spot.assets}>Assets</WalletLink>
-              <WalletLink to={routes.wallet.spot.deposit}>Deposit</WalletLink>
-              <WalletLink to={routes.wallet.spot.withdraw}>Withdraw</WalletLink>
-            </WalletCollapse>
-            <WalletLink
-              isButton
-              className="h-[45px] font-bold"
-              to={routes.wallet.financial}
-              height={45}
-              rounded={15}
-            >
-              Financial
-            </WalletLink>
-            <WalletCollapse
-              open={open === "history"}
-              setOpen={(o) => setOpen(o ? "history" : "")}
-              name="History"
-            >
-              <WalletLink to={routes.wallet.history.allAssets}>
-                All Assets
-              </WalletLink>
-              <WalletLink to={routes.wallet.history.deposit}>Deposit</WalletLink>
-              <WalletLink to={routes.wallet.history.withdraw}>
-                Withdraw
-              </WalletLink>
-            </WalletCollapse>
-          </BoxUi>
-        </div>
-      }
-    >
-      <Outlet />
-    </PagesLayout>
+            Assets
+          </WalletLink>
+          <WalletLink
+            setClose={setClose}
+            responsive={responsive}
+            to={routes.wallet.spot.deposit}
+          >
+            Deposit
+          </WalletLink>
+          <WalletLink
+            setClose={setClose}
+            responsive={responsive}
+            to={routes.wallet.spot.withdraw}
+          >
+            Withdraw
+          </WalletLink>
+        </WalletCollapse>
+        <WalletLink
+          setClose={setClose}
+          responsive={responsive}
+          isButton
+          className="h-[45px] font-bold"
+          to={routes.wallet.financial}
+          height={45}
+          rounded={15}
+        >
+          Financial
+        </WalletLink>
+        <WalletCollapse
+          open={open === "history"}
+          setOpen={(o) => setOpen(o ? "history" : "")}
+          name="History"
+        >
+          <WalletLink
+            setClose={setClose}
+            responsive={responsive}
+            to={routes.wallet.history.allAssets}
+          >
+            All Assets
+          </WalletLink>
+          <WalletLink
+            setClose={setClose}
+            responsive={responsive}
+            to={routes.wallet.history.deposit}
+          >
+            Deposit
+          </WalletLink>
+          <WalletLink
+            setClose={setClose}
+            responsive={responsive}
+            to={routes.wallet.history.withdraw}
+          >
+            Withdraw
+          </WalletLink>
+        </WalletCollapse>
+      </BoxUi>
+    </div>
   );
-}
+};
 
 const WalletLink = ({
   className,
@@ -104,14 +146,17 @@ const WalletLink = ({
   height,
   children,
   rounded,
+  responsive,
+  setClose,
   to,
   ...props
 }) => {
   const classes = useStyles();
   const linkClassName = `flex flex-col ${classes.CollapseLink}`;
   const isActive = IsActive();
+  to = responsive ? `${routes.wallet.index}/${to}` : to;
   return (
-    <Link {...props} to={to} className={`${linkClassName}`}>
+    <Link {...props} onClick={setClose} to={to} className={`${linkClassName}`}>
       <Button
         className={`h-full rounded-[${rounded ? rounded : 5}px] h-[${
           height ? height : "30"

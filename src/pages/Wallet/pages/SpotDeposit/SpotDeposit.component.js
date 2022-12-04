@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import BoxUi from "../../../../components/UiKit/BoxUi";
-import DepositRecord from "./components/DepositRecord/DepositRecord";
+import WalletRecord from "../../components/WalletRecord/WalletRecord";
 
 export default function SpotDeposit({ children, ...props }) {
   const [visibility, setVisibility] = useState(true);
@@ -10,7 +10,7 @@ export default function SpotDeposit({ children, ...props }) {
       <BoxUi header={<div className={`font-bold`}>Deposit</div>}>
         <div></div>
       </BoxUi>
-      <DepositRecord />
+      <WalletRecord type="Deposit" />
     </div>
   );
 }
