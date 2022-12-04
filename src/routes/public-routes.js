@@ -17,10 +17,6 @@ export const publicRoutes = (isLoading) => {
         element={<Authentication page={"choosePassword"} />}
       />
       <Route
-        path="/two-factor-auth"
-        element={<Authentication page={"twoFactorAuth"} />}
-      />
-      <Route
         path="/verification-code"
         element={<Authentication page={"verificationCode"} />}
       />
