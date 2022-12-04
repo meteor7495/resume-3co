@@ -1,4 +1,4 @@
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { lazy } from "react";
 import Landing from "../pages/Landing/Landing.component";
 import Authentication from "../pages/Authentication/Authentication.component";
@@ -30,7 +30,9 @@ export const publicRoutes = (isLoading) => {
         path="*"
         element={
           isLoading ? (
-            <div className="w-full h-full flex flex-col items-center " >Please wait...</div>
+            <div className="w-full h-full flex flex-col items-center ">
+              Please wait...
+            </div>
           ) : (
             <Authentication page={"login"} />
           )

@@ -12,18 +12,8 @@ import { setSettings } from "../../../../store/LayoutSettings";
 
 export default function AssetsLayout({ pages, ...props }) {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(
-      setSettings({
-        headerSidebar: (setOpen) => (
-          <Sidebar responsive setClose={() => setOpen((o) => !o)} />
-        ),
-      })
-    );
-  }, []);
   return (
-    <PagesLayout className={classes.body} sidebar={<Sidebar />}>
+    <PagesLayout className={classes.body} Sidebar={Sidebar}>
       <Outlet />
     </PagesLayout>
   );
@@ -53,23 +43,27 @@ const Sidebar = ({ responsive, setClose }) => {
     }
   }, []);
   return (
-    <div className={`flex flex-col gap-[10px]`}>
+    <div
+      className={`flex flex-col gap-[10px] w-[200px] m-auto lg:m-0 lg:w-full`}
+    >
       <Link
         onClick={setClose}
         to={responsive ? routes.wallet.index : ""}
         className={`flex flex-col ${classes.CollapseLink}`}
       >
         <Button
-          className={`h-full rounded-[10px] h-[60px] px-[20px] justify-start gap-[10px] h-[45px] normal-case text-[15px] text-[20px] border border-solid justify-center font-bold rounded-[10px] font-bold leading-none ${
+          className={`h-full rounded-[5px] lg:rounded-[10px] px-[20px] gap-[10px] h-[24px] lg:h-[60px] normal-case text-[14px] lg:text-[20px] border border-solid justify-center font-bold leading-none ${
             isActive("")
-              ? `font-bold border border-solid ${classes.buttonActive} ${classes.activeOverview}`
-              : `${classes.OverviewButton} ${classes.overview}`
+              ? `font-bold border border-solid ${classes.activeOverview}`
+              : `border-0 lg:border ${classes.OverviewButton} ${classes.overview}`
           }`}
         >
           Overview
         </Button>
       </Link>
-      <BoxUi className={`flex gap-[10px] flex-col`}>
+      <BoxUi
+        className={`flex gap-[10px] flex-col border-0 p-0 lg:p-[10px] lg:border`}
+      >
         <WalletCollapse
           open={open === "spot"}
           setOpen={(o) => setOpen(o ? "spot" : "")}
@@ -101,10 +95,10 @@ const Sidebar = ({ responsive, setClose }) => {
           setClose={setClose}
           responsive={responsive}
           isButton
-          className="h-[45px] font-bold"
+          className="font-bold"
           to={routes.wallet.financial}
-          height={45}
-          rounded={15}
+          height={responsive ? 24 : 45}
+          rounded={responsive ? 5 : 15}
         >
           Financial
         </WalletLink>
@@ -154,13 +148,17 @@ const WalletLink = ({
   const classes = useStyles();
   const linkClassName = `flex flex-col ${classes.CollapseLink}`;
   const isActive = IsActive();
-  to = responsive ? `${routes.wallet.index}/${to}` : to;
   return (
-    <Link {...props} onClick={setClose} to={to} className={`${linkClassName}`}>
+    <Link
+      {...props}
+      onClick={setClose}
+      to={responsive ? `${routes.wallet.index}/${to}` : to}
+      className={`${linkClassName}`}
+    >
       <Button
         className={`h-full rounded-[${rounded ? rounded : 5}px] h-[${
-          height ? height : "30"
-        }px] px-[20px] justify-start gap-[10px] h-[45px] normal-case text-[15px] ${className} ${
+          height ? height : responsive ? "24" : "30"
+        }px] px-[20px] justify-center lg:justify-start gap-[10px] h-[45px] normal-case text-[15px] ${className} ${
           isActive(to)
             ? `font-bold border border-solid ${
                 isButton ? classes.buttonActive : ""
@@ -181,7 +179,8 @@ const WalletCollapse = ({ children, ...props }) => {
       {...props}
       className={`border-0`}
       classes={{
-        button: `border-b-0 font-bold ${classes.CollapseUiButton}`,
+        button: `border-b-0 h-[24px] gap-0 lg:gap-[10px] lg:h-[45px] font-bold ${classes.CollapseUiButton}`,
+        vector: ` ${classes.vector}`,
       }}
     >
       <div className={`pt-[15px] flex flex-col gap-[10px]`}>{children}</div>

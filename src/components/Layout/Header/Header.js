@@ -238,7 +238,7 @@ const Header = (props) => {
           anchor="top"
           onClose={() => setHeaderSidebarOpen(false)}
           classes={{
-            paper: `top-[65px] shadow-none`,
+            paper: `top-[65px] shadow-none ${classes.drawer}`,
           }}
           className={`lg:hidden top-[65px]`}
           ModalProps={{

@@ -19,18 +19,29 @@ export default makeStyles((theme) => ({
     backgroundColor: `${theme.palette.sidebar.buttonBg}`,
     color: theme.palette.text.primary,
     borderColor: theme.palette.border.main,
+    [theme.breakpoints.down("lg")]: {
+      backgroundColor: `${theme.palette.background.default}`,
+      justifyContent: "center",
+    },
   },
-  buttonActive: {},
   button: {
     color: theme.palette.text.primary,
     borderColor: theme.palette.border.main,
     backgroundColor: `${theme.palette.sidebar.buttonBg}`,
+    [theme.breakpoints.down("lg")]: {
+      backgroundColor: `${theme.palette.background.default}`,
+    },
   },
   OverviewButton: {
     backgroundColor: theme.palette.box.background,
   },
   CollapseLink: {
     color: theme.palette.text.primary,
+  },
+  vector: {
+    [theme.breakpoints.down("lg")]: {
+      backgroundColor: `${theme.palette.background.default}`,
+    },
   },
   activeLink: {
     backgroundColor: `${theme.palette.primary.main}0d`,
