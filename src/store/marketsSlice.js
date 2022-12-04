@@ -1,27 +1,28 @@
-import {createSlice} from "@reduxjs/toolkit";
-import storage from "../utils/storage";
+import {createEntityAdapter, createSlice} from "@reduxjs/toolkit";
+// import useMarkets from "../hooks/useMarkets";
+import Markets from "../hooks/Markets";
+
+/*const {GetIndexMarkets} = useMarkets()
+export const getMarkets = GetIndexMarkets();*/
+const {GetIndexMarkets} = Markets()
+export const getMarkets = GetIndexMarkets({url: '/home'});
 
 // Define the initial state using that type
-const userSlice = createSlice({
-  name: "user",
-  initialState: {
-    user: null,
-    token: storage.getToken(),
-  },
-  reducers: {
-    setUser: (state, action) => {
-      return {...state, user: action.payload};
-    },
-    setToken: (state, action) => {
-      storage.setToken(action.payload);
-      return { ...state, token: action.payload };
-    },
-    cleanUser: (state, action) => {
-      storage.clearToken();
-      return { token: "", user: null };
-    },
+const marketsAdapter = createEntityAdapter({});
+
+export const {selectAll: selectMarkets, selectById: selectMarketById} =
+  marketsAdapter.getSelectors((state) => {
+    return state.markets
+  });
+
+const marketsSlice = createSlice({
+  name: "Markets",
+  initialState: marketsAdapter.getInitialState({}),
+  reducers: {},
+  extraReducers: {
+    [getMarkets.fulfilled]: marketsAdapter.setAll,
   },
 });
 
-export const { setUser, cleanUser, setToken } = userSlice.actions;
-export default userSlice.reducer;
+export const {} = marketsSlice.actions;
+export default marketsSlice.reducer;

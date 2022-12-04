@@ -1,4 +1,5 @@
-import { Route } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { lazy } from "react";
 import Landing from "../pages/Landing/Landing.component";
 import Authentication from "../pages/Authentication/Authentication.component";
 

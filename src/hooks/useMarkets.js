@@ -6,7 +6,7 @@ import {showAlert} from '../store/AlertsSlice';
 import {AlertTypes} from '../constants/alertTypes.enum';
 import {useNavigate} from 'react-router-dom'
 
-const useAuth = () => {
+const useMarkets = () => {
 
   const {token} = useSelector((state) => {
     return state.user;
@@ -27,8 +27,7 @@ const useAuth = () => {
       data = await get('/home');
       setIsLoading(false)
     }
-    dispatch(setUser(serverUser));
-    return serverUser;
+    return data
   };
 
 
@@ -36,4 +35,4 @@ const useAuth = () => {
     GetIndexMarkets
   };
 };
-export default useAuth;
+export default useMarkets;

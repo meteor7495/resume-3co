@@ -5,6 +5,7 @@ import useAxios from "../hooks/useAxios";
 import {showAlert} from '../store/AlertsSlice';
 import {AlertTypes} from '../constants/alertTypes.enum';
 import {useNavigate} from 'react-router-dom'
+import {setModal} from "../store/ModalSlice";
 
 const useAuth = () => {
 
@@ -48,12 +49,14 @@ const useAuth = () => {
     if (response !== null) {
       serverUser = await handleUserResponse(response);
       dispatch(setUser(serverUser));
-      dispatch(showAlert({notify:{
+      dispatch(showAlert({
+        notify: {
           type: AlertTypes.success,
           visible: true,
           message: 'You successfully signed in',
-          key:0
-        }}))
+          key: 0
+        }
+      }))
       navigate('/')
     }
     setIsLoading(false)
@@ -73,7 +76,7 @@ const useAuth = () => {
           message: 'You registered successfully.'
         }
       )
-      navigate('/verification-code?email='+registerCredentialsDTO?.email)
+      navigate('/verification-code?email=' + registerCredentialsDTO?.email)
     }
     setIsLoading(false)
     return response;
@@ -82,7 +85,7 @@ const useAuth = () => {
   const updateUser = async (updateUserDTO) => {
     setIsLoading(true)
     let serverUser = null;
-    const response = await post('/user/updateProfile', updateUserDTO,
+    const response = await put('/user/profile', updateUserDTO,
       {headers: {'Content-Type': 'multipart/form-data'}});
     if (response !== null) {
       dispatch(setUser(response));
@@ -98,7 +101,7 @@ const useAuth = () => {
   const updatePassword = async (updatePasswordDTO) => {
     setIsLoading(true)
     let serverUser = null;
-    const response = await post('/user/changePassword', updatePasswordDTO, {headers: {'Content-Type': 'multipart/form-data'}});
+    const response = await put('/user/profile/change-password', updatePasswordDTO, {headers: {'Content-Type': 'multipart/form-data'}});
     if (response !== null) {
       dispatch(setUser(response));
       dispatch(showAlert({
@@ -113,7 +116,7 @@ const useAuth = () => {
 
   const requestVerificationCode = async (requestVerificationCodeDTO) => {
     setIsLoading(true)
-    const response = await post('/user/verify', requestVerificationCodeDTO,
+    const response = await post('/user/profile/verify', requestVerificationCodeDTO,
       {headers: {'Content-Type': 'multipart/form-data'}});
     if (response !== null) {
       dispatch(showAlert({
@@ -132,15 +135,31 @@ const useAuth = () => {
         type: AlertTypes.success,
         visible: true,
         message: 'An reset password email has been sent to your email.',
-        key:0
+        key: 0
       }))
-      navigate('/choose-password?email='+requestVerificationCodeDTO?.email)
+      navigate('/choose-password?email=' + requestVerificationCodeDTO?.email)
+    }
+    setIsLoading(false)
+  };
+  const resendPassword = async (requestVerificationCodeDTO) => {
+    setIsLoading(true)
+    const response = await post('/user/resend-code', requestVerificationCodeDTO,
+      {headers: {'Content-Type': 'multipart/form-data'}});
+    console.log('responseresponseresponse',response)
+    if (response !== null) {
+      dispatch(showAlert({
+        type: AlertTypes.success,
+        visible: true,
+        message: 'Verification Code sent Successfully',
+        key: 0
+      }))
+      //navigate('/choose-password?email=' + requestVerificationCodeDTO?.email)
     }
     setIsLoading(false)
   };
   const resetPassword = async (requestVerificationCodeDTO) => {
     setIsLoading(true)
-    const response = await put('/user/reset-password', requestVerificationCodeDTO,
+    const response = await put('/user/profile/reset-password', requestVerificationCodeDTO,
       {headers: {'Content-Type': 'multipart/form-data'}});
     if (response !== null) {
       dispatch(showAlert({
@@ -149,6 +168,40 @@ const useAuth = () => {
       }))
     }
     setIsLoading(false)
+  };
+  const TFAGenerator = async () => {
+    setIsLoading(true)
+    const response = await post('/user/tfa/generate', '',
+      {headers: {'Content-Type': 'multipart/form-data'}});
+    setIsLoading(false)
+    return response
+  };
+  const TFAActivator = async (TFAActivatorDTO) => {
+    setIsLoading(true)
+    const response = await post('/user/tfa/active', TFAActivatorDTO,
+      {headers: {'Content-Type': 'multipart/form-data'}});
+    console.log('responseresponseresponseuser',response)
+    dispatch(setUser(response));
+    dispatch((setModal({visible: false, id: ''})))
+    setIsLoading(false)
+    return response
+  };
+  const TFADeActivator = async (TFAActivatorDTO) => {
+    setIsLoading(true)
+    const response = await put('/user/tfa/deactive', TFAActivatorDTO,
+      {headers: {'Content-Type': 'multipart/form-data'}});
+    console.log('responseresponseresponseuser',response)
+    dispatch(setUser(response));
+    setIsLoading(false)
+    return response
+  };
+  const DisableAccount = async () => {
+    setIsLoading(true)
+    const response = await put('/user/account/disable', '',
+      {headers: {'Content-Type': 'multipart/form-data'}});
+    console.log('responseresponseresponseresponseresponse',response)
+    setIsLoading(false)
+    return response
   };
 
   const verifyCode = async (verifyCodeDTO) => {
@@ -163,6 +216,7 @@ const useAuth = () => {
         type: AlertTypes.success,
         message: 'Email verified successfully'
       }))
+      navigate('/')
     }
 
     setIsLoading(false)
@@ -177,7 +231,7 @@ const useAuth = () => {
   return {
     user, token, login, getUser, registerUser,
     logOut, updateUser, updatePassword, requestVerificationCode,
-    verifyCode, isLoading, requestResetPassword, resetPassword
+    verifyCode, isLoading, requestResetPassword, resendPassword, resetPassword, TFAGenerator, TFAActivator, DisableAccount, TFADeActivator
   };
 };
 export default useAuth;

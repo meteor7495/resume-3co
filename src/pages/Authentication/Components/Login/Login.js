@@ -1,55 +1,29 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import useStyles from "./Login.styles";
 import WelcomeSvg from '../../../../assets/images/welcome-background.png'
 import WelcomeDarkSvg from '../../../../assets/images/welcome-background-dark.png'
-import BusinessDealSvg from '../../../../assets/images/business-deal.svg'
-import BusinessDealDarkSvg from '../../../../assets/images/business-deal-dark.svg'
 import {useDispatch, useSelector} from "react-redux";
-import {
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Typography
-} from "@mui/material";
+import {Checkbox, FormControlLabel, FormGroup, Typography} from "@mui/material";
 import InputUi from "../../../../components/UiKit/InputUi";
 import ButtonUi from "../../../../components/UiKit/ButtonUi";
-import {Visibility, VisibilityOff} from "@mui/icons-material";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import BoxUi from "../../../../components/UiKit/BoxUi";
-import {Controller, useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
+import {Controller, useFormContext} from "react-hook-form";
 import {showAlert} from "../../../../store/AlertsSlice";
 import {AlertTypes} from "../../../../constants/alertTypes.enum";
-import * as yup from "yup";
 import useAuth from "../../../../hooks/useAuth";
-import {PinInput} from "react-input-pin-code";
-
-const schema = yup.object({
-  email: yup.string(),
-  password: yup.string(),
-}).required();
+import PasswordInputUi from "../../../../components/UiKit/PasswordInputUi";
 
 export default function Login(props) {
   const classes = useStyles();
   const {theme} = useSelector((s) => s.app);
-  const imageUrl = theme === 'light' ? BusinessDealSvg : BusinessDealDarkSvg;
   const backgroundUrl = theme === 'light' ? WelcomeSvg : WelcomeDarkSvg;
-  const [showPassword, setShowPassword] = useState(false)
   const {login} = useAuth();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const methods = useFormContext();
+  const {control, formState, getValues} = methods;
+  const {errors} = formState;
 
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword)
-  }
-  const {control, register, handleSubmit, formState: {errors}} = useForm({
-    resolver: yupResolver(schema)
-  });
   const onSubmit = data => {
     login(data)
   };
@@ -63,7 +37,6 @@ export default function Login(props) {
         notifyHandler(errors[key].message, AlertTypes.danger, index)
       }, 100)
     });
-
   }, [errors])
   return (
     <section className={"text-gray-600 body-font " + classes.body} style={{
@@ -78,49 +51,25 @@ export default function Login(props) {
             <Typography className={'text-center font-[700] text-[25px]'} color={'text.primary'} variant={'h1'}>
               Log In
             </Typography>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <Controller
-                name="email"
-                control={control}
-                render={({field}) => <InputUi {...field} label={'Email address'} className={`mt-5 mb-5 ${classes.inputStyle}`}/>}
-              />
-              <Controller
-                name="password"
-                control={control}
-                render={({field}) => <FormControl className={'w-full'} variant="outlined">
-                  <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                  <OutlinedInput
-                    {...field}
-                    inputProps={{
-                      type: "password",
-                      autoComplete: 'new-password'
-                    }}
-                    className={`${classes.inputStyle}`}
-                    id="outlined-adornment-password"
-                    type={showPassword ? 'text' : 'password'}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          edge="end"
-                        >
-                          {showPassword ? <VisibilityOff/> : <Visibility/>}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                    label="Password"
-                  />
-                </FormControl>}
-              />
-              <FormGroup>
-                <FormControlLabel className={'mt-3 text-[14px] font-[400] ' + classes.textColor}
-                                  control={<Checkbox size={'small'}/>} label="Remember me"/>
-              </FormGroup>
-              <ButtonUi type={'submit'} variant={'contained'} className={`mt-3 ${classes.button}`}>
-                Log In
-              </ButtonUi>
-            </form>
+            <Controller
+              name="email"
+              control={control}
+              render={({field}) => <InputUi {...field} label={'Email address'}
+                                            className={`mt-5 mb-5 ${classes.inputStyle}`}/>}
+            />
+            <Controller
+              name="password"
+              control={control}
+              render={({field}) => <PasswordInputUi {...field} label={'Password'}
+                                                    className={`mt-5 mb-5 ${classes.inputStyle}`}/>}
+            />
+            <FormGroup>
+              <FormControlLabel className={'mt-3 text-[14px] font-[400] ' + classes.textColor}
+                                control={<Checkbox size={'small'}/>} label="Remember me"/>
+            </FormGroup>
+            <ButtonUi onClick={() => onSubmit(getValues())} type={'button'} variant={'contained'} className={`mt-3 ${classes.button}`}>
+              Log In
+            </ButtonUi>
             <Link to={'/reset-password'}>
               <Typography className={'text-[14px] mt-3'} color={'primary'}>
                 Forget Password?

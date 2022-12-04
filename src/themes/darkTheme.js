@@ -40,6 +40,7 @@ const lightTheme = {
       paper: "#1C1C1E",
       default: "#121213",
       main: "#121213",
+      profile: "#121213",
       light: "#1B1C1D",
       dark: "#E4E7EC",
       lightBlue: "rgba(242, 242, 247, 0.07)",
@@ -67,8 +68,12 @@ const lightTheme = {
     },
     button: {
       menuButtonBg: "#121213",
+      disabled: "#12121333",
+      active: "#007BFF1A",
     },
-
+    icons:{
+      grey: '#1F263F',
+    },
     orderBook: {
       sellBackground: "#271718",
       buyBackground: "#131615",

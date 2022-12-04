@@ -1,4 +1,4 @@
-import { Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { lazy } from "react";
 import Landing from "../pages/Landing/Landing.component";
 import routes from "../configs/routes";
