@@ -39,10 +39,11 @@ const WalletTable = ({ header, rows, className, pagination }) => {
                       }}
                       className={classes.tableRow}
                     >
-                      {cells.map(({ className, align, ...props }) => {
+                      {cells.map(({ className, align, ...props }, i) => {
                         return (
                           <TableCell
                             {...props}
+                            key={i}
                             className={`${tClasses.cell} ${className}`}
                             align={align ? align : "center"}
                           />
@@ -63,7 +64,6 @@ const WalletTable = ({ header, rows, className, pagination }) => {
           </div>
         )}
       </BoxUi>
-      {console.log({ ...pagination })}
       {pagination && (
         <div className="flex items-center flex-col pt-[15px]">
           <Pagination
