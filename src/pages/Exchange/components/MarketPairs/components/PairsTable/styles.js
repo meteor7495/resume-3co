@@ -8,7 +8,7 @@ export default makeStyles((theme) => ({
   },
   headerCell: {
     background: `${theme.palette.box.background}`,
-    color: `${theme.palette.text.primary}80`,
+    color: theme.palette.text.secondary,
     "&>span": {
       background: `${theme.palette.box.background}`,
     }

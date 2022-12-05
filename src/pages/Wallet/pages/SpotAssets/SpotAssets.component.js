@@ -29,7 +29,7 @@ export default function SpotAssets({ children, ...props }) {
           }
         >
           <SearchBox className={`block lg:hidden`} />
-          <WalletTable className={`h-[700px] lg:h-full`} pagination={{count:10}} header={headerItems} rows={rows} />
+          <WalletTable className={`h-[700px] lg:h-full`} pagination={{ count: 10 }} header={headerItems} rows={rows} />
         </BoxUi>
       </div>
     </div>
@@ -80,16 +80,17 @@ function createData(coin, amount, available, frozen, price) {
 }
 
 const Operation = () => {
+  const btnClass = ` min-w-0 w-fit`
   return (
     <div className={`inline-flex items-center gap-[10px] w-fit justify-center`}>
-      <ButtonUi className={`p-[5px] min-w-0 w-fit`}>
+      <ButtonUi disableRipple onClick={()=>console.log(1)} style={{ position: "inherit" }} className={`p-[5px] ${btnClass}`}>
         <BarChart className={`text-[15px]`} />
       </ButtonUi>
-      <ButtonUi className={`p-[2px] min-w-0 w-fit`}>
+      <ButtonUi disableRipple onClick={()=>console.log(2)} style={{ position: "inherit" }} className={`p-[2px] ${btnClass}`}>
         <Refresh className={`text-[15px]`} />
       </ButtonUi>
-      <ButtonUi className={`p-[2px] min-w-0 w-fit`}>Deposit</ButtonUi>
-      <ButtonUi className={`p-[2px] min-w-0 w-fit`}>Withdrow</ButtonUi>
+      <ButtonUi disableRipple onClick={()=>console.log(3)} style={{ position: "inherit" }} className={`p-[2px] ${btnClass}`}>Deposit</ButtonUi>
+      <ButtonUi disableRipple onClick={()=>console.log(4)} style={{ position: "inherit" }} className={`p-[2px] ${btnClass}`}>Withdrow</ButtonUi>
     </div>
   );
 };

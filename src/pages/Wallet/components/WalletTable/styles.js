@@ -16,10 +16,10 @@ export default makeStyles((theme) => ({
     backgroundColor: `${theme.palette.error.main}1a`,
   },
   tableTextColor: {
-    color: `${theme.palette.text.primary}80`,
+    color: theme.palette.text.secondary,
   },
   responsivPair: {
-    color: `${theme.palette.text.primary}80`
+    color: theme.palette.text.secondary
   },
   previousNext:{
     "&>svg>path":{

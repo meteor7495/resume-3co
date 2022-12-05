@@ -22,6 +22,7 @@ export default function AssetsLayout({ pages, ...props }) {
 const Sidebar = ({ responsive, setClose }) => {
   const classes = useStyles();
   const [open, setOpen] = useState("");
+  let { pathname } = useLocation();
   const isActive = IsActive();
   useEffect(() => {
     if (
@@ -41,7 +42,7 @@ const Sidebar = ({ responsive, setClose }) => {
     ) {
       setOpen("history");
     }
-  }, []);
+  }, [pathname]);
   return (
     <div
       className={`flex flex-col gap-[10px] w-[200px] m-auto lg:m-0 lg:w-full`}
