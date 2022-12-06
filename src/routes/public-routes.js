@@ -2,8 +2,10 @@ import { Route } from "react-router-dom";
 import { lazy } from "react";
 import Landing from "../pages/Landing/Landing.component";
 import Authentication from "../pages/Authentication/Authentication.component";
+import routes from "../configs/routes";
 
 export const publicRoutes = (isLoading) => {
+  const WalletPage = lazy(() => import("../pages/Wallet/Wallet.component"));
   return (
     <>
       <Route path="/login" element={<Authentication page={"login"} />} />
@@ -16,6 +18,7 @@ export const publicRoutes = (isLoading) => {
         path="/choose-password"
         element={<Authentication page={"choosePassword"} />}
       />
+      <Route path={routes.walletPage} element={<WalletPage />} />
       <Route
         path="/verification-code"
         element={<Authentication page={"verificationCode"} />}

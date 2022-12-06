@@ -9,7 +9,7 @@ const lightTheme = {
     mode: "light",
     primary: {
       main: primary,
-      light: `${primary}ed`,
+      light: `${primary}0d`,
       dark: `${primary}ed`,
       contrastText: "#ffffff",
     },
@@ -73,7 +73,7 @@ const lightTheme = {
     },
     text: {
       primary: "#1F263F",
-      secondary: "#",
+      secondary: "#1F263F80",
     },
     button: {
       menuButtonBg: "#F9F9FC",

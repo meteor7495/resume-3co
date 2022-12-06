@@ -9,8 +9,8 @@ const lightTheme = {
     mode: "dark",
     primary: {
       main: primary,
-      light: `${primary}ed`,
-      dark: `${primary}ed`,
+      light: `${primary}0d`,
+      dark: `${primary}0d`,
       contrastText: "#ffffff",
     },
     // secondary: {
@@ -64,14 +64,14 @@ const lightTheme = {
     },
     text: {
       primary: "#F2F2F7",
-      secondary: "#",
+      secondary: "#F2F2F780",
     },
     button: {
       menuButtonBg: "#121213",
       disabled: "#12121333",
       active: "#007BFF1A",
     },
-    icons:{
+    icons: {
       grey: '#1F263F',
     },
     orderBook: {

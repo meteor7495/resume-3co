@@ -14,6 +14,12 @@ const ButtonUi = ({ children, className, ...props }) => {
       {...props}
       className={`shadow-none normal-case ${className}`}
       disableElevation
+      classes={{
+        ...props?.classes,
+        textPrimary: `${classes.textPrimary} ${props?.classes?.textPrimary}`,
+        outlinedPrimary: `${classes.textPrimary} ${props?.classes?.outlinedPrimary}`,
+        
+      }}
     >
       {children}
     </Button>

@@ -15,6 +15,6 @@ export default makeStyles((theme) => ({
     borderColor: theme.palette.border.main,
   },
   tiker: {
-    color: `${theme.palette.text.primary}80`,
+    color: theme.palette.text.secondary,
   },
 }));

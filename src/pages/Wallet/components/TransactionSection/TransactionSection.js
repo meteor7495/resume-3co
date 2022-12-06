@@ -1,52 +1,68 @@
-import { BarChart, Refresh, Search } from "@mui/icons-material";
-import { InputAdornment } from "@mui/material";
-import React from "react";
-import BoxUi from "../../../../components/UiKit/BoxUi";
+import { Box } from "@mui/system";
+import React, { useState } from "react";
+import AutocompleteUi from "../../../../components/UiKit/AutocompleteUi/AutocompleteUi";
 import ButtonUi from "../../../../components/UiKit/ButtonUi";
-import InputUi from "../../../../components/UiKit/InputUi/InputUi";
-import SearchUi from "../../../../components/UiKit/SearchUi/SearchUi";
-import TransactionCard from "../../components/TransactionCard/TransactionCard";
-import WalletTable from "../../components/WalletTable/WalletTable";
-import useStyles from "./SpotAssets.style";
-
-export default function SpotAssets({ children, ...props }) {
+import VerticalStepper from "../VerticalStepper/VerticalStepper";
+import useStyles from "./styles";
+export default function TransactionSection({ items }) {
   const classes = useStyles();
-  return (
-    <div className={`flex flex-col gap-[10px] h-full `}>
-      <TransactionCard title={"Spot"} btc={0.000345345} usd={12.23} />
-      <div className={`flex flex-col ${classes.tableWrapper}`}>
-        <BoxUi
-          className={`flex p-0 flex-col grow`}
-          classes={{
-            header: "gap-[38px] flex items-center flex-col lg:flex-row",
-            body: "h-full gap-[10px] flex flex-col",
+  const [selecteCoin, setSelectedCoin] = useState({
+    name: "Bitcoin",
+    tiker: "BTC",
+    icon: BTC,
+  });
+  const steps = [
+    {
+      label: "Select Coin/Token",
+      children: (
+        <AutocompleteUi
+          renderValue={<CoinEl {...selecteCoin} />}
+          filterOptions={(op, { inputValue }) => {
+            return inputValue !== ""
+              ? op.filter(
+                  ({ name, tiker }) =>
+                    tiker?.toLowerCase().indexOf(inputValue?.toLowerCase()) !==
+                      -1 ||
+                    name?.toLowerCase().indexOf(inputValue?.toLowerCase()) !==
+                      -1
+                )
+              : op;
           }}
-          header={
-            <>
-              <div className={`font-bold`}>Assets</div>
-              <SearchBox className={`hidden lg:block max-w-[250px]`} />
-            </>
-          }
-        >
-          <SearchBox className={`block lg:hidden`} />
-          <WalletTable className={`h-[700px] lg:h-full`} pagination={{ count: 10 }} header={headerItems} rows={rows} />
-        </BoxUi>
-      </div>
-    </div>
-  );
+          renderOption={(props, option) => (
+            <Box component="li" {...props} key={option.name}>
+              <CoinEl {...option} />
+            </Box>
+          )}
+          onChange={(e, v) => {
+            setSelectedCoin(v);
+          }}
+          value={selecteCoin}
+          children={coins}
+        />
+      ),
+    },
+    {
+      label: "Select Network",
+      children: (
+        <div className={`flex flex-wrap gap-[10px]`}>
+          {networks?.map(({ name, fullName }) => (
+            <ButtonUi className={`flex`} style={{ width: `calc(50% - 10px)` }}>
+              {name}
+              <li />
+              <span className={``} >{fullName}</span>
+            </ButtonUi>
+          ))}
+        </div>
+      ),
+    },
+    {
+      label: "Select Coin/Token3",
+      children:
+        "dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd ",
+    },
+  ];
+  return <VerticalStepper steps={steps} />;
 }
-
-const headerItems = [
-  { name: "Coin", className: "text-start" },
-  { name: "Amount" },
-  { name: "Available" },
-  { name: "Frozen" },
-  { name: "Operation", className: "text-end" },
-];
-
-const SearchBox = (props) => {
-  return <SearchUi {...props} />;
-};
 
 const CoinEl = ({ name, tiker, icon }) => {
   const classes = useStyles();
@@ -57,43 +73,19 @@ const CoinEl = ({ name, tiker, icon }) => {
       >
         {icon}
       </div>
-      <div className={`font-bold`}>{name}</div>
-      <li className={`w-1`} />
-      <div className={classes.tiker}>{tiker}</div>
+      <div className={`font-bold`}>{tiker}</div>
+      <div className={`text-[10px] ${classes.tiker}`}>{name}</div>
     </div>
   );
 };
 
-const NumberEl = ({ value }) => {
-  const classes = useStyles();
-  return <div className={classes.tiker}>{value.toString()}</div>;
-};
+const networks = [
+  { name: "TRC20", fullName: "Tron" },
+  { name: "BTC", fullName: "BTC" },
+  { name: "BSC(BEP32)", fullName: "Binance Smart Chain" },
+  { name: "CSC", fullName: "Coinex Smart Chain" },
+];
 
-function createData(coin, amount, available, frozen, price) {
-  return [
-    { children: <CoinEl {...coin} />, align: "left", className: `w-[250px]` },
-    { children: <NumberEl value={amount} /> },
-    { children: <NumberEl value={available} /> },
-    { children: <NumberEl value={frozen} /> },
-    { children: <Operation />, align: "right", className: `w-[200px]` },
-  ];
-}
-
-const Operation = () => {
-  const btnClass = ` min-w-0 w-fit`
-  return (
-    <div className={`inline-flex items-center gap-[10px] w-fit justify-center`}>
-      <ButtonUi disableRipple onClick={()=>console.log(1)} style={{ position: "inherit" }} className={`p-[5px] ${btnClass}`}>
-        <BarChart className={`text-[15px]`} />
-      </ButtonUi>
-      <ButtonUi disableRipple onClick={()=>console.log(2)} style={{ position: "inherit" }} className={`p-[2px] ${btnClass}`}>
-        <Refresh className={`text-[15px]`} />
-      </ButtonUi>
-      <ButtonUi disableRipple onClick={()=>console.log(3)} style={{ position: "inherit" }} className={`p-[2px] ${btnClass}`}>Deposit</ButtonUi>
-      <ButtonUi disableRipple onClick={()=>console.log(4)} style={{ position: "inherit" }} className={`p-[2px] ${btnClass}`}>Withdrow</ButtonUi>
-    </div>
-  );
-};
 const BTC = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -211,103 +203,10 @@ const SOL = (
     </defs>
   </svg>
 );
-const rows = [
-  createData(
-    { name: "Bitcoin", tiker: "BTC", icon: BTC },
-    "0.00000024685",
-    "0.00000031",
-    "0.0000002221"
-  ),
-  createData(
-    { name: "Binance", tiker: "BNB", icon: BNB },
-    "0.00000024685",
-    "0.00000031",
-    "0.0000002221"
-  ),
-  createData(
-    { name: "Ethereum", tiker: "ETH", icon: ETH },
-    "0.00000024685",
-    "0.00000031",
-    "0.0000002221"
-  ),
-  createData(
-    { name: "Solana", tiker: "SOL", icon: SOL },
-    "0.00000024685",
-    "0.00000031",
-    "0.0000002221"
-  ),
-  createData(
-    { name: "Bitcoin", tiker: "BTC", icon: BTC },
-    "0.00000024685",
-    "0.00000031",
-    "0.0000002221"
-  ),
-  createData(
-    { name: "Binance", tiker: "BNB", icon: BNB },
-    "0.00000024685",
-    "0.00000031",
-    "0.0000002221"
-  ),
-  createData(
-    { name: "Ethereum", tiker: "ETH", icon: ETH },
-    "0.00000024685",
-    "0.00000031",
-    "0.0000002221"
-  ),
-  createData(
-    { name: "Solana", tiker: "SOL", icon: SOL },
-    "0.00000024685",
-    "0.00000031",
-    "0.0000002221"
-  ),
 
-  createData(
-    { name: "Bitcoin", tiker: "BTC", icon: BTC },
-    "0.00000024685",
-    "0.00000031",
-    "0.0000002221"
-  ),
-  createData(
-    { name: "Binance", tiker: "BNB", icon: BNB },
-    "0.00000024685",
-    "0.00000031",
-    "0.0000002221"
-  ),
-  createData(
-    { name: "Ethereum", tiker: "ETH", icon: ETH },
-    "0.00000024685",
-    "0.00000031",
-    "0.0000002221"
-  ),
-  createData(
-    { name: "Solana", tiker: "SOL", icon: SOL },
-    "0.00000024685",
-    "0.00000031",
-    "0.0000002221"
-  ),
-
-  createData(
-    { name: "Bitcoin", tiker: "BTC", icon: BTC },
-    "0.00000024685",
-    "0.00000031",
-    "0.0000002221"
-  ),
-  createData(
-    { name: "Binance", tiker: "BNB", icon: BNB },
-    "0.00000024685",
-    "0.00000031",
-    "0.0000002221"
-  ),
-  createData(
-    { name: "Ethereum", tiker: "ETH", icon: ETH },
-    "0.00000024685",
-    "0.00000031",
-    "0.0000002221"
-  ),
-  createData(
-    { name: "Solana", tiker: "SOL", icon: SOL },
-    "0.00000024685",
-    "0.00000031",
-    "0.0000002221"
-  ),
+const coins = [
+  { name: "Bitcoin", tiker: "BTC", icon: BTC },
+  { name: "Binance", tiker: "BNB", icon: BNB },
+  { name: "Ethereum", tiker: "ETH", icon: ETH },
+  { name: "Solana", tiker: "SOL", icon: SOL },
 ];

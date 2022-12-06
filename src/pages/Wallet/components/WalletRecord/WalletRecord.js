@@ -18,10 +18,10 @@ export default function WalletRecord({ children, type, ...props }) {
             </ButtonUi>
           </div>
           <div>
-            <Link to={routes.wallet.history[type]}>
+            <Link to={`../${routes.wallet.history[type.toLowerCase()]}`}>
               <ButtonUi
                 variant="outlined"
-                className={`px-[9px] py-[7px] leading-none rounded-[5px] ${classes.button}`}
+                className={`px-[9px] py-[7px] leading-none rounded-[5px]`}
               >
                 All Records
               </ButtonUi>
@@ -30,7 +30,7 @@ export default function WalletRecord({ children, type, ...props }) {
         </div>
       }
     >
-      <HistoryTable type={type} className={`h-[400px]`} />
+      <HistoryTable type={type} className={`h-[310px]`} />
     </BoxUi>
   );
 }
