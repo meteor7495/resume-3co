@@ -7,6 +7,10 @@ const ButtonUi = ({ children, className, ...props }) => {
   // disableElevation
   return (
     <Button
+      sx={props?.hover === false && {"&:hover": {
+          //you want this to be the same as the backgroundColor above
+          backgroundColor: "transparent"
+        }}}
       {...props}
       className={`shadow-none normal-case ${className}`}
       disableElevation

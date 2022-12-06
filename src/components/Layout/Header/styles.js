@@ -20,4 +20,33 @@ export default makeStyles((theme) => ({
   drawer: {
     background: theme.palette.background.default,
   },
+  menuStyles:{
+    "& .MuiPaper-root":{
+      marginTop:20,
+      backgroundColor: theme.palette.background.paper,
+      boxShadow:'none',
+      border: `1px solid ${theme.palette.border.main}`,
+      borderRadius: 10
+    },
+    "& .MuiMenuItem-root":{
+      background:'transparent'
+    }
+  },
+  menuStylesResponsive:{
+    "& .MuiMenuItem-root":{
+      background:'transparent',
+      padding:0,
+      minHeight:36,
+      marginTop: 15,
+    }
+  },
+  menuItemCustom:{
+    width:'100%',
+    border: `1px solid ${theme.palette.border.main}`,
+    borderRadius: 10,
+    textAlign:'left',
+    justifyContent:'start',
+    color: theme.palette.textColor.main,
+    background: theme.palette.background.default,
+  },
 }));

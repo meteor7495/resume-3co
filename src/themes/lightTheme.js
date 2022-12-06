@@ -63,6 +63,7 @@ const lightTheme = {
       background: "#fff",
     },
     icons:{
+      main: '#D1D1D6',
       grey: '#D1D1D6',
     },
     border: {

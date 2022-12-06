@@ -11,7 +11,6 @@ import { useDispatch } from "react-redux";
 import {FormProvider, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import * as yup from "yup";
-import { useEffect } from "react";
 
 const loginSchema = yup.object().shape({
   email: yup.string().required('Enter Email'),

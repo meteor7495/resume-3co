@@ -61,8 +61,8 @@ const useAuth = () => {
       if(response?.user?.isTfaActive){
         navigate('/two-factor-auth')
       }else{
-        navigate('/two-factor-auth')
-        //navigate('/')
+        // navigate('/two-factor-auth')
+        navigate('/')
       }
 
     }
@@ -74,8 +74,14 @@ const useAuth = () => {
     const response = await post('/user/tfa/login', tfaSignInDTO,
       {headers: {'Content-Type': 'multipart/form-data'}});
     console.log('response:::',response)
+    let serverUser = null;
+    if(response !== null) {
+      serverUser = await handleUserResponse(response);
+      dispatch(setUser(serverUser));
+      navigate('/')
+      return response
+    }
     setIsLoading(false)
-    return response
   };
 
   const registerUser = async (registerCredentialsDTO) => {
