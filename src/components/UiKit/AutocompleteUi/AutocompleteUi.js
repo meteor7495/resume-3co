@@ -2,7 +2,7 @@ import { Autocomplete, Box, FormHelperText, TextField } from "@mui/material";
 import React, { useState } from "react";
 import useStyles from "./styles";
 
-const AutocompleteUi = ({ children, renderValue, onChange, ...props }) => {
+const AutocompleteUi = ({ renderValue, onChange, ...props }) => {
   const classes = useStyles();
   const [focused, setFocused] = useState();
   const [value, setValue] = useState();
@@ -15,18 +15,17 @@ const AutocompleteUi = ({ children, renderValue, onChange, ...props }) => {
       }}
     >
       <Autocomplete
-        isOptionEqualToValue={(op, val) => op.name === val.name}
+        isOptionEqualToValue={(op, val) => op.value === val.value}
         {...props}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         disableClearable
         fullWidth
-        options={children}
         onChange={(...e) => {
           setFocused(false);
           onChange && onChange(...e);
         }}
-        getOptionLabel={(option) => (option?.name ? option?.name : option)}
+        getOptionLabel={(option) => (option?.value ? option?.value : option)}
         renderInput={(params) => {
           return (
             <TextField

@@ -5,6 +5,9 @@ export default makeStyles((theme) => ({
     background: theme.palette.secondBackground.main,
     borderColor: theme.palette.border.main,
   },
+  balance:{
+    color:theme.palette.primary.main
+  },
   menuBg: {
     background: theme.palette.secondBackground.main,
   },

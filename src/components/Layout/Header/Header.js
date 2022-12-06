@@ -1,51 +1,62 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../../Logo";
 import DarkSvg from "../../../assets/icons/dark.svg";
 import LightSvg from "../../../assets/icons/light.svg";
 import NotificationsSvg from "../../../assets/icons/notifications.svg";
 import UsersSvg from "../../../assets/icons/users.svg";
-import {Button, Divider, Drawer, IconButton, Menu, MenuItem, Typography} from "@mui/material";
-import {ThemeTypes} from "../../../constants/themeTypes.enum";
-import {setTheme} from "../../../store/appSlice";
-import {useDispatch, useSelector} from "react-redux";
-import {Link, useNavigate} from "react-router-dom";
+import {
+  Button,
+  Divider,
+  Drawer,
+  IconButton,
+  Menu,
+  MenuItem,
+  Typography,
+} from "@mui/material";
+import { ThemeTypes } from "../../../constants/themeTypes.enum";
+import { setTheme } from "../../../store/appSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import useStyles from "./styles";
 import ButtonUi from "../../UiKit/ButtonUi";
-import {Bars3Icon, XMarkIcon} from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import routes from "../../../configs/routes";
-import {AlignHorizontalLeft} from "@mui/icons-material";
-import PersonIcon from '@mui/icons-material/Person';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import LogoutIcon from '@mui/icons-material/Logout';
+import { AlignHorizontalLeft } from "@mui/icons-material";
+import PersonIcon from "@mui/icons-material/Person";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import LogoutIcon from "@mui/icons-material/Logout";
 import useAuth from "../../../hooks/useAuth";
 
 const Header = (props) => {
   const classes = useStyles();
-  const {theme} = useSelector((s) => s.app);
-  const {user} = useSelector((s) => s);
-  const {headerSidebar} = useSelector((s) => s.layoutSettings);
+  const { theme } = useSelector((s) => s.app);
+  const { user } = useSelector((s) => s);
+  const { headerSidebar } = useSelector((s) => s.layoutSettings);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {logOut} = useAuth();
+  const { logOut } = useAuth();
   const themeChangeHandler = (theme) => {
     dispatch(setTheme(theme));
   };
-  useEffect(() => {
-  }, [dispatch]);
+  useEffect(() => {}, [dispatch]);
   const [open, setOpen] = useState();
   const [headerSidebarOpen, setHeaderSidebarOpen] = useState();
-  const MenuCustomItem = ({color,title, children}) => {
+  const MenuCustomItem = ({ color, title, children }) => {
     return (
       <ButtonUi
+        color="textColor"
         disableTouchRipple
         disableRipple
-        variant={'text'} hover={false} className={classes.menuItemCustom}>
+        variant={"text"}
+        hover={false}
+        className={classes.menuItemCustom}
+      >
         {children}
-        <Typography color={color} className={'ml-3 text-xs'}>
+        <Typography color={color} className={"ml-3 text-xs"}>
           {title}
         </Typography>
       </ButtonUi>
-    )
+    );
   };
   const ProfileButtons = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -58,41 +69,45 @@ const Header = (props) => {
     };
     return (
       <>
-        <div className={'flex items-center'}>
-          <Typography>
-            Balance:
-          </Typography>
+        <div className={"flex items-center"}>
+          <Typography>Balance:</Typography>
           <ButtonUi
-            color={'primary'}
-            variant={'text'}
+            color="textColor"
+            variant={"text"}
             onClick={() => navigate("/wallet")}
-            className={"mr-3"}
+            className={`mr-3 ${classes.balance}`}
           >
             0.00 USDT
           </ButtonUi>
         </div>
         <ButtonUi
+          color="textColor"
           className={"mr-3"}
-          sx={{minWidth: "auto"}}
+          sx={{ minWidth: "auto" }}
           onClick={() => {
             theme === "light"
               ? themeChangeHandler(ThemeTypes.dark)
               : themeChangeHandler(ThemeTypes.light);
           }}
         >
-          <img src={theme === "light" ? DarkSvg : LightSvg}/>
+          <img src={theme === "light" ? DarkSvg : LightSvg} />
         </ButtonUi>
         <ButtonUi
-          sx={{minWidth: "auto"}} className={"mr-3"}>
-          <img src={NotificationsSvg}/>
+          color="textColor"
+          sx={{ minWidth: "auto" }}
+          className={"mr-3"}
+        >
+          <img src={NotificationsSvg} />
         </ButtonUi>
         <Button
+          color="textColor"
           onClick={handleClick}
-          aria-controls={openProfileMenu ? 'account-menu' : undefined}
+          aria-controls={openProfileMenu ? "account-menu" : undefined}
           aria-haspopup="true"
-          aria-expanded={openProfileMenu ? 'true' : undefined}
-          sx={{minWidth: "auto"}}>
-          <img src={UsersSvg}/>
+          aria-expanded={openProfileMenu ? "true" : undefined}
+          sx={{ minWidth: "auto" }}
+        >
+          <img src={UsersSvg} />
         </Button>
         <Menu
           className={classes.menuStyles}
@@ -101,40 +116,48 @@ const Header = (props) => {
           open={openProfileMenu}
           onClose={handleClose}
           onClick={handleClose}
-          transformOrigin={{horizontal: 'right', vertical: 'top'}}
-          anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+          transformOrigin={{ horizontal: "right", vertical: "top" }}
+          anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
         >
           <MenuItem disableTouchRipple>
-            <Typography className={'text-base font-bold w-full text-center'}>{user?.user?.fullName}</Typography>
+            <Typography className={"text-base font-bold w-full text-center"}>
+              {user?.user?.fullName}
+            </Typography>
           </MenuItem>
           <MenuItem disableTouchRipple>
-            <Typography className={'w-full text-center opacity-50'} color={'text.main'}>{user?.user?.email}</Typography>
+            <Typography
+              className={"w-full text-center opacity-50"}
+              color={"text.main"}
+            >
+              {user?.user?.email}
+            </Typography>
           </MenuItem>
-          <MenuItem disableTouchRipple onClick={() => navigate('/profile')}>
-            <MenuCustomItem color={'textColor'} title={'Profile'}>
-              <PersonIcon color={'icons'}/>
+          <MenuItem disableTouchRipple onClick={() => navigate("/profile")}>
+            <MenuCustomItem color={"textColor"} title={"Profile"}>
+              <PersonIcon color={"icons"} />
             </MenuCustomItem>
           </MenuItem>
-          <MenuItem disableTouchRipple onClick={() => navigate('/wallet')}>
-            <MenuCustomItem color={'textColor'} title={'My Wallet'}>
-              <AccountBalanceWalletIcon color={'icons'}/>
+          <MenuItem disableTouchRipple onClick={() => navigate("/wallet")}>
+            <MenuCustomItem color={"textColor"} title={"My Wallet"}>
+              <AccountBalanceWalletIcon color={"icons"} />
             </MenuCustomItem>
           </MenuItem>
           <MenuItem disableTouchRipple onClick={() => logOut()}>
-            <MenuCustomItem color={'error'} title={'Logout'}>
-              <LogoutIcon color={'error'}/>
+            <MenuCustomItem color={"error"} title={"Logout"}>
+              <LogoutIcon color={"error"} />
             </MenuCustomItem>
           </MenuItem>
         </Menu>
       </>
-    )
-  }
+    );
+  };
   const LoginButtons = () => {
     return (
       <>
         <ButtonUi
           onClick={() => navigate("/login")}
-          className={"mr-3 " + classes.loginBtn}
+          className={"mr-3 font-bold " + classes.loginBtn}
+          color="textColor"
         >
           Login
         </ButtonUi>
@@ -147,28 +170,37 @@ const Header = (props) => {
         </ButtonUi>
         <ButtonUi
           className={"mr-3"}
-          sx={{minWidth: "auto"}}
+          color="textColor"
+          sx={{ minWidth: "auto" }}
           onClick={() => {
             theme === "light"
               ? themeChangeHandler(ThemeTypes.dark)
               : themeChangeHandler(ThemeTypes.light);
           }}
         >
-          <img src={theme === "light" ? DarkSvg : LightSvg}/>
+          <img src={theme === "light" ? DarkSvg : LightSvg} />
         </ButtonUi>
-        <ButtonUi sx={{display: 'flex', alignItems: 'center', textAlign: 'center', minWidth: "auto"}}>
-          <img src={NotificationsSvg}/>
+        <ButtonUi
+          color="textColor"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            textAlign: "center",
+            minWidth: "auto",
+          }}
+        >
+          <img src={NotificationsSvg} />
         </ButtonUi>
       </>
-    )
-  }
+    );
+  };
   const ButtonsHandler = () => {
     if (user?.token) {
-      return <ProfileButtons/>
+      return <ProfileButtons />;
     } else {
-      return <LoginButtons/>
+      return <LoginButtons />;
     }
-  }
+  };
   const [anchorEl, setAnchorEl] = React.useState(null);
   const openProfileMenu = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -188,17 +220,17 @@ const Header = (props) => {
           <div className="relative flex h-16 items-center justify-between">
             <div className="absolute inset-y-0 right-0 flex gap-[10px] items-center lg:hidden">
               <ButtonUi
-                sx={{minWidth: "auto"}}
+                sx={{ minWidth: "auto" }}
                 onClick={() => {
                   theme === "light"
                     ? themeChangeHandler(ThemeTypes.dark)
                     : themeChangeHandler(ThemeTypes.light);
                 }}
               >
-                <img src={theme === "light" ? DarkSvg : LightSvg}/>
+                <img src={theme === "light" ? DarkSvg : LightSvg} />
               </ButtonUi>
-              <ButtonUi sx={{minWidth: "auto"}}>
-                <img src={NotificationsSvg}/>
+              <ButtonUi sx={{ minWidth: "auto" }}>
+                <img src={NotificationsSvg} />
               </ButtonUi>
               {/* Mobile menu button*/}
               {headerSidebar && (
@@ -210,7 +242,7 @@ const Header = (props) => {
                   onClick={() => setHeaderSidebarOpen((o) => !o)}
                 >
                   {headerSidebarOpen ? (
-                    <XMarkIcon className="block h-6 w-6" aria-hidden="true"/>
+                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
                   ) : (
                     <AlignHorizontalLeft
                       className="block h-6 w-6"
@@ -227,9 +259,9 @@ const Header = (props) => {
                 onClick={() => setOpen((o) => !o)}
               >
                 {open ? (
-                  <XMarkIcon className="block h-6 w-6" aria-hidden="true"/>
+                  <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
                 ) : (
-                  <Bars3Icon className="block h-6 w-6" aria-hidden="true"/>
+                  <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
                 )}
               </IconButton>
             </div>
@@ -239,7 +271,7 @@ const Header = (props) => {
                   to={"/"}
                   className="flex title-font font-medium items-center text-gray-900"
                 >
-                  <Logo/>
+                  <Logo />
                 </Link>
               </div>
               <div className="hidden sm:ml-6 lg:block w-full">
@@ -272,10 +304,9 @@ const Header = (props) => {
                 </nav>
               </div>
             </div>
-            <div
-              className="absolute hidden lg:flex inset-y-0 right-0 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-              <div className={'flex items-center'}>
-                <ButtonsHandler/>
+            <div className="absolute hidden lg:flex inset-y-0 right-0 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+              <div className={"flex items-center"}>
+                <ButtonsHandler />
               </div>
             </div>
           </div>
@@ -303,55 +334,69 @@ const Header = (props) => {
             classes.menuBg
           }
         >
-          {
-            user?.token ?
-              <>
-                <div
-                  className={`${classes.menuStyles} ${classes.menuStylesResponsive}`}
+          {user?.token ? (
+            <>
+              <div
+                className={`${classes.menuStyles} ${classes.menuStylesResponsive}`}
+              >
+                <MenuItem disableTouchRipple>
+                  <div>
+                    <Typography
+                      className={"text-base font-bold w-full text-center"}
+                    >
+                      {user?.user?.fullName}
+                    </Typography>
+                    <Typography
+                      className={"w-full text-center opacity-50 mt-1"}
+                      color={"text.main"}
+                    >
+                      {user?.user?.email}
+                    </Typography>
+                  </div>
+                </MenuItem>
+                <MenuItem
+                  disableTouchRipple
+                  onClick={() => navigate("/profile")}
                 >
-                  <MenuItem disableTouchRipple>
-                    <div>
-                      <Typography className={'text-base font-bold w-full text-center'}>{user?.user?.fullName}</Typography>
-                      <Typography className={'w-full text-center opacity-50 mt-1'} color={'text.main'}>{user?.user?.email}</Typography>
-                    </div>
-                  </MenuItem>
-                  <MenuItem disableTouchRipple onClick={() => navigate('/profile')}>
-                    <MenuCustomItem color={'textColor'} title={'Profile'}>
-                      <PersonIcon color={'icons'}/>
-                    </MenuCustomItem>
-                  </MenuItem>
-                  <MenuItem disableTouchRipple onClick={() => navigate('/wallet')}>
-                    <MenuCustomItem color={'textColor'} title={'My Wallet'}>
-                      <AccountBalanceWalletIcon color={'icons'}/>
-                    </MenuCustomItem>
-                  </MenuItem>
-                  <MenuItem disableTouchRipple onClick={() => logOut()}>
-                    <MenuCustomItem color={'error'} title={'Logout'}>
-                      <LogoutIcon color={'error'}/>
-                    </MenuCustomItem>
-                  </MenuItem>
-                </div>
-                <div className={'flex w-full mt-5'}>
-                  <Divider sx={{width:'100%'}}/>
-                </div>
-              </>
-              :
-              <>
-                <ButtonUi
-                  onClick={() => navigate("/register")}
-                  className={"mr-3 mt-5 w-full max-w-[300px]"}
-                  variant={"contained"}
+                  <MenuCustomItem color={"textColor"} title={"Profile"}>
+                    <PersonIcon color={"icons"} />
+                  </MenuCustomItem>
+                </MenuItem>
+                <MenuItem
+                  disableTouchRipple
+                  onClick={() => navigate("/wallet")}
                 >
-                  Register
-                </ButtonUi>
-                <ButtonUi
-                  onClick={() => navigate("/login")}
-                  className={"mr-3 " + classes.loginBtn}
-                >
-                  Login
-                </ButtonUi>
-              </>
-          }
+                  <MenuCustomItem color={"textColor"} title={"My Wallet"}>
+                    <AccountBalanceWalletIcon color={"icons"} />
+                  </MenuCustomItem>
+                </MenuItem>
+                <MenuItem disableTouchRipple onClick={() => logOut()}>
+                  <MenuCustomItem color={"error"} title={"Logout"}>
+                    <LogoutIcon color={"error"} />
+                  </MenuCustomItem>
+                </MenuItem>
+              </div>
+              <div className={"flex w-full mt-5"}>
+                <Divider sx={{ width: "100%" }} />
+              </div>
+            </>
+          ) : (
+            <>
+              <ButtonUi
+                onClick={() => navigate("/register")}
+                className={"mr-3 mt-5 w-full max-w-[300px]"}
+                variant={"contained"}
+              >
+                Register
+              </ButtonUi>
+              <ButtonUi
+                onClick={() => navigate("/login")}
+                className={"mr-3 " + classes.loginBtn}
+              >
+                Login
+              </ButtonUi>
+            </>
+          )}
           <Link
             onClick={() => setOpen(false)}
             to={"/"}

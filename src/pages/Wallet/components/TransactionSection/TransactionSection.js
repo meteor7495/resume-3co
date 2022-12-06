@@ -7,7 +7,7 @@ import useStyles from "./styles";
 export default function TransactionSection({ items }) {
   const classes = useStyles();
   const [selecteCoin, setSelectedCoin] = useState({
-    name: "Bitcoin",
+    value: "Bitcoin",
     tiker: "BTC",
     icon: BTC,
   });
@@ -20,16 +20,16 @@ export default function TransactionSection({ items }) {
           filterOptions={(op, { inputValue }) => {
             return inputValue !== ""
               ? op.filter(
-                  ({ name, tiker }) =>
+                  ({ value, tiker }) =>
                     tiker?.toLowerCase().indexOf(inputValue?.toLowerCase()) !==
                       -1 ||
-                    name?.toLowerCase().indexOf(inputValue?.toLowerCase()) !==
+                    value?.toLowerCase().indexOf(inputValue?.toLowerCase()) !==
                       -1
                 )
               : op;
           }}
           renderOption={(props, option) => (
-            <Box component="li" {...props} key={option.name}>
+            <Box component="li" {...props} key={option.value}>
               <CoinEl {...option} />
             </Box>
           )}
@@ -37,7 +37,7 @@ export default function TransactionSection({ items }) {
             setSelectedCoin(v);
           }}
           value={selecteCoin}
-          children={coins}
+          options={coins}
         />
       ),
     },
@@ -45,9 +45,9 @@ export default function TransactionSection({ items }) {
       label: "Select Network",
       children: (
         <div className={`flex flex-wrap gap-[10px]`}>
-          {networks?.map(({ name, fullName }) => (
+          {networks?.map(({ value, fullName }) => (
             <ButtonUi className={`flex`} style={{ width: `calc(50% - 10px)` }}>
-              {name}
+              {value}
               <li />
               <span className={``} >{fullName}</span>
             </ButtonUi>
@@ -64,7 +64,7 @@ export default function TransactionSection({ items }) {
   return <VerticalStepper steps={steps} />;
 }
 
-const CoinEl = ({ name, tiker, icon }) => {
+const CoinEl = ({ value, tiker, icon }) => {
   const classes = useStyles();
   return (
     <div className={`flex gap-[7px] items-center`}>
@@ -74,16 +74,16 @@ const CoinEl = ({ name, tiker, icon }) => {
         {icon}
       </div>
       <div className={`font-bold`}>{tiker}</div>
-      <div className={`text-[10px] ${classes.tiker}`}>{name}</div>
+      <div className={`text-[10px] ${classes.tiker}`}>{value}</div>
     </div>
   );
 };
 
 const networks = [
-  { name: "TRC20", fullName: "Tron" },
-  { name: "BTC", fullName: "BTC" },
-  { name: "BSC(BEP32)", fullName: "Binance Smart Chain" },
-  { name: "CSC", fullName: "Coinex Smart Chain" },
+  { value: "TRC20", fullName: "Tron" },
+  { value: "BTC", fullName: "BTC" },
+  { value: "BSC(BEP32)", fullName: "Binance Smart Chain" },
+  { value: "CSC", fullName: "Coinex Smart Chain" },
 ];
 
 const BTC = (
@@ -205,8 +205,8 @@ const SOL = (
 );
 
 const coins = [
-  { name: "Bitcoin", tiker: "BTC", icon: BTC },
-  { name: "Binance", tiker: "BNB", icon: BNB },
-  { name: "Ethereum", tiker: "ETH", icon: ETH },
-  { name: "Solana", tiker: "SOL", icon: SOL },
+  { value: "Bitcoin", tiker: "BTC", icon: BTC },
+  { value: "Binance", tiker: "BNB", icon: BNB },
+  { value: "Ethereum", tiker: "ETH", icon: ETH },
+  { value: "Solana", tiker: "SOL", icon: SOL },
 ];
