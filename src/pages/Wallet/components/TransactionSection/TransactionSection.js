@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
 import AutocompleteUi from "../../../../components/UiKit/AutocompleteUi/AutocompleteUi";
@@ -46,11 +47,16 @@ export default function TransactionSection({ items }) {
       children: (
         <div className={`flex flex-wrap gap-[10px]`}>
           {networks?.map(({ value, fullName }) => (
-            <ButtonUi className={`flex`} style={{ width: `calc(50% - 10px)` }}>
+            <WalletLink className="font-bold">
               {value}
-              <li />
-              <span className={``} >{fullName}</span>
-            </ButtonUi>
+              <li className={`w-1`} />
+              <span className={``}>{fullName}</span>
+            </WalletLink>
+            // <ButtonUi className={`flex gap-[4px]`} style={{ width: `calc(50% - 10px)` }}>
+            //   {value}
+            //   <li className={`w-1`} />
+            //   <span className={``} >{fullName}</span>
+            // </ButtonUi>
           ))}
         </div>
       ),
@@ -76,6 +82,23 @@ const CoinEl = ({ value, tiker, icon }) => {
       <div className={`font-bold`}>{tiker}</div>
       <div className={`text-[10px] ${classes.tiker}`}>{value}</div>
     </div>
+  );
+};
+
+const WalletLink = ({ className, children, ...props }) => {
+  const classes = useStyles();
+
+  return (
+    <Button
+      style={{ width: `calc(50% - 10px)` }}
+      className={`h-full flex gap-[4px] rounded-[5px] h-[45px] px-[20px] justify-center lg:justify-start gap-[10px] h-[45px] normal-case text-[15px] ${
+        true
+          ? `font-bold border border-solid ${classes.buttonActive} ${classes.activeOverview}`
+          : `${classes.button} ${classes.overview}`
+      }`}
+    >
+      {children}
+    </Button>
   );
 };
 
