@@ -34,6 +34,7 @@ const AutocompleteUi = ({ renderValue, onChange, ...props }) => {
                 setFocused(true);
                 setValue(value);
               }}
+              className={props.className}
               inputProps={{
                 ...params.inputProps,
                 className: `p-0 ${
