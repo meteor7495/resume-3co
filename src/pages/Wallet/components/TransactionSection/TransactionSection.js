@@ -1,6 +1,7 @@
 import { Box } from "@mui/system";
 import React, { useState } from "react";
 import AutocompleteUi from "../../../../components/UiKit/AutocompleteUi/AutocompleteUi";
+import ButtonUi from "../../../../components/UiKit/ButtonUi";
 import VerticalStepper from "../VerticalStepper/VerticalStepper";
 import useStyles from "./styles";
 export default function TransactionSection({ items }) {
@@ -12,41 +13,47 @@ export default function TransactionSection({ items }) {
   });
   const steps = [
     {
-      label: "Select Coin/Token1",
+      label: "Select Coin/Token",
       children: (
-        <div>
-          <AutocompleteUi
-            renderValue={<CoinEl {...selecteCoin} />}
-            filterOptions={(op, { inputValue }) => {
-              return inputValue !== ""
-                ? op.filter(
-                    ({ name, tiker }) =>
-                      tiker
-                        ?.toLowerCase()
-                        .indexOf(inputValue?.toLowerCase()) !== -1 ||
-                      name?.toLowerCase().indexOf(inputValue?.toLowerCase()) !==
-                        -1
-                  )
-                : op;
-            }}
-            renderOption={(props, option) => (
-              <Box component="li" {...props} key={option.name}>
-                <CoinEl {...option} />
-              </Box>
-            )}
-            onChange={(e, v) => {
-              setSelectedCoin(v);
-            }}
-            value={selecteCoin}
-            children={coins}
-          />
-        </div>
+        <AutocompleteUi
+          renderValue={<CoinEl {...selecteCoin} />}
+          filterOptions={(op, { inputValue }) => {
+            return inputValue !== ""
+              ? op.filter(
+                  ({ name, tiker }) =>
+                    tiker?.toLowerCase().indexOf(inputValue?.toLowerCase()) !==
+                      -1 ||
+                    name?.toLowerCase().indexOf(inputValue?.toLowerCase()) !==
+                      -1
+                )
+              : op;
+          }}
+          renderOption={(props, option) => (
+            <Box component="li" {...props} key={option.name}>
+              <CoinEl {...option} />
+            </Box>
+          )}
+          onChange={(e, v) => {
+            setSelectedCoin(v);
+          }}
+          value={selecteCoin}
+          children={coins}
+        />
       ),
     },
     {
-      label: "Select Coin/Token2",
-      children:
-        "dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd ",
+      label: "Select Network",
+      children: (
+        <div className={`flex flex-wrap gap-[10px]`}>
+          {networks?.map(({ name, fullName }) => (
+            <ButtonUi className={`flex`} style={{ width: `calc(50% - 10px)` }}>
+              {name}
+              <li />
+              <span className={``} >{fullName}</span>
+            </ButtonUi>
+          ))}
+        </div>
+      ),
     },
     {
       label: "Select Coin/Token3",
@@ -71,6 +78,13 @@ const CoinEl = ({ name, tiker, icon }) => {
     </div>
   );
 };
+
+const networks = [
+  { name: "TRC20", fullName: "Tron" },
+  { name: "BTC", fullName: "BTC" },
+  { name: "BSC(BEP32)", fullName: "Binance Smart Chain" },
+  { name: "CSC", fullName: "Coinex Smart Chain" },
+];
 
 const BTC = (
   <svg

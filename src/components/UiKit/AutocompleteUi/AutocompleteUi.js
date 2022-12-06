@@ -38,12 +38,12 @@ const AutocompleteUi = ({ children, renderValue, onChange, ...props }) => {
               inputProps={{
                 ...params.inputProps,
                 className: `p-0 ${
-                  renderValue && focused ? "" : "text-transparent"
+                  renderValue ? (focused ? "" : "text-transparent") : ""
                 }`,
               }}
               InputProps={{
                 ...params.InputProps,
-                startAdornment: renderValue && focused ? "" : renderValue,
+                startAdornment: renderValue ? (focused ? "" : renderValue) : "",
                 className: classes.notchedOutline,
                 autoComplete: "new-password",
                 classes: {
