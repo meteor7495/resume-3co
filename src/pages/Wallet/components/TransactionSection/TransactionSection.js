@@ -1,74 +1,162 @@
-import { Button } from "@mui/material";
+import { ContentCopy } from "@mui/icons-material";
+import { Button, Tooltip } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AutocompleteUi from "../../../../components/UiKit/AutocompleteUi/AutocompleteUi";
 import ButtonUi from "../../../../components/UiKit/ButtonUi";
+import LoadingUi from "../../../../components/UiKit/LoadingUi/LoadingUi";
+import QRCodeUi from "../../../../components/UiKit/QRCodeUi/QRCodeUi";
+import { walletType } from "../../../../constants/walletType.enum copy";
 import VerticalStepper from "../VerticalStepper/VerticalStepper";
 import useStyles from "./styles";
-export default function TransactionSection({ items }) {
-  const classes = useStyles();
+export default function TransactionSection({ type }) {
+  const [steps, setSteps] = useState();
+  useEffect(() => {
+    let steps = [
+      {
+        label: "Select Coin/Token",
+        children: <SelectCoin />,
+      },
+      {
+        label: "Select Network",
+        children: <SelectNetwork />,
+      },
+    ];
+    switch (type) {
+      case walletType.Diposit:
+        steps.push({
+          label: "Deposit To",
+          children: <DepositTo />,
+        });
+        break;
+      case walletType.Withdraw:
+        break;
+      default:
+        break;
+    }
+    setSteps(steps);
+  }, [type]);
+
+  return steps ? <VerticalStepper steps={steps} /> : <LoadingUi />;
+}
+
+const SelectCoin = () => {
   const [selecteCoin, setSelectedCoin] = useState({
     value: "Bitcoin",
     tiker: "BTC",
     icon: BTC,
   });
-  const steps = [
-    {
-      label: "Select Coin/Token",
-      children: (
-        <AutocompleteUi
-          renderValue={<CoinEl {...selecteCoin} />}
-          filterOptions={(op, { inputValue }) => {
-            return inputValue !== ""
-              ? op.filter(
-                  ({ value, tiker }) =>
-                    tiker?.toLowerCase().indexOf(inputValue?.toLowerCase()) !==
-                      -1 ||
-                    value?.toLowerCase().indexOf(inputValue?.toLowerCase()) !==
-                      -1
-                )
-              : op;
-          }}
-          renderOption={(props, option) => (
-            <Box component="li" {...props} key={option.value}>
-              <CoinEl {...option} />
-            </Box>
-          )}
-          onChange={(e, v) => {
-            setSelectedCoin(v);
-          }}
-          value={selecteCoin}
-          options={coins}
-        />
-      ),
-    },
-    {
-      label: "Select Network",
-      children: (
-        <div className={`flex flex-wrap gap-[10px]`}>
-          {networks?.map(({ value, fullName }) => (
-            <WalletLink className="font-bold">
-              {value}
-              <li className={`w-1`} />
-              <span className={``}>{fullName}</span>
-            </WalletLink>
-            // <ButtonUi className={`flex gap-[4px]`} style={{ width: `calc(50% - 10px)` }}>
-            //   {value}
-            //   <li className={`w-1`} />
-            //   <span className={``} >{fullName}</span>
-            // </ButtonUi>
-          ))}
-        </div>
-      ),
-    },
-    {
-      label: "Select Coin/Token3",
-      children:
-        "dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd dd ",
-    },
-  ];
-  return <VerticalStepper steps={steps} />;
-}
+  return (
+    <div>
+      <AutocompleteUi
+        className="w-full"
+        renderValue={<CoinEl {...selecteCoin} />}
+        filterOptions={(op, { inputValue }) => {
+          return inputValue !== ""
+            ? op.filter(
+                ({ value, tiker }) =>
+                  tiker?.toLowerCase().indexOf(inputValue?.toLowerCase()) !==
+                    -1 ||
+                  value?.toLowerCase().indexOf(inputValue?.toLowerCase()) !== -1
+              )
+            : op;
+        }}
+        renderOption={(props, option) => (
+          <Box component="li" {...props} key={option.value}>
+            <CoinEl {...option} />
+          </Box>
+        )}
+        onChange={(e, v) => {
+          setSelectedCoin(v);
+        }}
+        value={selecteCoin}
+        options={coins}
+      />
+    </div>
+  );
+};
+
+const SelectNetwork = () => {
+  const [network, setNetwork] = useState("TRC20");
+  return (
+    <div
+      className={`flex flex-nowrap flex-col lg:flex-row lg:flex-wrap gap-[10px]`}
+    >
+      {networks?.map(({ value, fullName }, i) => (
+        <NetworkBtn
+          key={value}
+          onClick={() => setNetwork(value)}
+          active={network === value}
+          className="font-bold text-[12px]"
+        >
+          {value}
+          <li className={`w-1 text-[10px] opacity-50`} />
+          <span className={`text-[10px] font-normal opacity-50`}>
+            {fullName}
+          </span>
+        </NetworkBtn>
+      ))}
+    </div>
+  );
+};
+
+const NetworkBtn = ({ className, children, active, ...props }) => {
+  const classes = useStyles();
+
+  return (
+    <Button
+      {...props}
+      className={`h-full flex gap-[4px] w-full lg:w-[calc(50%_-_10px)] rounded-[5px] h-[40px] px-[7px] justify-start gap-[10px] h-[45px] normal-case ${className} ${
+        active
+          ? `font-bold border border-solid ${classes.activeOverview}`
+          : `${classes.button} ${classes.overview}`
+      }`}
+    >
+      {children}
+    </Button>
+  );
+};
+
+const DepositTo = () => {
+  const classes = useStyles();
+  const [tooltip, setTooltip] = useState(false);
+  const token = "0x99fae981e33cf52471c4a4519408d4eb6c293bf4";
+  const copyHandler = () => {
+    setTooltip(true);
+    document.execCommand(token);
+    navigator.clipboard.writeText(token);
+  };
+  return (
+    <div className="flex gap-[10px]">
+      <div className="flex grow flex-col gap-[5px] grow">
+        <Tooltip
+          placement="top"
+          color={"success"}
+          onClose={() => setTooltip(false)}
+          open={tooltip}
+          classes={{ tooltip: classes.tooltip, arrow: classes.tooltipColor }}
+          title={<span>Copied!</span>}
+          leaveDelay={500}
+          arrow
+        >
+          <div
+            onClick={copyHandler}
+            className={`flex flex-1 items-center text-[7px] lg:text-[12px] px-[7px] w-full rounded-[5px] ${classes.button}`}
+          >
+            {token}
+          </div>
+        </Tooltip>
+        <ButtonUi
+          onClick={copyHandler}
+          className={`flex flex-1 gap-[4px] items-center leading-none `}
+        >
+          Copy Address <ContentCopy className="text-[12px]" />
+        </ButtonUi>
+      </div>
+      <QRCodeUi value={token} style={{ width: 80, height: 80 }} size={64} />
+    </div>
+  );
+};
 
 const CoinEl = ({ value, tiker, icon }) => {
   const classes = useStyles();
@@ -82,23 +170,6 @@ const CoinEl = ({ value, tiker, icon }) => {
       <div className={`font-bold`}>{tiker}</div>
       <div className={`text-[10px] ${classes.tiker}`}>{value}</div>
     </div>
-  );
-};
-
-const WalletLink = ({ className, children, ...props }) => {
-  const classes = useStyles();
-
-  return (
-    <Button
-      style={{ width: `calc(50% - 10px)` }}
-      className={`h-full flex gap-[4px] rounded-[5px] h-[45px] px-[20px] justify-center lg:justify-start gap-[10px] h-[45px] normal-case text-[15px] ${
-        true
-          ? `font-bold border border-solid ${classes.buttonActive} ${classes.activeOverview}`
-          : `${classes.button} ${classes.overview}`
-      }`}
-    >
-      {children}
-    </Button>
   );
 };
 

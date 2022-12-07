@@ -12,11 +12,12 @@ export default function VerticalStepper({ steps }) {
   return (
     <Stepper
       orientation="vertical"
+      className={`w-full`}
       connector={
         <StepConnector
           className="h-[26px]"
           classes={{
-            line: `border-dashed ${classes.line} border-y-0 border-r-0`,
+            line: `border-dashed ${classes.line} border-y-0 border-r-0 border-l-0 lg:border-l`,
           }}
         />
       }
@@ -35,11 +36,11 @@ export default function VerticalStepper({ steps }) {
             {label}
           </StepLabel>
           <StepContent
-            className={
+            className={`p-0 m-0 lg:pl-[20px] lg:ml-[12px] ${
               steps.length === i + 1
                 ? ""
-                : `border-dashed ${classes.line} border-y-0 border-r-0`
-            }
+                : `border-dashed ${classes.line} border-y-0 border-r-0 border-l-0 lg:border-l`
+            }`}
           >
             {children}
           </StepContent>

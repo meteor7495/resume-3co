@@ -7,49 +7,63 @@ import useStyles from "./styles";
 const statusTypes = {
   Succesful: "Succesful",
   Unsuccesful: "Unsuccesful",
-  Pending: "Pending"
-}
+  Pending: "Pending",
+};
 
 export default function HistoryTable({ ...props }) {
   const getDate = useDate();
   const classes = useStyles();
-  const newRows = rows.map(({ time, coin, amount, network, address, status }) => {
-    const className = `text-[14px]`;
-    let statusEl = <div>{status}</div>;
-    switch (status) {
-      case statusTypes.Succesful:
-        statusEl = <div className="text-success" >Succesful</div>
-        break;
-      case statusTypes.Unsuccesful:
-        statusEl = <div className="text-error" >Unsuccesful</div>
-        break;
-      case statusTypes.Pending:
-        statusEl = <div className="text-warning" >Pending</div>
-        break;
-      default:
-        break;
+  const newRows = rows.map(
+    ({ time, coin, amount, network, address, status }) => {
+      const className = `text-[14px] w-max`;
+      let statusEl = <div>{status}</div>;
+      switch (status) {
+        case statusTypes.Succesful:
+          statusEl = <div className="text-success">Succesful</div>;
+          break;
+        case statusTypes.Unsuccesful:
+          statusEl = <div className="text-error">Unsuccesful</div>;
+          break;
+        case statusTypes.Pending:
+          statusEl = <div className="text-warning">Pending</div>;
+          break;
+        default:
+          break;
+      }
+      return [
+        {
+          className,
+          children: (
+            <div className="w-max">
+              {getDate(time).format("MM/DD - HH:mm:ss")}
+            </div>
+          ),
+        },
+        { className: `${className} ${classes.text}`, children: coin },
+        {
+          className: `${className} ${classes.text}`,
+          children: (
+            <div className="w-max">
+              {bigInt(amount)} {coin}
+            </div>
+          ),
+        },
+        { className, children: <div>{network}</div> },
+        {
+          className,
+          children: (
+            <div className="w-[90px] m-auto">
+              <span className=" whitespace-nowrap inline-block flex items-center  text-[14px] font-normal">
+                <span className="inline-block w-full truncate">{address}</span>
+                {address.slice(-5)}
+              </span>
+            </div>
+          ),
+        },
+        { className, children: <div>{statusEl}</div> },
+      ];
     }
-    return [
-      {
-        className,
-        children: getDate(time).format("MM/DD - HH:mm:ss"),
-      },
-      { className: `${className} ${classes.text}`, children: coin },
-      {
-        className: `${className} ${classes.text}`,
-        children: (
-          <div>
-            {bigInt(amount)} {coin}
-          </div>
-        ),
-      },
-      { className, children: <div>{network}</div> },
-      {
-        className, children: <div className="w-[90px] m-auto" ><span className=" whitespace-nowrap inline-block flex items-center  text-[14px] font-normal" ><span className="inline-block w-full truncate" >{address}</span>{address.slice(-5)}</span></div >
-      },
-      { className, children: <div>{statusEl}</div> },
-    ];
-  });
+  );
   return <WalletTable {...props} header={headerItems} rows={newRows} />;
 }
 

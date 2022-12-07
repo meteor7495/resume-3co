@@ -82,14 +82,14 @@ const Operation = () => {
   const btnClass = ` min-w-0 w-fit`
   return (
     <div className={`inline-flex items-center gap-[10px] w-fit justify-center`}>
-      <ButtonUi disableRipple onClick={()=>console.log(1)} style={{ position: "inherit" }} className={`p-[5px] ${btnClass}`}>
+      <ButtonUi disableRipple onClick={()=>console.log(1)} style={{ position: "inherit" }} className={`p-[5px] bg-[transparent_!important] ${btnClass}`}>
         <BarChart className={`text-[15px]`} />
       </ButtonUi>
-      <ButtonUi disableRipple onClick={()=>console.log(2)} style={{ position: "inherit" }} className={`p-[2px] ${btnClass}`}>
+      <ButtonUi disableRipple onClick={()=>console.log(2)} style={{ position: "inherit" }} className={`p-[2px] bg-[transparent_!important] ${btnClass}`}>
         <Refresh className={`text-[15px]`} />
       </ButtonUi>
-      <ButtonUi disableRipple onClick={()=>console.log(3)} style={{ position: "inherit" }} className={`p-[2px] ${btnClass}`}>Deposit</ButtonUi>
-      <ButtonUi disableRipple onClick={()=>console.log(4)} style={{ position: "inherit" }} className={`p-[2px] ${btnClass}`}>Withdrow</ButtonUi>
+      <ButtonUi disableRipple onClick={()=>console.log(3)} style={{ position: "inherit" }} className={`p-[2px] bg-[transparent_!important] ${btnClass}`}>Deposit</ButtonUi>
+      <ButtonUi disableRipple onClick={()=>console.log(4)} style={{ position: "inherit" }} className={`p-[2px] bg-[transparent_!important] ${btnClass}`}>Withdrow</ButtonUi>
     </div>
   );
 };

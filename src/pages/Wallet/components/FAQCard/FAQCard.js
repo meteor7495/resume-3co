@@ -1,8 +1,15 @@
 import CollapseUi from "../../../../components/UiKit/CollapseUi/CollapseUi";
 
-export default function FAQCard({ title, visibility, btc, usd, ...props }) {
+export default function FAQCard({
+  title,
+  visibility,
+  btc,
+  usd,
+  className,
+  ...props
+}) {
   return (
-    <div className={`flex flex-col gap-[12px]`}>
+    <div className={`flex flex-col gap-[12px] ${className}`}>
       <div className={`font-bold text-[15px]`}>FAQ</div>
       <div className={`flex flex-col gap-[10px]`}>
         <DepositCollapse name="Do I send money?">
