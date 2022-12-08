@@ -4,9 +4,8 @@ import BoxUi from "../../../../components/UiKit/BoxUi";
 import ButtonUi from "../../../../components/UiKit/ButtonUi";
 import routes from "../../../../configs/routes";
 import HistoryTable from "../HistoryTable/HistoryTable";
-import useStyles from "./styles.js";
+
 export default function WalletRecord({ children, type, ...props }) {
-  const classes = useStyles();
   return (
     <BoxUi
       header={

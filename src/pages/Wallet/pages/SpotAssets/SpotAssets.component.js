@@ -2,7 +2,6 @@ import { BarChart, Refresh } from "@mui/icons-material";
 import React from "react";
 import BoxUi from "../../../../components/UiKit/BoxUi";
 import ButtonUi from "../../../../components/UiKit/ButtonUi";
-import InputUi from "../../../../components/UiKit/InputUi/InputUi";
 import SearchUi from "../../../../components/UiKit/SearchUi/SearchUi";
 import TransactionCard from "../../components/TransactionCard/TransactionCard";
 import WalletTable from "../../components/WalletTable/WalletTable";
