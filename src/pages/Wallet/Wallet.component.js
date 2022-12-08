@@ -18,6 +18,10 @@ export default function Wallet({ children, ...props }) {
   const SpotWithdrawPage = lazy(() =>
     import("./pages/SpotWithdraw/SpotWithdraw.component")
   );
+  
+  const FinancialPage = lazy(() =>
+  import("./pages/Financial/Financial.component")
+);
   const pages = [
     { name: "overview", path: "", element: <OverviewPage /> },
     {
@@ -34,6 +38,11 @@ export default function Wallet({ children, ...props }) {
       name: "withdraw",
       path: routes.wallet.spot.withdraw,
       element: <SpotWithdrawPage />,
+    },
+    {
+      name: "financial",
+      path: routes.wallet.financial,
+      element: <FinancialPage />,
     },
   ];
   return (

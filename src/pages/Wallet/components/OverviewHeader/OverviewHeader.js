@@ -7,6 +7,8 @@ export default function OverviewHeader({
   pages,
   visibility,
   setVisibility,
+  ChartValues,
+  lockIcon,
   ...props
 }) {
   // {width > 1024 ? (
@@ -43,14 +45,14 @@ export default function OverviewHeader({
           className={`flex gap-[5px] opacity-50 text-[15px] items-center justify-center`}
         >
           <span className={`flex`}>
-            <Lock className="text-[16px]" />
+            {lockIcon ? lockIcon : <Lock className="text-[16px]" />}
           </span>
           <span>{numberHandler({ number: 1585.69, visibility })} USD</span>
         </div>
       </BoxUi>
       <BoxUi className={`flex flex-col flex-[2] text-center `}>
         <div>Asset Portfolio</div>
-        <PieChart />
+        <PieChart ChartValues={ChartValues} />
       </BoxUi>
     </div>
   );
@@ -61,14 +63,8 @@ const numberHandler = ({ number, visibility }) => {
     ? "****"
     : number.toLocaleString(undefined, { minimumFractionDigits: 5 });
 };
-const seriesValues = {
-  Spot: 10,
-  Financial: 0,
-  Margin: 0,
-  "NFT Market": 0,
-};
-const PieChart = () => {
-  const data = Object.values(seriesValues);
+const PieChart = ({ ChartValues }) => {
+  const data = Object.values(ChartValues);
   const isData = data.filter((v) => v !== 0).length > 0;
   const series = isData ? data : [];
 
@@ -103,7 +99,7 @@ const PieChart = () => {
       enabled: false,
     },
 
-    labels: Object.keys(seriesValues),
+    labels: Object.keys(ChartValues),
     responsive: [
       {
         breakpoint: 1024,
