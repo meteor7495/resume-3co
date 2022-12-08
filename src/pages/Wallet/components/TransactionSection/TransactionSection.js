@@ -1,12 +1,17 @@
-import { ContentCopy } from "@mui/icons-material";
-import { Button, Tooltip } from "@mui/material";
+import { ContentCopy, ContentPaste } from "@mui/icons-material";
+import { Button, InputAdornment, Tooltip } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import AutocompleteUi from "../../../../components/UiKit/AutocompleteUi/AutocompleteUi";
 import ButtonUi from "../../../../components/UiKit/ButtonUi";
+import InputUi from "../../../../components/UiKit/InputUi/InputUi";
 import LoadingUi from "../../../../components/UiKit/LoadingUi/LoadingUi";
 import QRCodeUi from "../../../../components/UiKit/QRCodeUi/QRCodeUi";
+import routes from "../../../../configs/routes";
 import { walletType } from "../../../../constants/walletType.enum copy";
+import { setModal } from "../../../../store/ModalSlice";
 import VerticalStepper from "../VerticalStepper/VerticalStepper";
 import useStyles from "./styles";
 export default function TransactionSection({ type }) {
@@ -23,13 +28,20 @@ export default function TransactionSection({ type }) {
       },
     ];
     switch (type) {
-      case walletType.Diposit:
+      case walletType.Deposit:
         steps.push({
           label: "Deposit To",
           children: <DepositTo />,
         });
         break;
       case walletType.Withdraw:
+        steps.push({
+          label: "Withdrawal Address",
+          children: <WithdrawalAddress />,
+        }, {
+          label: "Receive Amount",
+          children: <ReceiveAmount />,
+        })
         break;
       default:
         break;
@@ -54,11 +66,11 @@ const SelectCoin = () => {
         filterOptions={(op, { inputValue }) => {
           return inputValue !== ""
             ? op.filter(
-                ({ value, tiker }) =>
-                  tiker?.toLowerCase().indexOf(inputValue?.toLowerCase()) !==
-                    -1 ||
-                  value?.toLowerCase().indexOf(inputValue?.toLowerCase()) !== -1
-              )
+              ({ value, tiker }) =>
+                tiker?.toLowerCase().indexOf(inputValue?.toLowerCase()) !==
+                -1 ||
+                value?.toLowerCase().indexOf(inputValue?.toLowerCase()) !== -1
+            )
             : op;
         }}
         renderOption={(props, option) => (
@@ -106,11 +118,10 @@ const NetworkBtn = ({ className, children, active, ...props }) => {
   return (
     <Button
       {...props}
-      className={`h-full flex gap-[4px] w-full lg:w-[calc(50%_-_10px)] rounded-[5px] h-[40px] px-[7px] justify-start gap-[10px] h-[45px] normal-case ${className} ${
-        active
-          ? `font-bold border border-solid ${classes.activeOverview}`
-          : `${classes.button} ${classes.overview}`
-      }`}
+      className={`h-full flex gap-[4px] w-full lg:w-[calc(50%_-_10px)] rounded-[5px] h-[40px] px-[7px] justify-start gap-[10px] h-[45px] normal-case ${className} ${active
+        ? `font-bold border border-solid ${classes.activeOverview}`
+        : `${classes.button} ${classes.overview}`
+        }`}
     >
       {children}
     </Button>
@@ -157,6 +168,56 @@ const DepositTo = () => {
     </div>
   );
 };
+
+const WithdrawalAddress = () => {
+  const [value, setValue] = useState("");
+  const pasteHandler = async () => {
+    const text = await navigator.clipboard.readText()
+    setValue(text)
+  }
+  return (
+    <div className="flex gap-[10px]" >
+      <InputUi InputProps={{ classes: { input: "text-[14px]" } }} value={value} onChange={({ target: { value } }) => setValue(value)} />
+      <ButtonUi onClick={pasteHandler} className="flex gap-[4px] text-[12px] items-center font-bold" >
+        Paste <ContentPaste className="text-[10px]" /></ButtonUi>
+    </div>
+  )
+}
+
+const ReceiveAmount = () => {
+  const { isTfaActive } = useSelector((s) => s?.user?.user);
+  const dispatch = useDispatch();
+  console.log(isTfaActive)
+  return (
+    <div className="flex flex-col gap-[10px]">
+      <InputUi
+        InputProps={{
+          type: "number",
+          classes: { input: "appearance-none" },
+          className: "p-0",
+          endAdornment: (
+            <InputAdornment position="end">
+              <Button className="font-bold" >ALL</Button>
+            </InputAdornment>
+          )
+        }} />
+      <div className="flex flex-col lg:flex-row justify-between" >
+        <div className="flex justify-between gap-[10px] text-[9px] w-full lg:w-[35%]" >
+          <div>Withdrawal Fee:</div>
+          <div>0.08686 BTC</div>
+        </div>
+        <div className="flex justify-between gap-[10px] text-[9px] w-full lg:w-[35%] opacity-50" >
+          <div>Deducation:</div>
+          <div>0.00051 BTC</div>
+        </div>
+      </div>
+      <div className="flex flex-col gap-[8px]" >
+        {!isTfaActive && <div className="text-error text-[11px]" >*requires a active 2FA. activate in <Link className="text-primary" to={`../../${routes.profile}`} >Account Settings</Link></div>}
+        <ButtonUi variant="contained" onClick={() => dispatch((setModal({ visible: true, id: 'TFAModale' })))} disabled={!isTfaActive}  >Withdraw</ButtonUi>
+      </div>
+    </div>
+  )
+}
 
 const CoinEl = ({ value, tiker, icon }) => {
   const classes = useStyles();

@@ -64,7 +64,7 @@ export default function TFAuthentication() {
     TFAActivator(data)
   };
   return (
-    <ModalUi contentClassName={'pb-0'} maxWidth={'xs'} fullWidth={true} id={'activate'}
+    <ModalUi maxWidth={'xs'} fullWidth={true} id={'activate'}
              actions={
                <div className={'flex flex-col w-full'}>
                  <ButtonUi onClick={handleSubmit(onSubmit)} variant={'contained'}

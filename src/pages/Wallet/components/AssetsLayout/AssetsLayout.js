@@ -9,12 +9,14 @@ import CollapseUi from "../../../../components/UiKit/CollapseUi/CollapseUi";
 import routes from "../../../../configs/routes";
 import useStyles from "./styles";
 import { setSettings } from "../../../../store/LayoutSettings";
+import TFAModale from "../TFAModale/TFAModale";
 
 export default function AssetsLayout({ pages, ...props }) {
   const classes = useStyles();
   return (
     <PagesLayout className={classes.body} Sidebar={Sidebar}>
       <Outlet />
+      <TFAModale />
     </PagesLayout>
   );
 }

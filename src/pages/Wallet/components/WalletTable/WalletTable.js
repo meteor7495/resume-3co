@@ -18,7 +18,7 @@ const WalletTable = ({ header, rows, className, pagination }) => {
   const classes = useStyles();
   const tClasses = {
     headerCell: `border-0 z-[0] text-[15px] font-bold min-w-[100px] ${classes.headerCell}`,
-    cell: "border-0 text-[15px] py-[2.5px] [&:last-child]:rounded-l-[5px] [&:first-child]:rounded-l-[5px]",
+    cell: "border-0 text-[15px] py-[2.5px] [&:last-child]:rounded-r-[5px] [&:first-child]:rounded-l-[5px]",
   };
   return (
     <div className={`flex flex-col h-full ${className}`}>

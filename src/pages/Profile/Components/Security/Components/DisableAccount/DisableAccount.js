@@ -57,7 +57,7 @@ export default function DisableAccount() {
     setOpen(true);
   };
   return (
-    <ModalUi contentClassName={'pb-0'} maxWidth={'xs'} fullWidth={true} id={'disableAccount'}
+    <ModalUi maxWidth={'xs'} fullWidth={true} id={'disableAccount'}
              actions={
                <div className={'flex flex-col w-full'}>
                  <ButtonUi onClick={() => checked ? onSubmit() : ''} disabled={!checked} color={'error'} variant={'contained'}

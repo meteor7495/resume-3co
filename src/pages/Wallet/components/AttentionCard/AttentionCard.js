@@ -1,6 +1,6 @@
 import React from "react";
 import useStyles from "./styles";
-export default function AttentionCard({ items }) {
+export default function AttentionCard({ items, description }) {
   const classes = useStyles();
   return (
     <div
@@ -20,6 +20,10 @@ export default function AttentionCard({ items }) {
           </div>
         </div>
       ))}
+      {description && <>
+        <div className="m-auto border-0 hidden lg:block border-b border-warning w-5/6 border-dashed" ></div>
+        <div className="lg:max-w-[390px]" >{description}</div>
+      </>}
     </div>
   );
 }

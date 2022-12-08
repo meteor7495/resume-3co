@@ -202,7 +202,7 @@ const useAuth = () => {
     const response = await post('/user/tfa/active', TFAActivatorDTO,
       {headers: {'Content-Type': 'multipart/form-data'}});
     console.log('responseresponseresponseuser',response)
-    dispatch(setUser(response));
+    dispatch(setUser(response.user));
     dispatch((setModal({visible: false, id: ''})))
     setIsLoading(false)
     return response

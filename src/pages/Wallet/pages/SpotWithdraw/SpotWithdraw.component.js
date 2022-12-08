@@ -5,9 +5,8 @@ import AttentionCard from "../../components/AttentionCard/AttentionCard";
 import FAQCard from "../../components/FAQCard/FAQCard";
 import TransactionSection from "../../components/TransactionSection/TransactionSection";
 import WalletRecord from "../../components/WalletRecord/WalletRecord";
-import TradeNowCard from "./components/TradeNowCard/TradeNowCard";
 
-export default function SpotDeposit({ children, ...props }) {
+export default function SpotWithdraw({ children, ...props }) {
   return (
     <div className={`flex flex-col gap-[10px]`}>
       <BoxUi
@@ -20,26 +19,28 @@ export default function SpotDeposit({ children, ...props }) {
       >
         <div className={`flex flex-col-reverse lg:flex-row gap-[25px]`}>
           <div className={`flex lg:w-[460px]`}>
-            <TransactionSection type={walletType.Deposit} />
+            <TransactionSection type={walletType.Withdraw} />
           </div>
           <div className={`flex flex-col gap-[15px] grow`}>
-            <AttentionCard items={attentionItems} />
-            <TradeNowCard className={`hidden lg:block`} />
+            <AttentionCard description={<div className={`text-[12px] opacity-50`} >
+              <span className="font-bold" >Arrival time:</span> Normal Transfers are sent via crypto network, and the arrival time depends on the number of confirmations required by the recipient.
+            </div>} items={attentionItems} />
             <FAQCard className={`hidden lg:block`} />
           </div>
         </div>
       </BoxUi>
-      <WalletRecord type={walletType.Deposit} />
+      <WalletRecord type={walletType.Withdraw} />
     </div>
   );
 }
 
 const attentionItems = [
-  { title: "Minimum Deposit", value: "0.001", unit: "BTC" },
-  { title: "Number of Confirmation", value: "1", unit: "Block" },
+  { title: "24H Withdrawal Amount", value: "10,000", unit: "USD" },
+  { title: "24H Remaining Amount", value: "1,236", unit: "USD" },
   {
-    title: "Number of Confiromation for Withdrawal",
-    value: "6",
-    unit: "Block",
+    title: "Minimum Withdrawal",
+    value: "0.01",
+    unit: "BTC",
+    warning: true
   },
 ];

@@ -13,6 +13,8 @@ module.exports = {
       colors: {
         btnEnter: "#2BD292",
         "btn-accent": "#20AFFF",
+        primary: "#007BFF",
+        text: "#1F263F",
         card: "#39495B",
         imageBackGround: "#39495B",
         error: "#F34F45",
