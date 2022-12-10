@@ -10,12 +10,21 @@ const statusTypes = {
   Pending: "Pending",
 };
 
-export default function HistoryTable({ ...props }) {
+export default function HistoryTable({ type, ...props }) {
   const getDate = useDate();
   const classes = useStyles();
+  const headerItems = [
+    { name: "Time" },
+    { name: "Coin" },
+    { name: "Amount" },
+    { name: "Network" },
+    { name: `${type ? type + " " : ""}Address` },
+    { name: "Status" },
+  ];
+  !type && headerItems.splice(5, 0, { name: "Deposit/Withdraw" });
   const newRows = rows.map(
-    ({ time, coin, amount, network, address, status }) => {
-      const className = `text-[14px] w-max`;
+    ({ time, coin, amount, network, address, status, type: rowType }) => {
+      const className = `text-[14px]`;
       let statusEl = <div>{status}</div>;
       switch (status) {
         case statusTypes.Succesful:
@@ -30,11 +39,11 @@ export default function HistoryTable({ ...props }) {
         default:
           break;
       }
-      return [
+      const rowElement = [
         {
           className,
           children: (
-            <div className="w-max">
+            <div className="w-max m-auto">
               {getDate(time).format("MM/DD - HH:mm:ss")}
             </div>
           ),
@@ -43,7 +52,7 @@ export default function HistoryTable({ ...props }) {
         {
           className: `${className} ${classes.text}`,
           children: (
-            <div className="w-max">
+            <div className="w-max m-auto">
               {bigInt(amount)} {coin}
             </div>
           ),
@@ -52,9 +61,9 @@ export default function HistoryTable({ ...props }) {
         {
           className,
           children: (
-            <div className="w-[90px] m-auto">
-              <span className=" whitespace-nowrap inline-block flex items-center  text-[14px] font-normal">
-                <span className="inline-block w-full truncate">{address}</span>
+            <div className="w-[85px] m-auto">
+              <span className="inline-block flex items-center text-[14px] font-normal">
+                <span className="inline-block truncate">{address}</span>
                 {address.slice(-5)}
               </span>
             </div>
@@ -62,28 +71,23 @@ export default function HistoryTable({ ...props }) {
         },
         { className, children: <div>{statusEl}</div> },
       ];
+      !type &&
+        rowElement.splice(5, 0, { className, children: <div className="opacity-50 font-bold" >{rowType}</div> });
+      return rowElement;
     }
   );
   return <WalletTable {...props} header={headerItems} rows={newRows} />;
 }
 
-const CreateData = (time, coin, amount, network, address, status) => ({
+const CreateData = (time, coin, amount, network, address, status, type) => ({
   time,
   coin,
   amount,
   network,
   address,
   status,
+  type,
 });
-
-const headerItems = [
-  { name: "Time" },
-  { name: "Coin" },
-  { name: "Amount" },
-  { name: "Network" },
-  { name: "Deposit Address" },
-  { name: "Status" },
-];
 
 const rows = [
   CreateData(
@@ -92,7 +96,8 @@ const rows = [
     0.00000055,
     "BTC",
     "0X0ba42afds56f45sf4sdfaf65sfdf455454fsdfsdf",
-    "Succesful"
+    "Succesful",
+    "Deposit"
   ),
   CreateData(
     "2022-11-23 15:44:00",
@@ -100,7 +105,8 @@ const rows = [
     0.2546,
     "ERC20",
     "0X0ba42afds56f45sf4sdfaf65sfdf455454fsdfsdf",
-    "Unsuccesful"
+    "Unsuccesful",
+    "Withdraw"
   ),
   CreateData(
     "2022-11-23 15:44:00",
@@ -108,7 +114,8 @@ const rows = [
     925.582,
     "CSC",
     "0X0ba42afds56f45sf4sdfaf65sfdf455454fsdfsdf",
-    "Succesful"
+    "Succesful",
+    "Deposit"
   ),
   CreateData(
     "2022-11-23 15:44:00",
@@ -116,7 +123,8 @@ const rows = [
     0.00000258,
     "ERC20",
     "0X0ba42afds56f45sf4sdfaf65sfdf455454fsdfsdf",
-    "Pending"
+    "Pending",
+    "Withdraw"
   ),
   CreateData(
     "2022-11-23 15:44:00",
@@ -124,7 +132,8 @@ const rows = [
     0.00000055,
     "BTC",
     "0X0ba42afds56f45sf4sdfaf65sfdf455454fsdfsdf",
-    "Succesful"
+    "Succesful",
+    "Deposit"
   ),
   CreateData(
     "2022-11-23 15:44:00",
@@ -132,7 +141,8 @@ const rows = [
     0.2546,
     "ERC20",
     "0X0ba42afds56f45sf4sdfaf65sfdf455454fsdfsdf",
-    "Unsuccesful"
+    "Unsuccesful",
+    "Withdraw"
   ),
   CreateData(
     "2022-11-23 15:44:00",
@@ -140,7 +150,8 @@ const rows = [
     925.582,
     "CSC",
     "0X0ba42afds56f45sf4sdfaf65sfdf455454fsdfsdf",
-    "Succesful"
+    "Succesful",
+    "Deposit"
   ),
   CreateData(
     "2022-11-23 15:44:00",
@@ -148,7 +159,8 @@ const rows = [
     0.00000258,
     "ERC20",
     "0X0ba42afds56f45sf4sdfaf65sfdf455454fsdfsdf",
-    "Pending"
+    "Pending",
+    "Withdraw"
   ),
   CreateData(
     "2022-11-23 15:44:00",
@@ -156,7 +168,8 @@ const rows = [
     925.582,
     "CSC",
     "0X0ba42afds56f45sf4sdfaf65sfdf455454fsdfsdf",
-    "Succesful"
+    "Succesful",
+    "Deposit"
   ),
   CreateData(
     "2022-11-23 15:44:00",
@@ -164,6 +177,7 @@ const rows = [
     0.00000258,
     "ERC20",
     "0X0ba42afds56f45sf4sdfaf65sfdf455454fsdfsdf",
-    "Pending"
+    "Pending",
+    "Withdraw"
   ),
 ];
