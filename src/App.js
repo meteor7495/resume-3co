@@ -1,7 +1,7 @@
 import React from "react";
 import { jssPreset } from "@mui/styles";
 import Index from "./pages";
-import { store } from "./store/configureStore";
+import store from "./store";
 import { Provider } from "react-redux";
 import { create } from "jss";
 import rtl from "jss-rtl";

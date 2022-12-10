@@ -3,8 +3,10 @@ import { Route, Routes } from "react-router-dom";
 import AssetsLayout from "./components/AssetsLayout/AssetsLayout";
 import routes from "../../configs/routes";
 import { walletType } from "../../constants/walletType.enum copy";
+import reducer from "./store";
+import withReducer from "store/withReducer";
 
-export default function Wallet({ children, ...props }) {
+function Wallet({ children, ...props }) {
   const OverviewPage = lazy(() =>
     import("./pages/Overview/Overview.component")
   );
@@ -74,3 +76,4 @@ export default function Wallet({ children, ...props }) {
     </Routes>
   );
 }
+export default withReducer("wallet", reducer)(Wallet);
