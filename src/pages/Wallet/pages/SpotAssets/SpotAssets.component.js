@@ -56,7 +56,7 @@ const CoinEl = ({ name, tiker, icon }) => {
         {icon}
       </div>
       <div className={`font-bold`}>{name}</div>
-      <li className={`w-1`} />
+      <li className={`w-1 text-[10px] opacity-50`} />
       <div className={classes.tiker}>{tiker}</div>
     </div>
   );

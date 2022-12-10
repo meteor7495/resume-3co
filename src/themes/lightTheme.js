@@ -44,6 +44,7 @@ const lightTheme = {
     background: {
       paper: "#F9F9FC",
       default: "#fff",
+      modal: "#fff",
       main: "#F9F9FC",
       light: "#fff",
       profile: "#fff",
@@ -62,9 +63,9 @@ const lightTheme = {
     box: {
       background: "#fff",
     },
-    icons:{
-      main: '#D1D1D6',
-      grey: '#D1D1D6',
+    icons: {
+      main: "#D1D1D6",
+      grey: "#D1D1D6",
     },
     border: {
       main: "#D1D1D6",

@@ -10,6 +10,7 @@ import routes from "../../../../configs/routes";
 import useStyles from "./styles";
 import { setSettings } from "../../../../store/LayoutSettings";
 import TFAModale from "../TFAModale/TFAModale";
+import FinancialModal from "../../pages/Financial/components/FinancialModal/FinancialModal";
 
 export default function AssetsLayout({ pages, ...props }) {
   const classes = useStyles();
@@ -17,6 +18,7 @@ export default function AssetsLayout({ pages, ...props }) {
     <PagesLayout className={classes.body} Sidebar={Sidebar}>
       <Outlet />
       <TFAModale />
+      <FinancialModal />
     </PagesLayout>
   );
 }

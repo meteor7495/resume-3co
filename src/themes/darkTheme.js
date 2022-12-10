@@ -38,6 +38,7 @@ const lightTheme = {
     },
     background: {
       paper: "#1C1C1E",
+      modal: "#1C1C1E",
       default: "#121213",
       main: "#121213",
       profile: "#121213",
