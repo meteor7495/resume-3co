@@ -54,9 +54,12 @@ const lightTheme = {
     },
     textColor: {
       main: "#F2F2F7",
+      gray: "#F2F2F7",
     },
     box: {
       background: "#1B1C1D",
+      bgBlueTransparent: "rgba(0, 123, 255, 0.05);",
+      uploadBox: '#F2F2F712'
     },
     border: {
       main: "#000000",
