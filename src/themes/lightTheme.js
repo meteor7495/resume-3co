@@ -58,9 +58,13 @@ const lightTheme = {
     },
     textColor: {
       main: "#1F263F",
+      gray: "#1F263F80",
+      lightGray: "#1F263F80",
     },
     box: {
       background: "#fff",
+      bgBlueTransparent: "rgba(0, 123, 255, 0.05);",
+      uploadBox: '#007BFF0D'
     },
     icons:{
       main: '#D1D1D6',

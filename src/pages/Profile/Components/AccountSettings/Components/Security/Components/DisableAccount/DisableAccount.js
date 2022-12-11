@@ -2,20 +2,20 @@ import React, {useEffect, useState} from "react";
 import useStyles from "./DisableAccount.styles";
 import {Checkbox, FormControlLabel, FormGroup, List, ListItem, Tooltip, Typography} from "@mui/material";
 import {useForm} from "react-hook-form";
-import InputUi from "../../../../../../components/UiKit/InputUi";
-import ButtonUi from "../../../../../../components/UiKit/ButtonUi";
+import InputUi from "../../../../../../../../components/UiKit/InputUi";
+import ButtonUi from "../../../../../../../../components/UiKit/ButtonUi";
 import {useDispatch, useSelector} from "react-redux";
-import useAuth from "../../../../../../hooks/useAuth";
+import useAuth from "../../../../../../../../hooks/useAuth";
 import {useNavigate} from "react-router-dom";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
-import {showAlert} from "../../../../../../store/AlertsSlice";
-import {AlertTypes} from "../../../../../../constants/alertTypes.enum";
+import {showAlert} from "../../../../../../../../store/AlertsSlice";
+import {AlertTypes} from "../../../../../../../../constants/alertTypes.enum";
 import * as yup from "yup";
-import ModalUi from "../../../../../../components/UiKit/ModalUi";
-import {setModal} from "../../../../../../store/ModalSlice";
-import disableAccountLight from '../../../../../../assets/images/disableAccountLight.svg'
-import disableAccountDark from '../../../../../../assets/images/disableAccountDark.svg'
-import QRCodeUi from "../../../../../../components/UiKit/QRCodeUi";
+import ModalUi from "../../../../../../../../components/UiKit/ModalUi";
+import {setModal} from "../../../../../../../../store/ModalSlice";
+import disableAccountLight from '../../../../../../../../assets/images/disableAccountLight.svg'
+import disableAccountDark from '../../../../../../../../assets/images/disableAccountDark.svg'
+import QRCodeUi from "../../../../../../../../components/UiKit/QRCodeUi";
 
 const schema = yup.object({
   email: yup.string(),

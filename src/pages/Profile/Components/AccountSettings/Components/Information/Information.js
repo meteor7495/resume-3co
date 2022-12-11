@@ -1,12 +1,12 @@
 import React, {useEffect, useMemo} from "react";
 import useStyles from "./Information.styles";
 import {Controller, useFormContext} from "react-hook-form";
-import InputUi from "../../../../components/UiKit/InputUi";
+import InputUi from "../../../../../../components/UiKit/InputUi";
 import {Typography} from "@mui/material";
-import ButtonUi from "../../../../components/UiKit/ButtonUi";
+import ButtonUi from "../../../../../../components/UiKit/ButtonUi";
 import {useDispatch, useSelector} from "react-redux";
-import useAuth from "../../../../hooks/useAuth";
-import AutocompleteUi from "../../../../components/UiKit/AutocompleteUi/AutocompleteUi";
+import useAuth from "../../../../../../hooks/useAuth";
+import AutocompleteUi from "../../../../../../components/UiKit/AutocompleteUi/AutocompleteUi";
 
 export default function PopularMarketsList() {
   const methods = useFormContext();

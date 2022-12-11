@@ -2,20 +2,20 @@ import React, {useEffect, useState} from "react";
 import useStyles from "./TFAuthentication.styles";
 import {Tooltip, Typography} from "@mui/material";
 import {Controller, useForm} from "react-hook-form";
-import InputUi from "../../../../../../components/UiKit/InputUi";
-import ButtonUi from "../../../../../../components/UiKit/ButtonUi";
+import InputUi from "../../../../../../../../components/UiKit/InputUi";
+import ButtonUi from "../../../../../../../../components/UiKit/ButtonUi";
 import {useDispatch, useSelector} from "react-redux";
-import useAuth from "../../../../../../hooks/useAuth";
+import useAuth from "../../../../../../../../hooks/useAuth";
 import {useNavigate} from "react-router-dom";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
-import {showAlert} from "../../../../../../store/AlertsSlice";
-import {AlertTypes} from "../../../../../../constants/alertTypes.enum";
+import {showAlert} from "../../../../../../../../store/AlertsSlice";
+import {AlertTypes} from "../../../../../../../../constants/alertTypes.enum";
 import * as yup from "yup";
-import ModalUi from "../../../../../../components/UiKit/ModalUi";
-import {setModal} from "../../../../../../store/ModalSlice";
-import securityLight from '../../../../../../assets/images/securityLight.svg'
-import securityDark from '../../../../../../assets/images/securityDark.svg'
-import QRCodeUi from "../../../../../../components/UiKit/QRCodeUi";
+import ModalUi from "../../../../../../../../components/UiKit/ModalUi";
+import {setModal} from "../../../../../../../../store/ModalSlice";
+import securityLight from '../../../../../../../../assets/images/securityLight.svg'
+import securityDark from '../../../../../../../../assets/images/securityDark.svg'
+import QRCodeUi from "../../../../../../../../components/UiKit/QRCodeUi";
 
 const schema = yup.object({
   email: yup.string(),
