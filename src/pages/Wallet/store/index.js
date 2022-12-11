@@ -1,8 +1,8 @@
 import { combineReducers } from "@reduxjs/toolkit";
-// import admins from './adminsSlice';
+import deposit from "./depositSlice";
 
 const reducer = combineReducers({
-  // admins,
+  deposit,
 });
 
 export default reducer;

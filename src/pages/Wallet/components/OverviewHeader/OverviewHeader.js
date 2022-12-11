@@ -9,6 +9,7 @@ export default function OverviewHeader({
   setVisibility,
   ChartValues,
   lockIcon,
+  data,
   ...props
 }) {
   // {width > 1024 ? (
@@ -35,10 +36,10 @@ export default function OverviewHeader({
         </div>
         <div className={`py-[13px] flex gap-[5px]`}>
           <span className={`text-[20px] font-bold items-center flex`}>
-            {numberHandler({ number: 2.62, visibility })} BTC
+            {numberHandler({ number: data.BTC, visibility })} BTC
           </span>
           <span className={`opacity-50 text-center flex items-center`}>
-            ≈ {numberHandler({ number: 1585.69, visibility })} USD
+            ≈ {numberHandler({ number: data.USD, visibility })} USD
           </span>
         </div>
         <div
