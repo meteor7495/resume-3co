@@ -8,6 +8,7 @@ import LayoutSettings from "./LayoutSettings";
 import WidthSlice from "./WidthSlice";
 import marketsSlice from "./marketsSlice";
 import modalSlice from "./ModalSlice";
+import coinsSlice from "./slices/CoinsSlice";
 
 // const reducer = combineReducers({
 //   loading: LoadingSlice,
@@ -36,6 +37,7 @@ const createReducer = (asyncReducers) => (state, action) => {
     width: WidthSlice,
     markets: marketsSlice,
     modal: modalSlice,
+    coins: coinsSlice,
     ...asyncReducers,
   });
 

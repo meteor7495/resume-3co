@@ -7,7 +7,7 @@ import LoaderComponent from "../components/LoaderComponent/LoaderComponent";
 import Toastify from "../components/Toastify/Toastify";
 import useAuth from "../hooks/useAuth";
 import { setWidth } from "../store/WidthSlice";
-import ModalUi from "../components/UiKit/ModalUi";
+import { getCoins } from "store/slices/CoinsSlice";
 
 function Index(props) {
   const { theme } = useSelector((s) => s.app);
@@ -15,6 +15,7 @@ function Index(props) {
   const dispatch = useDispatch();
   useMemo(() => {
     getUser();
+    dispatch(getCoins());
   }, []);
 
   useEffect(() => {
