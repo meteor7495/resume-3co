@@ -19,10 +19,10 @@ export default function SpotDeposit({ children, ...props }) {
         header={"Deposit"}
       >
         <div className={`flex flex-col-reverse lg:flex-row gap-[25px]`}>
-          <div className={`flex lg:w-[460px]`}>
+          <div className={`flex lg:w-1/2`}>
             <TransactionSection type={walletType.Deposit} />
           </div>
-          <div className={`flex flex-col gap-[15px] grow`}>
+          <div className={`flex flex-col gap-[15px] lg:w-1/2`}>
             <AttentionCard items={attentionItems} />
             <TradeNowCard className={`hidden lg:block`} />
             <FAQCard className={`hidden lg:block`} />
