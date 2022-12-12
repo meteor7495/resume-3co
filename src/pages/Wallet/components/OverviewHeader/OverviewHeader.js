@@ -49,7 +49,7 @@ export default function OverviewHeader({
           <span className={`flex`}>
             {lockIcon ? lockIcon : <Lock className="text-[16px]" />}
           </span>
-          <span>{numberHandler({ number: 1585.69, visibility })} USD</span>
+          <span>{numberHandler({ number: data?.lock, visibility })} USD</span>
         </div>
       </BoxUi>
       <BoxUi className={`flex flex-col flex-[2] text-center `}>

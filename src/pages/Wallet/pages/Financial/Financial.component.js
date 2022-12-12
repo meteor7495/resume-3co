@@ -103,7 +103,7 @@ const headerItems = [
   { name: "Operation", className: "text-end" },
 ];
 
-const CoinEl = ({ name, tiker, icon }) => {
+const CoinEl = ({ name, ticker, icon }) => {
   const classes = useStyles();
   return (
     <div className={`flex gap-[7px] items-center`}>
@@ -114,7 +114,7 @@ const CoinEl = ({ name, tiker, icon }) => {
       </div>
       <div className={`font-bold`}>{name}</div>
       <li className={`w-1 text-[10px] opacity-50`} />
-      <div className={classes.tiker}>{tiker}</div>
+      <div className={classes.ticker}>{ticker}</div>
     </div>
   );
 };
@@ -160,11 +160,11 @@ function createData(coin, amount, share) {
 }
 const NumberEl = ({ value }) => {
   const classes = useStyles();
-  return <div className={classes.tiker}>{value.toString()}</div>;
+  return <div className={classes.ticker}>{value.toString()}</div>;
 };
 const rows = [
   createData(
-    { name: "3co", tiker: "3CO", icon: LogoSVG },
+    { name: "3co", ticker: "3CO", icon: LogoSVG },
     "0.00000024685",
     "0.015%"
   ),

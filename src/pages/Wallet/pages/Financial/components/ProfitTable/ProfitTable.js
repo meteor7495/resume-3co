@@ -22,8 +22,8 @@ export default function ProfitTable({ pages, ...props }) {
           </div>
         ),
       },
-      { children: <div className={`text-[14px] w-max m-auto ${classes.tiker}`}>{coin}</div> },
-      { children: <div className={`text-[14px] w-max m-auto ${classes.tiker}`}>{total} USDT</div> },
+      { children: <div className={`text-[14px] w-max m-auto ${classes.ticker}`}>{coin}</div> },
+      { children: <div className={`text-[14px] w-max m-auto ${classes.ticker}`}>{total} USDT</div> },
       { children: <div className="text-[14px] w-max m-auto text-success font-bold">{profit} USDT</div> },
     ];
   });
