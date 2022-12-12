@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import bigInt from "utils/bigInt";
 import BoxUi from "../../../../components/UiKit/BoxUi";
 import ButtonUi from "../../../../components/UiKit/ButtonUi";
 
@@ -7,6 +9,8 @@ export default function TransactionCard({
   visibility,
   btc,
   usd,
+  deposit,
+  withdraw,
   ...props
 }) {
   return (
@@ -27,6 +31,7 @@ export default function TransactionCard({
       </div>
       <div className={`flex gap-[20px]`}>
         <TransactionCardBtn
+          to={deposit}
           className={`bg-[#35C85A0d]`}
           color={"success"}
           disabled={!["Spot", "Financial"].includes(title)}
@@ -34,6 +39,7 @@ export default function TransactionCard({
           Deposit
         </TransactionCardBtn>
         <TransactionCardBtn
+          to={withdraw}
           className={`bg-[#f34f450d] ${
             ["Financial"].includes(title) ? "opacity-30" : ""
           }`}
@@ -47,18 +53,18 @@ export default function TransactionCard({
   );
 }
 
-const TransactionCardBtn = ({ className, ...props }) => {
+const TransactionCardBtn = ({ className, to, ...props }) => {
   return (
-    <ButtonUi
-      {...props}
-      variant="outlined"
-      className={`font-bold w-[120px] h-[50px] rounded-[10px] ${className}`}
-    />
+    <Link to={to}>
+      <ButtonUi
+        {...props}
+        variant="outlined"
+        className={`font-bold w-[120px] h-[50px] rounded-[10px] ${className}`}
+      />
+    </Link>
   );
 };
 
 const numberHandler = ({ number, visibility }) => {
-  return visibility
-    ? "****"
-    : number?.toLocaleString(undefined, { minimumFractionDigits: 5 });
+  return visibility ? "****" : number && bigInt(number);
 };
