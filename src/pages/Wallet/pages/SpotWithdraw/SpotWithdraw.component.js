@@ -18,10 +18,10 @@ export default function SpotWithdraw({ children, ...props }) {
         header={"Deposit"}
       >
         <div className={`flex flex-col-reverse lg:flex-row gap-[25px]`}>
-          <div className={`flex lg:w-[460px]`}>
+          <div className={`flex lg:w-1/2`}>
             <TransactionSection type={walletType.Withdraw} />
           </div>
-          <div className={`flex flex-col gap-[15px] grow`}>
+          <div className={`flex flex-col gap-[15px] lg:w-1/2`}>
             <AttentionCard description={<div className={`text-[12px] opacity-50`} >
               <span className="font-bold" >Arrival time:</span> Normal Transfers are sent via crypto network, and the arrival time depends on the number of confirmations required by the recipient.
             </div>} items={attentionItems} />

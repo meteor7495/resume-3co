@@ -27,7 +27,7 @@ export default function AttentionCard({ items, description, className }) {
         {description && (
           <>
             <div className="m-auto border-0 hidden lg:block border-b border-warning w-5/6 border-dashed"></div>
-            <div className="lg:max-w-[390px]">{description}</div>
+            <div >{description}</div>
           </>
         )}
       </div>
