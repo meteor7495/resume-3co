@@ -220,6 +220,7 @@ const Header = (props) => {
           <div className="relative flex h-16 items-center justify-between">
             <div className="absolute inset-y-0 right-0 flex gap-[10px] items-center lg:hidden">
               <ButtonUi
+                color="textColor"
                 sx={{ minWidth: "auto" }}
                 onClick={() => {
                   theme === "light"
@@ -229,7 +230,7 @@ const Header = (props) => {
               >
                 <img src={theme === "light" ? DarkSvg : LightSvg} />
               </ButtonUi>
-              <ButtonUi sx={{ minWidth: "auto" }}>
+              <ButtonUi color="textColor" sx={{ minWidth: "auto" }}>
                 <img src={NotificationsSvg} />
               </ButtonUi>
               {/* Mobile menu button*/}
@@ -329,15 +330,14 @@ const Header = (props) => {
         }}
       >
         <nav
-          className={
-            " flex flex-col  flex-wrap items-center text-base justify-center " +
-            classes.menuBg
-          }
+          className={`flex flex-col items-center text-base ${
+            user?.token ? "h-[560px]" : "h-[410px]"
+          } overflow-auto ${classes.menuBg}`}
         >
           {user?.token ? (
             <>
               <div
-                className={`${classes.menuStyles} ${classes.menuStylesResponsive}`}
+                className={`h-full ${classes.menuStyles} ${classes.menuStylesResponsive}`}
               >
                 <MenuItem disableTouchRipple>
                   <div>
@@ -357,8 +357,8 @@ const Header = (props) => {
                 <MenuItem
                   disableTouchRipple
                   onClick={() => {
-                    setOpen(false)
-                    navigate("/profile")
+                    setOpen(false);
+                    navigate("/profile");
                   }}
                 >
                   <MenuCustomItem color={"textColor"} title={"Profile"}>
@@ -384,15 +384,21 @@ const Header = (props) => {
                 <MenuItem
                   disableTouchRipple
                   onClick={() => {
-                    setOpen(false)
-                    navigate("/wallet")
+                    setOpen(false);
+                    navigate("/wallet");
                   }}
                 >
                   <MenuCustomItem color={"textColor"} title={"My Wallet"}>
                     <AccountBalanceWalletIcon color={"icons"} />
                   </MenuCustomItem>
                 </MenuItem>
-                <MenuItem disableTouchRipple onClick={() => logOut()}>
+                <MenuItem
+                  disableTouchRipple
+                  onClick={() => {
+                    setOpen(false);
+                    logOut();
+                  }}
+                >
                   <MenuCustomItem color={"error"} title={"Logout"}>
                     <LogoutIcon color={"error"} />
                   </MenuCustomItem>
@@ -405,14 +411,20 @@ const Header = (props) => {
           ) : (
             <>
               <ButtonUi
-                onClick={() => navigate("/register")}
+                onClick={() => {
+                  setOpen(false);
+                  navigate("/register");
+                }}
                 className={"mr-3 mt-5 w-full max-w-[300px]"}
                 variant={"contained"}
               >
                 Register
               </ButtonUi>
               <ButtonUi
-                onClick={() => navigate("/login")}
+                onClick={() => {
+                  setOpen(false);
+                  navigate("/login");
+                }}
                 className={"mr-3 " + classes.loginBtn}
               >
                 Login

@@ -1,6 +1,7 @@
 import { Lock, Visibility, VisibilityOff } from "@mui/icons-material";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
+import bigInt from "utils/bigInt";
 import BoxUi from "../../../../components/UiKit/BoxUi";
 
 export default function OverviewHeader({
@@ -36,10 +37,10 @@ export default function OverviewHeader({
         </div>
         <div className={`py-[13px] flex gap-[5px]`}>
           <span className={`text-[20px] font-bold items-center flex`}>
-            {numberHandler({ number: data.BTC, visibility })} BTC
+            {numberHandler({ number: data?.BTC, visibility })} BTC
           </span>
           <span className={`opacity-50 text-center flex items-center`}>
-            ≈ {numberHandler({ number: data.USD, visibility })} USD
+            ≈ {numberHandler({ number: data?.USD, visibility })} USD
           </span>
         </div>
         <div
@@ -60,9 +61,7 @@ export default function OverviewHeader({
 }
 
 const numberHandler = ({ number, visibility }) => {
-  return visibility
-    ? "****"
-    : number.toLocaleString(undefined, { minimumFractionDigits: 5 });
+  return visibility ? "****" : number && bigInt(number);
 };
 const PieChart = ({ ChartValues }) => {
   const data = Object.values(ChartValues);

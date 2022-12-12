@@ -35,13 +35,16 @@ export default function TransactionSection({ type }) {
         });
         break;
       case walletType.Withdraw:
-        steps.push({
-          label: "Withdrawal Address",
-          children: <WithdrawalAddress />,
-        }, {
-          label: "Receive Amount",
-          children: <ReceiveAmount />,
-        })
+        steps.push(
+          {
+            label: "Withdrawal Address",
+            children: <WithdrawalAddress />,
+          },
+          {
+            label: "Receive Amount",
+            children: <ReceiveAmount />,
+          }
+        );
         break;
       default:
         break;
@@ -66,11 +69,11 @@ const SelectCoin = () => {
         filterOptions={(op, { inputValue }) => {
           return inputValue !== ""
             ? op.filter(
-              ({ value, tiker }) =>
-                tiker?.toLowerCase().indexOf(inputValue?.toLowerCase()) !==
-                -1 ||
-                value?.toLowerCase().indexOf(inputValue?.toLowerCase()) !== -1
-            )
+                ({ value, tiker }) =>
+                  tiker?.toLowerCase().indexOf(inputValue?.toLowerCase()) !==
+                    -1 ||
+                  value?.toLowerCase().indexOf(inputValue?.toLowerCase()) !== -1
+              )
             : op;
         }}
         renderOption={(props, option) => (
@@ -118,10 +121,11 @@ const NetworkBtn = ({ className, children, active, ...props }) => {
   return (
     <Button
       {...props}
-      className={`h-full flex gap-[4px] w-full lg:w-[calc(50%_-_10px)] rounded-[5px] h-[40px] px-[7px] justify-start gap-[10px] h-[45px] normal-case ${className} ${active
-        ? `font-bold border border-solid ${classes.activeOverview}`
-        : `${classes.button} ${classes.overview}`
-        }`}
+      className={`h-full flex gap-[4px] w-full lg:w-[calc(50%_-_10px)] rounded-[5px] h-[40px] px-[7px] justify-start gap-[10px] h-[45px] normal-case ${className} ${
+        active
+          ? `font-bold border border-solid ${classes.activeOverview}`
+          : `${classes.button} ${classes.overview}`
+      }`}
     >
       {children}
     </Button>
@@ -172,22 +176,30 @@ const DepositTo = () => {
 const WithdrawalAddress = () => {
   const [value, setValue] = useState("");
   const pasteHandler = async () => {
-    const text = await navigator.clipboard.readText()
-    setValue(text)
-  }
+    const text = await navigator.clipboard.readText();
+    setValue(text);
+  };
   return (
-    <div className="flex gap-[10px]" >
-      <InputUi InputProps={{ classes: { input: "text-[14px]" } }} value={value} onChange={({ target: { value } }) => setValue(value)} />
-      <ButtonUi onClick={pasteHandler} className="flex gap-[4px] text-[12px] items-center font-bold" >
-        Paste <ContentPaste className="text-[10px]" /></ButtonUi>
+    <div className="flex gap-[10px]">
+      <InputUi
+        InputProps={{ classes: { input: "text-[14px]" } }}
+        value={value}
+        onChange={({ target: { value } }) => setValue(value)}
+      />
+      <ButtonUi
+        onClick={pasteHandler}
+        className="flex gap-[4px] text-[12px] items-center font-bold"
+      >
+        Paste <ContentPaste className="text-[10px]" />
+      </ButtonUi>
     </div>
-  )
-}
+  );
+};
 
 const ReceiveAmount = () => {
   const { isTfaActive } = useSelector((s) => s?.user?.user);
   const dispatch = useDispatch();
-  console.log(isTfaActive)
+  console.log(isTfaActive);
   return (
     <div className="flex flex-col gap-[10px]">
       <InputUi
@@ -197,27 +209,41 @@ const ReceiveAmount = () => {
           className: "p-0",
           endAdornment: (
             <InputAdornment position="end">
-              <Button className="font-bold" >ALL</Button>
+              <Button className="font-bold">ALL</Button>
             </InputAdornment>
-          )
-        }} />
-      <div className="flex flex-col lg:flex-row justify-between" >
-        <div className="flex justify-between gap-[10px] text-[9px] w-full lg:w-[35%]" >
+          ),
+        }}
+      />
+      <div className="flex flex-col lg:flex-row justify-between">
+        <div className="flex justify-between gap-[10px] text-[9px] w-full lg:w-[35%]">
           <div>Withdrawal Fee:</div>
           <div>0.08686 BTC</div>
         </div>
-        <div className="flex justify-between gap-[10px] text-[9px] w-full lg:w-[35%] opacity-50" >
+        <div className="flex justify-between gap-[10px] text-[9px] w-full lg:w-[35%] opacity-50">
           <div>Deducation:</div>
           <div>0.00051 BTC</div>
         </div>
       </div>
-      <div className="flex flex-col gap-[8px]" >
-        {!isTfaActive && <div className="text-error text-[11px]" >*requires a active 2FA. activate in <Link className="text-primary" to={`../../${routes.profile}`} >Account Settings</Link></div>}
-        <ButtonUi variant="contained" onClick={() => dispatch((setModal({ visible: true, id: 'TFAModale' })))} disabled={!isTfaActive}  >Withdraw</ButtonUi>
+      <div className="flex flex-col gap-[8px]">
+        {!isTfaActive && (
+          <div className="text-error text-[11px]">
+            *requires a active 2FA. activate in{" "}
+            <Link className="text-primary" to={`../../${routes.profile}`}>
+              Account Settings
+            </Link>
+          </div>
+        )}
+        <ButtonUi
+          variant="contained"
+          onClick={() => dispatch(setModal({ visible: true, id: "TFAModale" }))}
+          disabled={!isTfaActive}
+        >
+          Withdraw
+        </ButtonUi>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const CoinEl = ({ value, tiker, icon }) => {
   const classes = useStyles();
@@ -360,8 +386,8 @@ const SOL = (
 );
 
 const coins = [
-  { value: "Bitcoin", tiker: "BTC", icon: BTC },
-  { value: "Binance", tiker: "BNB", icon: BNB },
-  { value: "Ethereum", tiker: "ETH", icon: ETH },
-  { value: "Solana", tiker: "SOL", icon: SOL },
+  { label: "Bitcoin", value: "Bitcoin", tiker: "BTC", icon: BTC },
+  { label: "Binance", value: "Binance", tiker: "BNB", icon: BNB },
+  { label: "Ethereum", value: "Ethereum", tiker: "ETH", icon: ETH },
+  { label: "Solana", value: "Solana", tiker: "SOL", icon: SOL },
 ];
