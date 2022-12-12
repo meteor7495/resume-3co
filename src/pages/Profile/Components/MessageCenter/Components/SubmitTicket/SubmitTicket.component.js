@@ -2,9 +2,8 @@ import React, {useEffect, useState} from "react";
 import useStyles from "./SubmitTicket.styles";
 
 import {useDispatch, useSelector} from "react-redux";
-import {Typography} from "@mui/material";
+import {Autocomplete, TextField, Typography} from "@mui/material";
 import {Controller, useFormContext} from "react-hook-form";
-import useAuth from "../../../../../../hooks/useAuth";
 import InputUi from "../../../../../../components/UiKit/InputUi";
 import AutocompleteUi from "../../../../../../components/UiKit/AutocompleteUi";
 import ButtonUi from "../../../../../../components/UiKit/ButtonUi";
@@ -12,36 +11,35 @@ import UploadFile from "../../../../../../components/UploadFile/UploadFile";
 import ProgressBarUi from "../../../../../../components/UiKit/ProgressBarUi";
 import FileSvg from "../../../../../../assets/icons/file.svg"
 import CloseIcon from '@mui/icons-material/Close';
+import {getIssues} from "../../Store/issuesSlice";
+import {saveTicket} from "../../Store/ticketsSlice";
 
 export default function YourPlatform(props) {
-  const {theme} = useSelector((s) => s.app);
   const classes = useStyles();
   const methods = useFormContext();
   const {control, reset, formState, getValues} = methods;
-  const {errors} = formState;
-  const {updateUser, getUser} = useAuth();
   const {user} = useSelector((s) => s.user);
   const dispatch = useDispatch();
   const [fileValue, setFileValue] = useState({});
+  const {issues} = useSelector((s) => s.messageCenter);
+  useEffect(() => {
+    dispatch(getIssues());
+  }, []);
   const onSubmit = data => {
-
+    delete data.issue?.label;
+    data.issue = data.issue?.value;
+    dispatch(saveTicket(data));
   };
+  const options = issues?.map((item) => {
+    console.log('item?._iditem?._iditem?._iditem?._iditem?._id',item?._id)
+    return {
+      label: item?.title,
+      value: item?._id
+    }
+  })
   useEffect(() => {
     reset(user);
   }, [user])
-  useEffect(() => {
-    console.log('fileValuefileValuefileValuefileValue', fileValue)
-  }, [fileValue])
-  const [progress, setProgress] = React.useState(10);
-
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress((prevProgress) => (prevProgress >= 100 ? 10 : prevProgress + 10));
-    }, 800);
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
   return (
     <>
       <section className={"body-font h-[700px] lg:h-full"}>
@@ -62,13 +60,34 @@ export default function YourPlatform(props) {
                       Please Select the Issue Type
                     </Typography>
                     <Controller
-                      name="language"
+                      name="issue"
                       control={control}
-                      render={({field}) => <AutocompleteUi id={'language'} options={
-                        [
-                          {label: 'English', value: 'English'},
-                        ]
-                      } {...field} placeholder={'Language'} className={`${classes.inputStyle}`}/>}
+                      render={({field}) => {
+                        console.log('fieldfieldfieldfieldfieldfield',field)
+                        return <Autocomplete
+                          {...field}
+                          className={`${classes.inputStyle}`}
+                          freeSolo
+                          id="issue"
+                          onChange={(e, value) => {
+                            return field?.onChange(value)
+                          }}
+                          disableClearable
+                          value={field?.value || null}
+                          options={
+                            options
+                          }
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              InputProps={{
+                                ...params.InputProps,
+                                type: 'search',
+                              }}
+                            />
+                          )}
+                        />
+                      }}
                     />
                   </div>
                   <div className={'w-full mt-4'}>
@@ -76,7 +95,7 @@ export default function YourPlatform(props) {
                       Description
                     </Typography>
                     <Controller
-                      name="currency"
+                      name="description"
                       control={control}
                       render={({field}) => <InputUi
                         {...field}
@@ -109,7 +128,7 @@ export default function YourPlatform(props) {
                       Transaction ID <Typography color={'textColor.gray'} className={'ml-2'}>(Optional)</Typography>
                     </Typography>
                     <Controller
-                      name="transactionId"
+                      name="txId"
                       control={control}
                       render={({field}) => <InputUi
                         {...field}
@@ -137,7 +156,7 @@ export default function YourPlatform(props) {
                       Deposit Address <Typography color={'textColor.gray'} className={'ml-2'}>(Optional)</Typography>
                     </Typography>
                     <Controller
-                      name="amount"
+                      name="depositAddress"
                       control={control}
                       render={({field}) => <InputUi
                         {...field}
@@ -179,11 +198,11 @@ export default function YourPlatform(props) {
                               </ButtonUi>
                             </div>
                           </div>
-                          <ProgressBarUi value={progress}/>
+                          {/*<ProgressBarUi value={progress}/>*/}
                         </div>
                         :
                         <Controller
-                          name="currency"
+                          name="attachment"
                           control={control}
                           render={({field}) => <UploadFile onDrop={setFileValue}/>
                           }

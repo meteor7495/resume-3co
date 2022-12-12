@@ -14,7 +14,7 @@ export default makeStyles((theme) => ({
         "& td":{
             color: theme.palette.text.primary,
         },
-        "& span":{
+        "& span:not(.text-error,.text-success)":{
             color: theme.palette.text.primary,
         }
     },

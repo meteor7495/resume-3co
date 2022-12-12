@@ -7,15 +7,17 @@ import SubmitTicket from "./Components/SubmitTicket/SubmitTicket.component";
 import {FormProvider, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import * as yup from "yup";
+import withReducer from "../../../../store/withReducer";
+import reducer from "./Store";
 
 
-export default function MessageCenter() {
+function MessageCenter() {
   const classes = useStyles();
   const schema = yup.object().shape({
     firstName: yup.string().required('Enter FullName'),
     email: yup.string().required('Enter Email'),
   });
-  const methods = useForm({
+  const messageCentermethods = useForm({
     mode: "onChange",
     defaultValues: {},
     resolver: yupResolver(schema),
@@ -25,7 +27,7 @@ export default function MessageCenter() {
       <Routes>
         <Route path={'/:id'} element={<TicketDetails/>}/>
         <Route path={'/submit-ticket'} element={
-          <FormProvider {...methods}>
+          <FormProvider {...messageCentermethods}>
             <SubmitTicket/>
           </FormProvider>
         }/>
@@ -34,3 +36,4 @@ export default function MessageCenter() {
     </div>
   );
 }
+export default withReducer("messageCenter", reducer)(MessageCenter);

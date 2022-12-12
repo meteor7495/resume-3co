@@ -356,15 +356,37 @@ const Header = (props) => {
                 </MenuItem>
                 <MenuItem
                   disableTouchRipple
-                  onClick={() => navigate("/profile")}
+                  onClick={() => {
+                    setOpen(false)
+                    navigate("/profile")
+                  }}
                 >
                   <MenuCustomItem color={"textColor"} title={"Profile"}>
                     <PersonIcon color={"icons"} />
                   </MenuCustomItem>
                 </MenuItem>
+                <MenuItem disableTouchRipple onClick={() => {
+                  setOpen(false)
+                  navigate("/profile/message-center")
+                }}>
+                  <MenuCustomItem color={"textColor"} title={"Message Center"}>
+                    <PersonIcon color={"icons"} />
+                  </MenuCustomItem>
+                </MenuItem>
+                <MenuItem disableTouchRipple onClick={() => {
+                  setOpen(false)
+                  navigate("/profile/message-center/submit-ticket")
+                }}>
+                  <MenuCustomItem color={"textColor"} title={"Submit a Ticket"}>
+                    <PersonIcon color={"icons"} />
+                  </MenuCustomItem>
+                </MenuItem>
                 <MenuItem
                   disableTouchRipple
-                  onClick={() => navigate("/wallet")}
+                  onClick={() => {
+                    setOpen(false)
+                    navigate("/wallet")
+                  }}
                 >
                   <MenuCustomItem color={"textColor"} title={"My Wallet"}>
                     <AccountBalanceWalletIcon color={"icons"} />

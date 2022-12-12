@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import useStyles from "./TicketsList.styles";
 import {
   Divider,
@@ -15,9 +15,16 @@ import BoxUi from "../../../../../../components/UiKit/BoxUi";
 import ScrollbarsUi from "../../../../../../components/UiKit/PerfectScrollbarUi";
 import WalletTableHead from "../../../../../Wallet/components/WalletTableHead";
 import {ReactComponent as NothingHere} from "../../../../../../assets/svg/NothingHere.svg";
+import {getTickets} from "../../Store/ticketsSlice";
+import {useDispatch, useSelector} from "react-redux";
 
 export default function TicketsList() {
   const classes = useStyles();
+  const { tickets } = useSelector((s) => s.messageCenter);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getTickets());
+  }, []);
   const tClasses = {
     headerCell: `border-0 z-[1] text-[15px] font-bold min-w-[100px] ${classes.headerCell}`,
     cell: "border-0 text-[15px] px-[10px] py-[2.5px] [&:last-child]:rounded-l-[5px] [&:first-child]:rounded-l-[5px]",
@@ -59,81 +66,16 @@ export default function TicketsList() {
       {children: status, className: `font-bold capitalize ${statusHandler(status)}`},
     ];
   }
-
-  const rows = [
-    createData(
+  const rows = tickets?.map((item) => {
+    return createData(
       {
-        title: 'Deposit via Address not Credited',
-        time: '2022/12/03 - 21:06:12',
+        title: item?.title,
+        time: item?.createdAt,
         department: 'Deposit & Withdraw',
         status: 'closed',
       },
-    ),
-    createData(
-      {
-        title: 'Deposit via Address not Credited',
-        time: '2022/12/03 - 21:06:12',
-        department: 'Deposit & Withdraw',
-        status: 'pending',
-      },
-    ),
-    createData(
-      {
-        title: 'Deposit via Address not Credited',
-        time: '2022/12/03 - 21:06:12',
-        department: 'Deposit & Withdraw',
-        status: 'replied',
-      },
-    ),
-    createData(
-      {
-        title: 'Deposit via Address not Credited',
-        time: '2022/12/03 - 21:06:12',
-        department: 'Deposit & Withdraw',
-        status: 'closed',
-      },
-    ),
-    createData(
-      {
-        title: 'Deposit via Address not Credited',
-        time: '2022/12/03 - 21:06:12',
-        department: 'Deposit & Withdraw',
-        status: 'pending',
-      },
-    ),
-    createData(
-      {
-        title: 'Deposit via Address not Credited',
-        time: '2022/12/03 - 21:06:12',
-        department: 'Deposit & Withdraw',
-        status: 'replied',
-      },
-    ),
-    createData(
-      {
-        title: 'Deposit via Address not Credited',
-        time: '2022/12/03 - 21:06:12',
-        department: 'Deposit & Withdraw',
-        status: 'closed',
-      },
-    ),
-    createData(
-      {
-        title: 'Deposit via Address not Credited',
-        time: '2022/12/03 - 21:06:12',
-        department: 'Deposit & Withdraw',
-        status: 'pending',
-      },
-    ),
-    createData(
-      {
-        title: 'Deposit via Address not Credited',
-        time: '2022/12/03 - 21:06:12',
-        department: 'Deposit & Withdraw',
-        status: 'replied',
-      },
-    ),
-  ]
+    )
+  })
   return (
     <section className={"body-font h-[700px] lg:h-full"}>
       <div className="container mx-auto flex md:flex-row flex-col items-center">
@@ -158,6 +100,9 @@ export default function TicketsList() {
                     <Table aria-label="simple table" size={"small"} stickyHeader>
                       <WalletTableHead header={header}/>
                       <TableBody className={classes.tableBody}>
+                        {
+                          console.log('rowsrowsrowsrows',rows)
+                        }
                         {rows?.length > 0 &&
                           rows.map((cells, i) => (
                             <TableRow

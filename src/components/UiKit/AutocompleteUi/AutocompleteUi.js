@@ -14,6 +14,9 @@ const AutocompleteUi = ({ renderValue, onChange, ...props }) => {
         flexGrow: 1,
       }}
     >
+      {
+        console.log('propspropspropspropspropspropsprops',props)
+      }
       <Autocomplete
         isOptionEqualToValue={(op, val) => op.value === val.value}
         {...props}
@@ -21,19 +24,19 @@ const AutocompleteUi = ({ renderValue, onChange, ...props }) => {
         onBlur={() => setFocused(false)}
         disableClearable
         fullWidth
-        onChange={(...e) => {
+/*        onChange={(...e) => {
           setFocused(false);
           onChange && onChange(...e);
-        }}
-        getOptionLabel={(option) => (option?.value ? option?.value : option)}
+        }}*/
+        getOptionLabel={(option) => (option?.label ? option?.label : option)}
         renderInput={(params) => {
           return (
             <TextField
               {...params}
-              onChange={({ target: { value } }) => {
+              /*onChange={({ target: { value } }) => {
                 setFocused(true);
                 setValue(value);
-              }}
+              }}*/
               className={props.className}
               inputProps={{
                 ...params.inputProps,
