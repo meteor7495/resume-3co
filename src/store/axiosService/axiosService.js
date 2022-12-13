@@ -58,7 +58,7 @@ const axiosService = (name) => {
     });
   };
 
-  return { axiosHandler, get, post, deleteHandler, patch };
+  return { axiosHandler, get, post, put, deleteHandler, patch };
 };
 
 const urlHandler = (url, { selectId, addedUrl, queries }) =>
@@ -73,9 +73,8 @@ const bodyHandler = (
   const formData = new FormData();
 
   oldFormData &&
-    formData.entries(([key, value]) => {
-      formData.append(key, value);
-    });
+    Object.entries(oldFormData)
+    .map(([key, value]) => formData.append(key, value));
 
   const body = oldFormData ? formData : { ...oldBody };
 

@@ -25,6 +25,7 @@ import UploadFile from "../../../../../../components/UploadFile/UploadFile";
 import {getTicket, replyTicket} from "../../Store/ticketSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate, useParams} from "react-router-dom";
+import {FILE_URL} from "../../../../../../configs";
 
 export default function TicketsList() {
   const classes = useStyles();
@@ -34,7 +35,7 @@ export default function TicketsList() {
   const params = useParams()
   const { ticket } = useSelector((s) => s.messageCenter);
   const { user } = useSelector((s) => s.user);
-  const [value, setValue] = useState()
+  const [value, setValue] = useState('')
   useEffect(() => {
     console.log('paramsparamsparamsparamsparams',params)
     dispatch(getTicket({selectId: params?.id}));
@@ -43,11 +44,14 @@ export default function TicketsList() {
     console.log('valuevaluevaluevaluevalue',value)
   },[value])
   const onSubmit = () => {
-    dispatch(replyTicket({
-      message: value,
-      attachment: fileValue?.file,
+    dispatch(replyTicket({formData: {
+        message: value,
+        attachment: fileValue?.file
+      },
       selectId: params?.id
     }));
+    setValue('')
+    setFileValue({})
   }
   const statusHandler = (status) => {
     if (status === 'closed') {
@@ -59,6 +63,7 @@ export default function TicketsList() {
     }
   }
   const MessageUiHandler = (item) => {
+    console.log('itemitemitemitem',item)
     const object = item?.sender?.role === 'USER' ?
       {
         boxRounded: 'rounded-t-[10px] rounded-br-[10px]',
@@ -85,15 +90,25 @@ export default function TicketsList() {
         </Typography>
       </div>
       <div className={`flex flex-col w-full lg:w-2/5 py-4 lg:p-4 justify-center ${object?.filesClass}`}>
-        <div>
-          <Typography color={'text.secondary'} className={'text-xs'}>
-            Files Included
-          </Typography>
-          <ButtonUi sx={{backgroundColor:'transparent!important',padding:0,minWidth:'auto'}} className={'flex items-center mt-2'}>
-            <img src={FileSvg} style={{width: 10, height: 12}}/>
-            <Typography color={'primary'} className={'text-[10px] ml-2'}>theIssue026_2022_11_29.doc</Typography>
-          </ButtonUi>
-        </div>
+        {
+          item?.attachment && item?.attachment !== ''
+          ?
+            <div>
+              <Typography color={'text.secondary'} className={'text-xs'}>
+                Files Included
+              </Typography>
+              <a target={'_blank'} href={`${FILE_URL}${item?.attachment?.path}`} download>
+                <ButtonUi sx={{backgroundColor:'transparent!important',padding:0,minWidth:'auto'}} className={'flex items-center mt-2'}>
+                  <img src={FileSvg} style={{width: 10, height: 12}}/>
+                  <Typography color={'primary'} className={'text-[10px] ml-2'}>
+                    {item?.attachment?.name}
+                  </Typography>
+                </ButtonUi>
+              </a>
+            </div>
+            :''
+        }
+
         <div className={'mt-2'}>
           <Typography color={'text.secondary'} className={'text-xs'}>
             Sent Time

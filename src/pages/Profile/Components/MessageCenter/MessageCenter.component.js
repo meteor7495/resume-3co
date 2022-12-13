@@ -14,10 +14,15 @@ import reducer from "./Store";
 function MessageCenter() {
   const classes = useStyles();
   const schema = yup.object().shape({
-    firstName: yup.string().required('Enter FullName'),
-    email: yup.string().required('Enter Email'),
+    issue: yup.string().required('Enter FullName'),
+    description: yup.string().required('Enter Email'),
+    coin: yup.string().default(''),
+    txId: yup.string().default(''),
+    amount: yup.string().default(''),
+    depositAddress: yup.string().default(''),
+    attachment: yup.string(),
   });
-  const messageCentermethods = useForm({
+  const messageCenterMethods = useForm({
     mode: "onChange",
     defaultValues: {},
     resolver: yupResolver(schema),
@@ -27,7 +32,7 @@ function MessageCenter() {
       <Routes>
         <Route path={'/:id'} element={<TicketDetails/>}/>
         <Route path={'/submit-ticket'} element={
-          <FormProvider {...messageCentermethods}>
+          <FormProvider {...messageCenterMethods}>
             <SubmitTicket/>
           </FormProvider>
         }/>

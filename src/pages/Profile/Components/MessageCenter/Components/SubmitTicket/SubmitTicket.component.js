@@ -5,41 +5,56 @@ import {useDispatch, useSelector} from "react-redux";
 import {Autocomplete, TextField, Typography} from "@mui/material";
 import {Controller, useFormContext} from "react-hook-form";
 import InputUi from "../../../../../../components/UiKit/InputUi";
-import AutocompleteUi from "../../../../../../components/UiKit/AutocompleteUi";
 import ButtonUi from "../../../../../../components/UiKit/ButtonUi";
 import UploadFile from "../../../../../../components/UploadFile/UploadFile";
-import ProgressBarUi from "../../../../../../components/UiKit/ProgressBarUi";
 import FileSvg from "../../../../../../assets/icons/file.svg"
 import CloseIcon from '@mui/icons-material/Close';
 import {getIssues} from "../../Store/issuesSlice";
-import {saveTicket} from "../../Store/ticketsSlice";
+import {saveTicket} from "../../Store/ticketSlice";
+import {selectCoins} from "store/slices/CoinsSlice";
+import {useNavigate} from "react-router-dom";
 
 export default function YourPlatform(props) {
   const classes = useStyles();
   const methods = useFormContext();
-  const {control, reset, formState, getValues} = methods;
-  const {user} = useSelector((s) => s.user);
+  const {control, reset, getValues} = methods;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [fileValue, setFileValue] = useState({});
   const {issues} = useSelector((s) => s.messageCenter);
+  const coins = useSelector(selectCoins);
   useEffect(() => {
     dispatch(getIssues());
+    console.log('coinscoinscoinscoinscoins',coins)
   }, []);
   const onSubmit = data => {
     delete data.issue?.label;
     data.issue = data.issue?.value;
-    dispatch(saveTicket(data));
+    delete data.coin?.label;
+    data.coin = data.coin?.value;
+    data.attachment = fileValue?.file
+    Object.entries(data)
+      .map(([key, value]) => {
+        if(value === undefined){
+          delete data[key]
+        }
+      });
+    dispatch(saveTicket({formData: data})).then(() => {
+      navigate('/profile/message-center')
+    });
   };
   const options = issues?.map((item) => {
-    console.log('item?._iditem?._iditem?._iditem?._iditem?._id',item?._id)
     return {
       label: item?.title,
       value: item?._id
     }
   })
-  useEffect(() => {
-    reset(user);
-  }, [user])
+  const coinOptions = coins?.map((item) => {
+    return {
+      label: item?.title,
+      value: item?._id
+    }
+  })
   return (
     <>
       <section className={"body-font h-[700px] lg:h-full"}>
@@ -63,7 +78,7 @@ export default function YourPlatform(props) {
                       name="issue"
                       control={control}
                       render={({field}) => {
-                        console.log('fieldfieldfieldfieldfieldfield',field)
+                        console.log('fieldfieldfieldfieldfieldfield', field)
                         return <Autocomplete
                           {...field}
                           className={`${classes.inputStyle}`}
@@ -80,6 +95,7 @@ export default function YourPlatform(props) {
                           renderInput={(params) => (
                             <TextField
                               {...params}
+                              className={`${classes.inputStyle}`}
                               InputProps={{
                                 ...params.InputProps,
                                 type: 'search',
@@ -115,11 +131,33 @@ export default function YourPlatform(props) {
                     <Controller
                       name="coin"
                       control={control}
-                      render={({field}) => <InputUi
-                        {...field}
-                        className={classes.inputStyle}
-                      />
-                      }
+                      render={({field}) => {
+                        console.log('fieldfieldfieldfieldfieldfield', field)
+                        return <Autocomplete
+                          {...field}
+                          className={`${classes.inputStyle}`}
+                          freeSolo
+                          id="coin"
+                          onChange={(e, value) => {
+                            return field?.onChange(value)
+                          }}
+                          disableClearable
+                          value={field?.value || null}
+                          options={
+                            coinOptions
+                          }
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              className={`${classes.inputStyle}`}
+                              InputProps={{
+                                ...params.InputProps,
+                                type: 'search',
+                              }}
+                            />
+                          )}
+                        />
+                      }}
                     />
                   </div>
 
@@ -182,7 +220,7 @@ export default function YourPlatform(props) {
                             <div className={'flex'}>
                               <img src={FileSvg} style={{width: 16, height: 20}}/>
                               <Typography color={'textColor.gray'} className={'ml-3'}>
-                                theIssue16_2022_11_29.doc
+                                {fileValue?.file?.name}
                               </Typography>
                             </div>
                             <div className={'flex justify-end pr-3'}>

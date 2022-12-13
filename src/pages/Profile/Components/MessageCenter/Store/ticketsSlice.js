@@ -6,10 +6,6 @@ export const getTickets = get({
   url: "tickets",
   name: "getTickets",
 });
-export const saveTicket = post({
-  url: "tickets",
-  name: "saveTicket",
-});
 // export const removeAdmin = useAxios("post", "/admin/remove-admin", "removeAdmin");
 // export const saveAdmin = useAxios("post", "/admin/admins", "saveAdmin")
 // export const updateAdmin = useAxios("patch", "/admin/admins", "updateAdmin");
@@ -21,7 +17,6 @@ const ticketsSlice = createSlice({
   },
   extraReducers: {
     [getTickets.fulfilled]: (state, action) => action.payload?.itemsList,
-    [saveTicket.fulfilled]: (state, action) => action.payload,
     // [updateAdmin.fulfilled]: (state, action) => action.payload,
     // [removeAdmin.fulfilled]: (state, action) => null,
   },

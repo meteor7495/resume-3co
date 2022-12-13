@@ -107,7 +107,9 @@ export default function TicketsList() {
                         {rows?.length > 0 &&
                           rows.map((cells, i) => (
                             <TableRow
-                              onClick={() => navigate(`/profile/message-center/${cells[i]?.id}`)}
+                              onClick={() => {
+                                navigate(`/profile/message-center/${rows[i][0].id}`)
+                              }}
                               key={i}
                               sx={{
                                 "&:last-child td, &:last-child th": {border: 0},
