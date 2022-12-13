@@ -31,6 +31,7 @@ const axiosService = (name) => {
       dispatch(addLoader(actionName));
       const { url, body } = bodyHandler(oldUrl, oldBody);
       const result = await axios[type](url, body);
+      console.log({ result });
       if (result.status === "Failed") {
         if (result.unAuthorize === false) {
           dispatch(
@@ -46,6 +47,7 @@ const axiosService = (name) => {
           dispatch(cleanUser());
           window.location.assign(window.location.origin + "/login");
         }
+        dispatch(deleteLoader(actionName));
         return result;
       } else {
         dispatch(deleteLoader(actionName));
@@ -62,14 +64,19 @@ const urlHandler = (url, { selectId, addedUrl, queries }) =>
     queries ? `?${queries}` : ""
   }`;
 
-const bodyHandler = (url, body) => {
-  const newBody = { ...body };
-  const query = newBody?.query ? { ...newBody.query } : undefined;
-  newBody?.query && delete newBody?.query;
-  const selectId = newBody?.selectId ? newBody?.selectId : "";
-  newBody?.query && delete newBody?.selectId;
-  const addedUrl = newBody?.addedUrl ? newBody?.addedUrl : "";
-  newBody?.query && delete newBody?.addedUrl;
+const bodyHandler = (
+  url,
+  { query, selectId, addedUrl, formData: oldFormData, ...oldBody } = {}
+) => {
+  const formData = new FormData();
+
+  oldFormData &&
+    formData.entries(([key, value]) => {
+      formData.append(key, value);
+    });
+
+  const body = oldFormData ? formData : { ...oldBody };
+
   const queries = query
     ? Object.entries(query)
         .map(([key, value]) =>
@@ -82,7 +89,7 @@ const bodyHandler = (url, body) => {
         .join("")
     : "";
   const newUrl = urlHandler(url, { selectId, addedUrl, queries });
-  return { url: newUrl, body: newBody };
+  return { url: newUrl, body };
 };
 
 export default axiosService;
