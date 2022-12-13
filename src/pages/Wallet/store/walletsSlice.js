@@ -7,6 +7,11 @@ export const getWallets = get({
   name: "getWallets",
 });
 
+export const UpdateOneWallet = get({
+  url: "wallet/spot",
+  name: "UpdateOneWallet",
+});
+
 const walletAdapter = createEntityAdapter({ selectId: (i) => i._id });
 export const { selectAll: selectWallets, selectById: selectWalletById } =
   walletAdapter.getSelectors((state) => {
@@ -27,9 +32,7 @@ const walletSlice = createSlice({
   },
   extraReducers: {
     [getWallets.fulfilled]: walletAdapter.setAll,
-    // [saveAdmin.fulfilled]: (state, action) => action.payload,
-    // [updateAdmin.fulfilled]: (state, action) => action.payload,
-    // [removeAdmin.fulfilled]: (state, action) => null,
+    [UpdateOneWallet.fulfilled]: walletAdapter.upsertOne,
   },
 });
 

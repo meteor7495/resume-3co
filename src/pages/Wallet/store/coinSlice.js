@@ -7,9 +7,9 @@ export const selectCoin = get({
   name: "selectCoin",
 });
 
-export const selectNetwork = post({
+export const generateAddress = post({
   url: "wallet/spot/onchain/generate",
-  name: "selectNetwork",
+  name: "generateAddress",
 });
 
 const coinSlice = createSlice({
@@ -17,13 +17,14 @@ const coinSlice = createSlice({
   initialState: {
     currency: {},
     networks: [],
+    network: "",
+    address: {},
     pairCurrencies: [],
   },
   reducers: {
-    setCoinSearch: {
+    setNetwork: {
       reducer: (state, action) => {
-        state.searchText = action.payload;
-        return state;
+        state.network = action.payload;
       },
     },
   },
@@ -34,18 +35,17 @@ const coinSlice = createSlice({
         ...payload,
       };
     },
-    [selectNetwork.fulfilled]: (state, { payload }) => {
+    [generateAddress.fulfilled]: (state, { payload }) => {
       return {
         ...state,
-        ...payload,
+        address: {
+          ...payload,
+        },
       };
     },
-    // [saveAdmin.fulfilled]: (state, action) => action.payload,
-    // [updateAdmin.fulfilled]: (state, action) => action.payload,
-    // [removeAdmin.fulfilled]: (state, action) => null,
   },
 });
 
-export const { setCoinSearch } = coinSlice.actions;
+export const { setNetwork } = coinSlice.actions;
 
 export default coinSlice.reducer;

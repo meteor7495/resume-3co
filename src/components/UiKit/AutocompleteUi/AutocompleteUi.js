@@ -19,6 +19,7 @@ const AutocompleteUi = ({ renderValue, onChange, ...props }) => {
         getOptionLabel={(option) => {
           return option?.label ? option?.label : option;
         }}
+        openOnFocus
         {...props}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}

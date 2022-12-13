@@ -17,7 +17,7 @@ export default function VerticalStepper({ steps }) {
         <StepConnector
           className="h-[26px]"
           classes={{
-            line: `border-dashed ${classes.line} border-y-0 border-r-0 border-l-0 lg:border-l`,
+            line: `border-dashed ${classes.line} h-full border-y-0 border-r-0 border-l-0 lg:border-l`,
           }}
         />
       }

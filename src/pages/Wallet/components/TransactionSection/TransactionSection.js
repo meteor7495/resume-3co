@@ -1,7 +1,11 @@
 import { ContentCopy, ContentPaste } from "@mui/icons-material";
 import { Button, InputAdornment, Tooltip } from "@mui/material";
 import { Box } from "@mui/system";
-import { selectCoin, selectNetwork } from "pages/Wallet/store/coinSlice";
+import {
+  generateAddress,
+  selectCoin,
+  setNetwork,
+} from "pages/Wallet/store/coinSlice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
@@ -22,11 +26,11 @@ export default function TransactionSection({ type }) {
     let steps = [
       {
         label: "Select Coin/Token",
-        children: <SelectCoin />,
+        children: <SelectCoin type={type} />,
       },
       {
         label: "Select Network",
-        children: <SelectNetwork />,
+        children: <SelectNetwork type={type} />,
       },
     ];
     switch (type) {
@@ -57,7 +61,7 @@ export default function TransactionSection({ type }) {
   return steps ? <VerticalStepper steps={steps} /> : <LoadingUi />;
 }
 
-const SelectCoin = () => {
+const SelectCoin = ({ type }) => {
   const coins = useSelector(selectCoins);
   // const { canSpotDeposit } = selecteCoin;
   const { currency } = useSelector((s) => s.wallet.coin);
@@ -70,10 +74,8 @@ const SelectCoin = () => {
   useEffect(() => {
     if (coins) {
       let coin;
-      let BTC = coins.filter(({ ticker }) => ticker === "BTC")[0];
-
+      let BTC = coins.filter(({ ticker }) => ticker === "USDT")[0];
       if (coinId) {
-        console.log(coins, coinId);
         coin = coins.filter(({ _id }) => _id === coinId)[0];
         coin = coin ? coin : BTC;
       } else {
@@ -85,40 +87,44 @@ const SelectCoin = () => {
   }, [coinId, coins]);
   return (
     <div>
-      <AutocompleteUi
-        className="w-full"
-        isOptionEqualToValue={(op, val) => op._id === val._id}
-        getOptionLabel={(option) => {
-          return option?.title ? option?.title : option;
-        }}
-        renderValue={<CoinEl {...currency} />}
-        filterOptions={(op, { inputValue }) => {
-          return inputValue !== ""
-            ? op.filter(
-                ({ title, ticker }) =>
-                  ticker?.toLowerCase().indexOf(inputValue?.toLowerCase()) !==
-                    -1 ||
-                  title?.toLowerCase().indexOf(inputValue?.toLowerCase()) !== -1
-              )
-            : op;
-        }}
-        renderOption={(props, option) => (
-          <Box component="li" {...props} key={option.value}>
-            <CoinEl {...option} />
-          </Box>
-        )}
-        onChange={(e, v) => {
-          selectCoinHandler(v);
-        }}
-        value={currency}
-        options={coins}
-      />
+      {currency?._id && (
+        <AutocompleteUi
+          className="w-full"
+          isOptionEqualToValue={(op, val) => op._id === val._id}
+          getOptionLabel={(option) => {
+            return option?.title ? option?.title : option;
+          }}
+          renderValue={<CoinEl {...currency} />}
+          filterOptions={(op, { inputValue }) => {
+            return inputValue !== ""
+              ? op.filter(
+                  ({ title, ticker }) =>
+                    ticker?.toLowerCase().indexOf(inputValue?.toLowerCase()) !==
+                      -1 ||
+                    title?.toLowerCase().indexOf(inputValue?.toLowerCase()) !==
+                      -1
+                )
+              : op;
+          }}
+          renderOption={(props, option) => (
+            <Box component="li" {...props} key={option.value}>
+              <CoinEl {...option} />
+            </Box>
+          )}
+          onChange={(e, v) => {
+            selectCoinHandler(v);
+          }}
+          value={currency}
+          options={coins.filter(({ canSpotDeposit, canSpotWithdraw }) =>
+            type === walletType.Deposit ? canSpotDeposit : canSpotWithdraw
+          )}
+        />
+      )}
     </div>
   );
 };
 
-const SelectNetwork = () => {
-  const [network, setNetwork] = useState("TRC20");
+const SelectNetwork = ({ type }) => {
   const {
     currency: { _id: currencyId } = {},
     networks,
@@ -126,8 +132,15 @@ const SelectNetwork = () => {
   } = useSelector((s) => s.wallet.coin);
   const dispatch = useDispatch();
   const networkHandler = (_id) => {
-    dispatch(selectNetwork({ networkId: _id, currencyId }));
+    dispatch(setNetwork(_id));
+    type === walletType.Deposit &&
+      dispatch(generateAddress({ networkId: _id, currencyId }));
   };
+  useEffect(() => {
+    if (networks.length !== 0) {
+      networkHandler(networks[0]?._id);
+    }
+  }, [networks]);
   return (
     <div
       className={`flex flex-nowrap flex-col lg:flex-row lg:flex-wrap gap-[10px]`}
@@ -168,11 +181,12 @@ const NetworkBtn = ({ className, children, active, ...props }) => {
 const DepositTo = () => {
   const classes = useStyles();
   const [tooltip, setTooltip] = useState(false);
-  const token = "0x99fae981e33cf52471c4a4519408d4eb6c293bf4";
+  const { address: { address } = {} } = useSelector((s) => s.wallet.coin);
+
   const copyHandler = () => {
     setTooltip(true);
-    document.execCommand(token);
-    navigator.clipboard.writeText(token);
+    document.execCommand(address);
+    navigator.clipboard.writeText(address);
   };
   return (
     <div className="flex gap-[10px]">
@@ -191,7 +205,7 @@ const DepositTo = () => {
             onClick={copyHandler}
             className={`flex flex-1 items-center text-[7px] lg:text-[12px] px-[7px] w-full rounded-[5px] ${classes.button}`}
           >
-            {token}
+            {address}
           </div>
         </Tooltip>
         <ButtonUi
@@ -201,7 +215,11 @@ const DepositTo = () => {
           Copy Address <ContentCopy className="text-[12px]" />
         </ButtonUi>
       </div>
-      <QRCodeUi value={token} style={{ width: 80, height: 80 }} size={64} />
+      {address ? (
+        <QRCodeUi value={address} style={{ width: 80, height: 80 }} size={64} />
+      ) : (
+        <div className="w-[80px] h-[80px]" />
+      )}
     </div>
   );
 };

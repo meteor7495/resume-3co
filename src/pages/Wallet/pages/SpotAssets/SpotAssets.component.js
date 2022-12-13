@@ -11,6 +11,7 @@ import {
   getWallets,
   selectWallets,
   setWalletsSearch,
+  UpdateOneWallet,
 } from "pages/Wallet/store/walletsSlice";
 import { getDeposit } from "pages/Wallet/store/depositSlice";
 import routes from "configs/routes";
@@ -21,11 +22,14 @@ export default function SpotAssets({ children, ...props }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const wallets = useSelector(selectWallets);
-  const { deposit = {} } = useSelector((s) => s.wallet);
+  const {
+    deposit = {},
+    wallets: { searchText },
+  } = useSelector((s) => s.wallet);
   useEffect(() => {
     dispatch(getWallets());
     dispatch(getDeposit());
-    dispatch(setWalletsSearch(""));
+    // dispatch(setWalletsSearch(""));
   }, []);
   function createData({ currency, activeBalance, lockedBalance, _id }) {
     return [
@@ -38,13 +42,25 @@ export default function SpotAssets({ children, ...props }) {
       { children: <NumberEl value={activeBalance} /> },
       { children: <NumberEl value={lockedBalance} /> },
       {
-        children: <Operation id={currency._id} />,
+        children: <Operation currency={currency} _id={_id} />,
         align: "right",
         className: `w-[200px]`,
       },
     ];
   }
-  const rows = wallets.length > 0 ? wallets.map(createData) : [];
+  const rows =
+    wallets.length > 0
+      ? searchText !== ""
+        ? wallets
+            .filter(
+              ({ currency: { title, ticker } }) =>
+                ticker?.toLowerCase().indexOf(searchText?.toLowerCase()) !==
+                  -1 ||
+                title?.toLowerCase().indexOf(searchText?.toLowerCase()) !== -1
+            )
+            .map(createData)
+        : wallets.map(createData)
+      : [];
   return (
     <div className={`flex flex-col gap-[10px] h-full `}>
       {deposit && (
@@ -124,31 +140,45 @@ const NumberEl = ({ value }) => {
   return <div className={classes.ticker}>{value ? bigInt(value) : 0}</div>;
 };
 
-const Operation = ({ id }) => {
+const Operation = ({
+  _id,
+  currency: { _id: currencyId, canSpotWithdraw, canSpotDeposit },
+}) => {
+  const dispatch = useDispatch();
+  const updateOne = () => {
+    dispatch(UpdateOneWallet({ selectId: _id }));
+  };
   return (
     <div className={`inline-flex items-center gap-[10px] w-fit justify-center`}>
-      <OperationBtn to={`../${routes.exchange}?coinId=${id}`}>
+      <OperationBtn to={`../${routes.exchange}?coinId=${currencyId}`}>
         <BarChart className={`text-[15px]`} />
       </OperationBtn>
-      <OperationBtn>
+      <OperationBtn onClick={updateOne}>
         <Refresh className={`text-[15px]`} />
       </OperationBtn>
-      <OperationBtn to={`../${routes.wallet.spot.deposit}?coinId=${id}`}>
+      <OperationBtn
+        disabled={!canSpotDeposit}
+        to={`../${routes.wallet.spot.deposit}?coinId=${currencyId}`}
+      >
         Deposit
       </OperationBtn>
-      <OperationBtn to={`../${routes.wallet.spot.withdraw}?coinId=${id}`}>
+      <OperationBtn
+        disabled={!canSpotWithdraw}
+        to={`../${routes.wallet.spot.withdraw}?coinId=${currencyId}`}
+      >
         Withdrow
       </OperationBtn>
     </div>
   );
 };
 
-const OperationBtn = ({ to, ...props }) => {
+const OperationBtn = ({ to, disabled, ...props }) => {
   const btnClass = ` min-w-0 w-fit`;
   return (
-    <Link to={to}>
+    <Link to={to} className={disabled ? "pointer-events-none" : ""}>
       <ButtonUi
         {...props}
+        disabled={disabled}
         disableRipple
         style={{ position: "inherit" }}
         className={`p-[2px] bg-[transparent_!important] ${btnClass}`}
