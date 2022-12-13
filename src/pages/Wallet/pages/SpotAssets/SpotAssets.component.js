@@ -38,7 +38,7 @@ export default function SpotAssets({ children, ...props }) {
       { children: <NumberEl value={activeBalance} /> },
       { children: <NumberEl value={lockedBalance} /> },
       {
-        children: <Operation id={_id} />,
+        children: <Operation id={currency._id} />,
         align: "right",
         className: `w-[200px]`,
       },

@@ -14,7 +14,6 @@ const AutocompleteUi = ({ renderValue, onChange, ...props }) => {
         flexGrow: 1,
       }}
     >
-      {console.log("propspropspropspropspropspropsprops", props)}
       <Autocomplete
         isOptionEqualToValue={(op, val) => op.value === val.value}
         getOptionLabel={(option) => {

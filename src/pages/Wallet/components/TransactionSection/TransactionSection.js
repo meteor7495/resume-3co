@@ -1,6 +1,7 @@
 import { ContentCopy, ContentPaste } from "@mui/icons-material";
 import { Button, InputAdornment, Tooltip } from "@mui/material";
 import { Box } from "@mui/system";
+import { selectCoin, selectNetwork } from "pages/Wallet/store/coinSlice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
@@ -58,14 +59,30 @@ export default function TransactionSection({ type }) {
 
 const SelectCoin = () => {
   const coins = useSelector(selectCoins);
-  const [selecteCoin, setSelectedCoin] = useState(coins[0]);
+  // const { canSpotDeposit } = selecteCoin;
+  const { currency } = useSelector((s) => s.wallet.coin);
   const [searchParams] = useSearchParams();
   const coinId = searchParams.get("coinId");
+  const dispatch = useDispatch();
+  const selectCoinHandler = (coin) => {
+    dispatch(selectCoin({ selectId: coin._id }));
+  };
   useEffect(() => {
-    if (coinId) {
-      setSelectedCoin();
+    if (coins) {
+      let coin;
+      let BTC = coins.filter(({ ticker }) => ticker === "BTC")[0];
+
+      if (coinId) {
+        console.log(coins, coinId);
+        coin = coins.filter(({ _id }) => _id === coinId)[0];
+        coin = coin ? coin : BTC;
+      } else {
+        coin = BTC;
+      }
+
+      selectCoinHandler(coin);
     }
-  }, [coinId]);
+  }, [coinId, coins]);
   return (
     <div>
       <AutocompleteUi
@@ -74,7 +91,7 @@ const SelectCoin = () => {
         getOptionLabel={(option) => {
           return option?.title ? option?.title : option;
         }}
-        renderValue={<CoinEl {...selecteCoin} />}
+        renderValue={<CoinEl {...currency} />}
         filterOptions={(op, { inputValue }) => {
           return inputValue !== ""
             ? op.filter(
@@ -91,9 +108,9 @@ const SelectCoin = () => {
           </Box>
         )}
         onChange={(e, v) => {
-          setSelectedCoin(v);
+          selectCoinHandler(v);
         }}
-        value={selecteCoin}
+        value={currency}
         options={coins}
       />
     </div>
@@ -102,22 +119,29 @@ const SelectCoin = () => {
 
 const SelectNetwork = () => {
   const [network, setNetwork] = useState("TRC20");
+  const {
+    currency: { _id: currencyId } = {},
+    networks,
+    network: selectedId,
+  } = useSelector((s) => s.wallet.coin);
+  const dispatch = useDispatch();
+  const networkHandler = (_id) => {
+    dispatch(selectNetwork({ networkId: _id, currencyId }));
+  };
   return (
     <div
       className={`flex flex-nowrap flex-col lg:flex-row lg:flex-wrap gap-[10px]`}
     >
-      {networks?.map(({ value, fullName }, i) => (
+      {networks?.map(({ ticker, title, _id }, i) => (
         <NetworkBtn
-          key={value}
-          onClick={() => setNetwork(value)}
-          active={network === value}
+          key={ticker}
+          onClick={() => networkHandler(_id)}
+          active={_id === selectedId}
           className="font-bold text-[12px]"
         >
-          {value}
+          {ticker}
           <li className={`w-1 text-[10px] opacity-50`} />
-          <span className={`text-[10px] font-normal opacity-50`}>
-            {fullName}
-          </span>
+          <span className={`text-[10px] font-normal opacity-50`}>{title}</span>
         </NetworkBtn>
       ))}
     </div>
@@ -257,7 +281,7 @@ const ReceiveAmount = () => {
 const CoinEl = ({ title, ticker, logo }) => {
   const classes = useStyles();
   return (
-    <div className={`flex gap-[7px] items-center`}>
+    <div className={`flex w-full gap-[7px] items-center`}>
       <div
         className={`flex ${classes.coinEl} w-[25px] h-[25px] items-center justify-center rounded-full border border-solid`}
       >
@@ -268,10 +292,3 @@ const CoinEl = ({ title, ticker, logo }) => {
     </div>
   );
 };
-
-const networks = [
-  { value: "TRC20", fullName: "Tron" },
-  { value: "BTC", fullName: "BTC" },
-  { value: "BSC(BEP32)", fullName: "Binance Smart Chain" },
-  { value: "CSC", fullName: "Coinex Smart Chain" },
-];
