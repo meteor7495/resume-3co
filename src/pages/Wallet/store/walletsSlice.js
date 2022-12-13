@@ -3,7 +3,7 @@ import axiosService from "store/axiosService";
 
 const { get } = axiosService("Wallets");
 export const getWallets = get({
-  url: "wallet",
+  url: "wallet/spot/assets",
   name: "getWallets",
 });
 

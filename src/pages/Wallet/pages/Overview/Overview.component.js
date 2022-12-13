@@ -40,6 +40,7 @@ export default function Overview({ children, ...props }) {
         data={{
           USD: walletTotalUSD,
           BTC: walletTotalBTC,
+          lock: deposit?.totalSpotWalletsLockedBalanceInUSD,
         }}
         setVisibility={setVisibility}
       />

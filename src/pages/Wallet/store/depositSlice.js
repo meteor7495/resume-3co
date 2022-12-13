@@ -3,7 +3,7 @@ import axiosService from "store/axiosService";
 
 const { get } = axiosService("Deposit");
 export const getDeposit = get({
-  url: "wallet/deposits",
+  url: "wallet/Overview",
   name: "getDeposit",
 });
 

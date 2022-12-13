@@ -14,9 +14,7 @@ export const { selectAll: selectCoins, selectById: selectCoinsById } =
   });
 const coinsSlice = createSlice({
   name: "coins",
-  initialState: coinsAdapter.getInitialState({
-    searchText: "",
-  }),
+  initialState: coinsAdapter.getInitialState(),
   reducers: {
     setCoinsSearch: {
       reducer: (state, action) => {

@@ -331,7 +331,7 @@ const Header = (props) => {
       >
         <nav
           className={`flex flex-col items-center text-base ${
-            user?.token ? "h-[560px]" : "h-[410px]"
+            user?.token ? "h-[665px]" : "h-[410px]"
           } overflow-auto ${classes.menuBg}`}
         >
           {user?.token ? (

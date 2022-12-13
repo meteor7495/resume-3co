@@ -38,13 +38,13 @@ export default function SpotAssets({ children, ...props }) {
       { children: <NumberEl value={activeBalance} /> },
       { children: <NumberEl value={lockedBalance} /> },
       {
-        children: <Operation id={_id} />,
+        children: <Operation id={currency._id} />,
         align: "right",
         className: `w-[200px]`,
       },
     ];
   }
-  const rows = wallets.map(createData);
+  const rows = wallets.length > 0 ? wallets.map(createData) : [];
   return (
     <div className={`flex flex-col gap-[10px] h-full `}>
       {deposit && (
@@ -73,7 +73,7 @@ export default function SpotAssets({ children, ...props }) {
           <SearchBox className={`block lg:hidden`} />
           <WalletTable
             className={`h-[700px] lg:h-full`}
-            pagination={{ count: 10 }}
+            pagination={{ count: 1 }}
             header={headerItems}
             rows={rows}
           />
@@ -114,14 +114,14 @@ const CoinEl = ({ title, ticker, logo }) => {
       </div>
       <div className={`font-bold`}>{title}</div>
       <li className={`w-1 text-[10px] opacity-50`} />
-      <div className={classes.tiker}>{ticker}</div>
+      <div className={classes.ticker}>{ticker}</div>
     </div>
   );
 };
 
 const NumberEl = ({ value }) => {
   const classes = useStyles();
-  return <div className={classes.tiker}>{bigInt(value)}</div>;
+  return <div className={classes.ticker}>{value ? bigInt(value) : 0}</div>;
 };
 
 const Operation = ({ id }) => {

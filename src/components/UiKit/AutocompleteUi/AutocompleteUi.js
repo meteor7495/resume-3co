@@ -14,29 +14,28 @@ const AutocompleteUi = ({ renderValue, onChange, ...props }) => {
         flexGrow: 1,
       }}
     >
-      {
-        console.log('propspropspropspropspropspropsprops',props)
-      }
       <Autocomplete
         isOptionEqualToValue={(op, val) => op.value === val.value}
+        getOptionLabel={(option) => {
+          return option?.label ? option?.label : option;
+        }}
         {...props}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         disableClearable
         fullWidth
-/*        onChange={(...e) => {
+        onChange={(...e) => {
           setFocused(false);
           onChange && onChange(...e);
-        }}*/
-        getOptionLabel={(option) => (option?.label ? option?.label : option)}
+        }}
         renderInput={(params) => {
           return (
             <TextField
               {...params}
-              /*onChange={({ target: { value } }) => {
+              onChange={({ target: { value } }) => {
                 setFocused(true);
                 setValue(value);
-              }}*/
+              }}
               className={props.className}
               inputProps={{
                 ...params.inputProps,
@@ -49,10 +48,7 @@ const AutocompleteUi = ({ renderValue, onChange, ...props }) => {
                 startAdornment: renderValue ? (focused ? "" : renderValue) : "",
                 className: classes.notchedOutline,
                 autoComplete: "new-password",
-                classes: {
-                  input: "p-0",
-                  notchedOutline: `border-0`,
-                },
+                classes: { input: "p-0", notchedOutline: `border-0` },
               }}
             />
           );
@@ -60,11 +56,11 @@ const AutocompleteUi = ({ renderValue, onChange, ...props }) => {
       />
       {/* {errorHandler(valueId) && (
         <FormHelperText sx={{ pl: 2, color: "#E31B54" }}>
-          {errorHandler(valueId)}
+          {" "}
+          {errorHandler(valueId)}{" "}
         </FormHelperText>
-      )} */}
+      )}{" "} */}
     </Box>
   );
 };
-
 export default AutocompleteUi;
