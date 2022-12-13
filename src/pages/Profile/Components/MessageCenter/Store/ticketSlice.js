@@ -10,6 +10,10 @@ export const replyTicket = put({
   url: "tickets",
   name: "replyTicket",
 });
+export const saveTicket = post({
+  url: "tickets",
+  name: "saveTicket",
+});
 // export const removeAdmin = useAxios("post", "/admin/remove-admin", "removeAdmin");
 // export const saveAdmin = useAxios("post", "/admin/admins", "saveAdmin")
 // export const updateAdmin = useAxios("patch", "/admin/admins", "updateAdmin");
@@ -22,6 +26,7 @@ const ticketsSlice = createSlice({
   extraReducers: {
     [getTicket.fulfilled]: (state, action) => action.payload,
     [replyTicket.fulfilled]: (state, action) => action.payload,
+    [saveTicket.fulfilled]: (state, action) => action.payload,
     // [updateAdmin.fulfilled]: (state, action) => action.payload,
     // [removeAdmin.fulfilled]: (state, action) => null,
   },
