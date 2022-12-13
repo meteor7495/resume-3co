@@ -1,4 +1,6 @@
-import React from "react";
+import { getHistory } from "pages/Wallet/store/historySlice";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import useDate from "../../../../hooks/useDate";
 import bigInt from "../../../../utils/bigInt";
 import WalletTable from "../WalletTable/WalletTable";
@@ -13,6 +15,10 @@ const statusTypes = {
 export default function HistoryTable({ type, ...props }) {
   const getDate = useDate();
   const classes = useStyles();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // dispatch(getHistory({}));
+  }, []);
   const headerItems = [
     { name: "Time" },
     { name: "Coin" },
@@ -72,7 +78,10 @@ export default function HistoryTable({ type, ...props }) {
         { className, children: <div>{statusEl}</div> },
       ];
       !type &&
-        rowElement.splice(5, 0, { className, children: <div className="opacity-50 font-bold" >{rowType}</div> });
+        rowElement.splice(5, 0, {
+          className,
+          children: <div className="opacity-50 font-bold">{rowType}</div>,
+        });
       return rowElement;
     }
   );
