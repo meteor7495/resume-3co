@@ -8,6 +8,7 @@ function authRequestInterceptor(config) {
   if (token) {
     config.headers.authorization = `Bearer ${token}`;
   }
+  config.headers.contentType = 'multipart/ form-data'
   config.headers.Accept = "application/json";
   config.timeout = 20000;
   return config;

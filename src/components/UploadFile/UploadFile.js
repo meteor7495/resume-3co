@@ -79,7 +79,6 @@ export default function UploadFile({children,...props}) {
           return;
         }
         onDropProp({
-          name: "",
           file: files[0],
         });
       });
@@ -93,6 +92,7 @@ export default function UploadFile({children,...props}) {
         className={'flex w-full items-center gap-1'}
         {...getRootProps()}
       >
+        <input {...getInputProps()} />
         {children}
       </div>
       :

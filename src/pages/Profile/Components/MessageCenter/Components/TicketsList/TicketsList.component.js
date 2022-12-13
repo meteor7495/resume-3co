@@ -17,11 +17,13 @@ import WalletTableHead from "../../../../../Wallet/components/WalletTableHead";
 import {ReactComponent as NothingHere} from "../../../../../../assets/svg/NothingHere.svg";
 import {getTickets} from "../../Store/ticketsSlice";
 import {useDispatch, useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 export default function TicketsList() {
   const classes = useStyles();
   const { tickets } = useSelector((s) => s.messageCenter);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(getTickets());
   }, []);
@@ -58,9 +60,10 @@ export default function TicketsList() {
     },
   ];
 
-  function createData({title, time, department, status}) {
+  function createData({title, time, department, status,id}) {
     return [
-      {children: title, align: 'left',},
+      {id: id, align: 'left',className:'hidden text-left'},
+      {children: title, align: 'left',className:'text-left'},
       {children: time,},
       {children: department,},
       {children: status, className: `font-bold capitalize ${statusHandler(status)}`},
@@ -69,10 +72,11 @@ export default function TicketsList() {
   const rows = tickets?.map((item) => {
     return createData(
       {
-        title: item?.title,
+        id: item?._id,
+        title: item?.issueType?.title,
         time: item?.createdAt,
         department: 'Deposit & Withdraw',
-        status: 'closed',
+        status: item?.status,
       },
     )
   })
@@ -100,18 +104,17 @@ export default function TicketsList() {
                     <Table aria-label="simple table" size={"small"} stickyHeader>
                       <WalletTableHead header={header}/>
                       <TableBody className={classes.tableBody}>
-                        {
-                          console.log('rowsrowsrowsrows',rows)
-                        }
                         {rows?.length > 0 &&
                           rows.map((cells, i) => (
                             <TableRow
+                              onClick={() => navigate(`/profile/message-center/${cells[i]?.id}`)}
                               key={i}
                               sx={{
                                 "&:last-child td, &:last-child th": {border: 0},
                               }}
-                              className={classes.tableRow}
+                              className={`cursor-pointer ${classes.tableRow}`}
                             >
+                              {console.log('cellscells',cells)}
                               {cells.map(({className, align, children, ...props}, i) => {
                                 return (
                                   <TableCell
@@ -120,7 +123,7 @@ export default function TicketsList() {
                                     className={`${tClasses.cell} ${className}`}
                                     align={align ? align : "center"}
                                   >
-                                    <div className={'w-max m-auto'}>
+                                    <div className={'w-max m-auto lg:m-0 lg:w-full'}>
                                       {children}
                                     </div>
                                   </TableCell>

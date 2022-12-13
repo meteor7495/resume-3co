@@ -13,6 +13,9 @@ const axiosService = (name) => {
   const post = ({ url, name, errorCallback }) => {
     return axiosHandler({ type: "post", url, name, errorCallback });
   };
+  const put = ({ url, name, errorCallback }) => {
+    return axiosHandler({ type: "put", url, name, errorCallback });
+  };
   const deleteHandler = ({ url, name, errorCallback }) => {
     return axiosHandler({ type: "delete", url, name, errorCallback });
   };
@@ -29,8 +32,12 @@ const axiosService = (name) => {
     const actionName = `${name}/${getName}`;
     return createAsyncThunk(actionName, async (oldBody, { dispatch }) => {
       dispatch(addLoader(actionName));
+
       const { url, body } = bodyHandler(oldUrl, oldBody);
-      const result = await axios[type](url, body);
+      let formData = new FormData();
+      formData.append("attachment", body?.attachment);
+      formData.append("message", body?.message);
+      const result = await axios[type](url, formData);
       if (result.status === "Failed") {
         if (result.unAuthorize === false) {
           dispatch(
@@ -54,7 +61,7 @@ const axiosService = (name) => {
     });
   };
 
-  return { axiosHandler, get, post, deleteHandler, patch };
+  return { axiosHandler, get, post, put, deleteHandler, patch };
 };
 
 const urlHandler = (url, { selectId, addedUrl, queries }) =>

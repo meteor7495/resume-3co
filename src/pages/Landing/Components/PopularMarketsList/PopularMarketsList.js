@@ -13,10 +13,12 @@ import withReducer from "../../../../store/withReducer";
 import reducer from "./Store";
 import {useDispatch, useSelector} from "react-redux";
 import {getMarkets} from "./Store/marketsSlice";
+import {useNavigate} from "react-router-dom";
 
 function PopularMarketsList() {
   const classes = useStyles();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {markets} = useSelector((s) => s.markets);
   console.log('homehomehomehome', markets)
   useEffect(() => {
@@ -153,7 +155,7 @@ function PopularMarketsList() {
                             />
                           </td>
                           <td className="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-center">
-                            <ButtonUi variant={'outlined'} className={'text-[14px] font-[700]'}>
+                            <ButtonUi onClick={() => navigate(`/exchange?coinId=${item?._id}`)} variant={'outlined'} className={'text-[14px] font-[700]'}>
                               Buy
                             </ButtonUi>
                           </td>

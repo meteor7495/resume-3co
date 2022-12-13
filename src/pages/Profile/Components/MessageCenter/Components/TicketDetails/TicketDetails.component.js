@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import useStyles from "./TicketDetails.styles";
 import {
   Divider,
@@ -22,14 +22,33 @@ import AttachmentSVG from "../../../../../../assets/icons/attachment.svg";
 import InputUi from "../../../../../../components/UiKit/InputUi";
 import CloseIcon from "@mui/icons-material/Close";
 import UploadFile from "../../../../../../components/UploadFile/UploadFile";
+import {getTicket, replyTicket} from "../../Store/ticketSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {useNavigate, useParams} from "react-router-dom";
 
 export default function TicketsList() {
   const classes = useStyles();
   const [fileValue, setFileValue] = useState({});
-  const tClasses = {
-    headerCell: `border-0 z-[1] text-[15px] font-bold min-w-[100px] ${classes.headerCell}`,
-    cell: "border-0 text-[15px] px-[10px] py-[2.5px] [&:last-child]:rounded-l-[5px] [&:first-child]:rounded-l-[5px]",
-  };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const params = useParams()
+  const { ticket } = useSelector((s) => s.messageCenter);
+  const { user } = useSelector((s) => s.user);
+  const [value, setValue] = useState()
+  useEffect(() => {
+    console.log('paramsparamsparamsparamsparams',params)
+    dispatch(getTicket({selectId: params?.id}));
+  }, []);
+  useEffect(() => {
+    console.log('valuevaluevaluevaluevalue',value)
+  },[value])
+  const onSubmit = () => {
+    dispatch(replyTicket({
+      message: value,
+      attachment: fileValue?.file,
+      selectId: params?.id
+    }));
+  }
   const statusHandler = (status) => {
     if (status === 'closed') {
       return "text-error";
@@ -39,109 +58,53 @@ export default function TicketsList() {
       return "text-warning";
     }
   }
-  const pagination = {count: 1}
-  const header = [
-    {
-      name: "Subject",
-      className: `hidden lg:table-cell border-0 border-solid border-gray-300 text-sm font-[400] text-[18px] px-6 py-4 text-left w-[35%] ${classes.borderColor}`
-    },
-    {
-      name: "Time",
-      className: `hidden lg:table-cell border-0 border-solid border-gray-300 text-sm font-[400] text-[18px] px-6 py-4 text-center w-[25%] ${classes.borderColor}`
-    },
-    {
-      name: "Department",
-      className: `hidden lg:table-cell border-0 border-solid border-gray-300 text-sm font-[400] text-[18px] px-6 py-4 text-center w-[25%] ${classes.borderColor}`
-    },
-    {
-      name: "Status",
-      className: `hidden lg:table-cell border-0 border-solid border-gray-300 text-sm font-[400] text-[18px] px-6 py-4 text-center w-[15%] ${classes.borderColor}`
-    },
-  ];
-
-  function createData({title, time, department, status}) {
-    return [
-      {children: title, align: 'left'},
-      {children: time},
-      {children: department},
-      {children: status, className: `font-bold capitalize ${statusHandler(status)}`},
-    ];
+  const MessageUiHandler = (item) => {
+    const object = item?.sender?.role === 'USER' ?
+      {
+        boxRounded: 'rounded-t-[10px] rounded-br-[10px]',
+        name: item?.sender?.fullName,
+        className: 'lg:flex-row w-full justify-start',
+        operatorClass:'',
+        filesClass:'',
+      }
+      :
+      {
+        boxRounded: 'rounded-t-[10px] rounded-bl-[10px]',
+        name: 'Operator',
+        className: 'lg:flex-row-reverse w-full',
+        operatorClass:'text-success',
+        filesClass:'items-end text-right',
+      }
+    return <div className={`flex flex-col ${object?.className}`}>
+      <div className={`flex flex-col w-full lg:w-3/5 border border-solid p-4 ${object?.boxRounded} ${classes.borderColor}`}>
+        <Typography variant={'h5'} className={`w-full text-base font-bold ${object?.operatorClass} capitalize`}>
+          {object?.name}
+        </Typography>
+        <Typography color={'text.secondary'} className={'text-base font-normal mt-3'}>
+          {item?.message}
+        </Typography>
+      </div>
+      <div className={`flex flex-col w-full lg:w-2/5 py-4 lg:p-4 justify-center ${object?.filesClass}`}>
+        <div>
+          <Typography color={'text.secondary'} className={'text-xs'}>
+            Files Included
+          </Typography>
+          <ButtonUi sx={{backgroundColor:'transparent!important',padding:0,minWidth:'auto'}} className={'flex items-center mt-2'}>
+            <img src={FileSvg} style={{width: 10, height: 12}}/>
+            <Typography color={'primary'} className={'text-[10px] ml-2'}>theIssue026_2022_11_29.doc</Typography>
+          </ButtonUi>
+        </div>
+        <div className={'mt-2'}>
+          <Typography color={'text.secondary'} className={'text-xs'}>
+            Sent Time
+          </Typography>
+          <Typography className={'text-[10px] mt-2'}>
+            {item?.createdAt}
+          </Typography>
+        </div>
+      </div>
+    </div>
   }
-
-  const rows = [
-    createData(
-      {
-        title: 'Deposit via Address not Credited',
-        time: '2022/12/03 - 21:06:12',
-        department: 'Deposit & Withdraw',
-        status: 'closed',
-      },
-    ),
-    createData(
-      {
-        title: 'Deposit via Address not Credited',
-        time: '2022/12/03 - 21:06:12',
-        department: 'Deposit & Withdraw',
-        status: 'pending',
-      },
-    ),
-    createData(
-      {
-        title: 'Deposit via Address not Credited',
-        time: '2022/12/03 - 21:06:12',
-        department: 'Deposit & Withdraw',
-        status: 'replied',
-      },
-    ),
-    createData(
-      {
-        title: 'Deposit via Address not Credited',
-        time: '2022/12/03 - 21:06:12',
-        department: 'Deposit & Withdraw',
-        status: 'closed',
-      },
-    ),
-    createData(
-      {
-        title: 'Deposit via Address not Credited',
-        time: '2022/12/03 - 21:06:12',
-        department: 'Deposit & Withdraw',
-        status: 'pending',
-      },
-    ),
-    createData(
-      {
-        title: 'Deposit via Address not Credited',
-        time: '2022/12/03 - 21:06:12',
-        department: 'Deposit & Withdraw',
-        status: 'replied',
-      },
-    ),
-    createData(
-      {
-        title: 'Deposit via Address not Credited',
-        time: '2022/12/03 - 21:06:12',
-        department: 'Deposit & Withdraw',
-        status: 'closed',
-      },
-    ),
-    createData(
-      {
-        title: 'Deposit via Address not Credited',
-        time: '2022/12/03 - 21:06:12',
-        department: 'Deposit & Withdraw',
-        status: 'pending',
-      },
-    ),
-    createData(
-      {
-        title: 'Deposit via Address not Credited',
-        time: '2022/12/03 - 21:06:12',
-        department: 'Deposit & Withdraw',
-        status: 'replied',
-      },
-    ),
-  ]
   return (
     <section className={"body-font h-[700px] lg:h-full"}>
       <div className="container mx-auto flex md:flex-row flex-col items-center">
@@ -151,14 +114,14 @@ export default function TicketsList() {
             className={`flex flex-col w-full rounded-[10px] border border-solid ${classes.borderColor}`}>
             <div className={'flex flex-wrap justify-start p-5'}>
               <div className={'w-full mb-3'}>
-                <ButtonUi variant={'text'} sx={{backgroundColor:'transparent!important',padding:0,minWidth:'auto'}}>
+                <ButtonUi onClick={() => navigate('/profile/message-center')} variant={'text'} sx={{backgroundColor:'transparent!important',padding:0,minWidth:'auto'}}>
                   <ArrowBackIosIcon fontSize={'16px'} /> Back
                 </ButtonUi>
               </div>
               <div className={'flex w-full items-center flex-col lg:flex-row'}>
                 <div className={'flex w-full lg:w-3/5 items-center flex-col lg:flex-row'}>
                   <Typography className={'font-bold text-base'}>
-                    Deposit via Address not Credited
+                    {ticket?.issueType?.title}
                   </Typography>
                   <Typography color={'text.secondary'} className={'hidden lg:flex text-3xl'}>&nbsp;|&nbsp;</Typography>
                   <div className={"lg:hidden flex w-full mt-2 mb-2"}>
@@ -169,7 +132,17 @@ export default function TicketsList() {
                   </Typography>
                 </div>
                 <div className={'flex w-full lg:w-2/5 items-center justify-end'}>
-                  <Typography className={'text-center lg:text-right w-full lg:w-auto justify-center flex items-center mt-2'} color={'text.secondary'}>Status: <Typography className={'text-success ml-2'}>Replied</Typography></Typography>
+                  <Typography
+                    className={'text-center lg:text-right w-full lg:w-auto justify-center flex items-center mt-2'}
+                    color={'text.secondary'}
+                  >
+                    Status:
+                    <Typography
+                      className={`${statusHandler(ticket?.status)} ml-2 capitalize`}
+                    >
+                      {ticket?.status}
+                    </Typography>
+                  </Typography>
                 </div>
               </div>
             </div>
@@ -177,92 +150,16 @@ export default function TicketsList() {
               <Divider sx={{width: "100%"}}/>
             </div>
             <div className={`flex flex-col h-full p-5 gap-5`}>
-              <div className={'flex flex-col lg:flex-row w-full justify-start'}>
-                <div className={`flex flex-col w-full lg:w-3/5 border border-solid p-4 rounded-t-[10px] rounded-br-[10px] ${classes.borderColor}`}>
-                  <Typography variant={'h5'} className={'w-full text-base font-bold'}>
-                    Hosein Akrami
-                  </Typography>
-                  <Typography color={'text.secondary'} className={'text-base font-normal mt-3'}>
-                    Lorem ipsum dolor sit amet consectetur. Euismod nunc sapien neque pretium varius rhoncus montes blandit ac. Vitae et in sit platea nisi. Dui odio purus placerat suspendisse arcu commodo in ligula. Pulvinar natoque sit consectetur bibendum. Dolor vestibulum adipiscing et nibh auctor in.
-                    Eget nunc mattis cum consectetur. Cras vitae nec sit at neque non id. Enim leo.
-                  </Typography>
-                </div>
-                <div className={`flex flex-col w-full lg:w-2/5 py-4 lg:p-4 justify-center`}>
-                  <div>
-                    <Typography color={'text.secondary'} className={'text-xs'}>
-                      Files Included
-                    </Typography>
-                    <ButtonUi sx={{backgroundColor:'transparent!important',padding:0,minWidth:'auto'}} className={'flex items-center mt-2'}>
-                      <img src={FileSvg} style={{width: 10, height: 12}}/>
-                      <Typography color={'primary'} className={'text-[10px] ml-2'}>theIssue026_2022_11_29.doc</Typography>
-                    </ButtonUi>
-                  </div>
-                  <div className={'mt-2'}>
-                    <Typography color={'text.secondary'} className={'text-xs'}>
-                      Sent Time
-                    </Typography>
-                    <Typography className={'text-[10px] mt-2'}>
-                      2022/12/03 - 21:06:12
-                    </Typography>
-                  </div>
-                </div>
-              </div>
-              <div className={'flex flex-col lg:flex-row w-full justify-start flex-row-reverse'}>
-                <div className={`flex flex-col w-full lg:w-3/5 border border-solid p-4 rounded-t-[10px] rounded-bl-[10px] ${classes.borderColor}`}>
-                  <Typography variant={'h5'} className={'w-full text-base font-bold text-success'}>
-                    Operator
-                  </Typography>
-                  <Typography color={'text.secondary'} className={'text-base font-normal mt-3'}>
-                    Lorem ipsum dolor sit amet consectetur. Euismod nunc sapien neque pretium varius rhoncus montes blandit ac. Vitae et in sit platea nisi. Dui odio purus placerat suspendisse arcu commodo in ligula. Pulvinar natoque sit consectetur bibendum. Dolor vestibulum adipiscing et nibh auctor in.
-                    Eget nunc mattis cum consectetur. Cras vitae nec sit at neque non id. Enim leo.
-                  </Typography>
-                </div>
-                <div className={`flex flex-col w-full lg:w-2/5 py-4 lg:p-4 justify-center items-end`}>
-                  <div>
-                    <Typography color={'text.secondary'} className={'text-xs text-right'}>
-                      Files Included
-                    </Typography>
-                    <ButtonUi sx={{backgroundColor:'transparent!important',padding:0,minWidth:'auto'}} className={'flex items-center mt-2'}>
-                      <img src={FileSvg} style={{width: 10, height: 12}}/>
-                      <Typography color={'primary'} className={'text-[10px] ml-2'}>theIssue026_2022_11_29.doc</Typography>
-                    </ButtonUi>
-                  </div>
-                  <div className={'mt-2'}>
-                    <Typography color={'text.secondary'} className={'text-xs text-right'}>
-                      Sent Time
-                    </Typography>
-                    <Typography className={'text-[10px] mt-2'}>
-                      2022/12/03 - 21:06:12
-                    </Typography>
-                  </div>
-                </div>
-              </div>
-              <div className={'flex flex-col lg:flex-row w-full justify-start'}>
-                <div className={`flex flex-col w-full lg:w-3/5 border border-solid p-4 rounded-t-[10px] rounded-br-[10px] ${classes.borderColor}`}>
-                  <Typography variant={'h5'} className={'w-full text-base font-bold'}>
-                    Hosein Akrami
-                  </Typography>
-                  <Typography color={'text.secondary'} className={'text-base font-normal mt-3'}>
-                    Lorem ipsum dolor sit amet consectetur. Euismod nunc sapien neque pretium varius rhoncus montes blandit ac. Vitae et in sit platea nisi. Dui odio purus placerat suspendisse arcu commodo in ligula. Pulvinar natoque sit consectetur bibendum. Dolor vestibulum adipiscing et nibh auctor in.
-                    Eget nunc mattis cum consectetur. Cras vitae nec sit at neque non id. Enim leo.
-                  </Typography>
-                </div>
-                <div className={`flex flex-col w-full lg:w-2/5 py-4 lg:p-4 justify-center`}>
-                  <div className={'mt-2'}>
-                    <Typography color={'text.secondary'} className={'text-xs'}>
-                      Sent Time
-                    </Typography>
-                    <Typography className={'text-[10px] mt-2'}>
-                      2022/12/03 - 21:06:12
-                    </Typography>
-                  </div>
-                </div>
-              </div>
+              {
+                ticket?.messages?.map((item) => {
+                  return MessageUiHandler(item)
+                })
+              }
               <div className={'flex w-full justify-start'}>
                 <div className={`flex flex-col w-full lg:w-3/5 border border-solid rounded-t-[10px] rounded-br-[10px] ${classes.borderColor}`}>
                   <div className={'p-4'}>
-                    <Typography variant={'h5'} className={'w-full text-base font-bold mb-3'}>
-                      Hosein Akrami
+                    <Typography variant={'h5'} className={'w-full text-base font-bold mb-3 capitalize'}>
+                      {user?.fullName}
                     </Typography>
                     <InputUi
                       sx={{
@@ -273,6 +170,8 @@ export default function TicketsList() {
                         "& .MuiOutlinedInput-notchedOutline":{backgroundColor:'transparent!important',border:'none!important',padding:'0!important'},
                         "& textarea":{padding:'0!important'},
                       }}
+                      value={value}
+                      onChange={(event) => setValue(event.target.value)}
                       placeholder={'Start Typing...'}
                       multiline
                       rows={4}
@@ -283,12 +182,15 @@ export default function TicketsList() {
                   </div>
                   <div className={'p-4 flex justify-between'}>
                     {
+                      console.log('fileValuefileValuefileValuefileValuefileValue',fileValue)
+                    }
+                    {
                       fileValue?.file ?
                         <div className={'flex justify-between gap-2 items-center'}>
                           <div className={'flex'}>
                             <img src={FileSvg} style={{width: 10, height: 12}}/>
                             <Typography color={'textColor.gray'} className={'ml-2 text-xs'}>
-                              theIssue16_2022_11_29.doc
+                              {fileValue?.file?.name}
                             </Typography>
                           </div>
                           <div className={'flex justify-end pr-3'}>
@@ -315,7 +217,9 @@ export default function TicketsList() {
                         </div>
                     }
 
-                    <ButtonUi size={'small'} variant={'contained'}>
+                    <ButtonUi onClick={() => {
+                      onSubmit()
+                    }} size={'small'} variant={'contained'}>
                       Send Reply
                     </ButtonUi>
                   </div>
