@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
 import useStyles from "./TicketsList.styles";
 import {
+  Button,
   Divider,
   Pagination,
   PaginationItem,
@@ -18,6 +19,7 @@ import {ReactComponent as NothingHere} from "../../../../../../assets/svg/Nothin
 import {getTickets} from "../../Store/ticketsSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
+import useAuth from "../../../../../../hooks/useAuth";
 
 export default function TicketsList() {
   const classes = useStyles();
@@ -80,8 +82,10 @@ export default function TicketsList() {
       },
     )
   })
+  const { getUser} = useAuth();
   return (
     <section className={"body-font h-[700px] lg:h-full"}>
+      <Button onClick={() => getUser()}>check user</Button>
       <div className="container mx-auto flex md:flex-row flex-col items-center">
         <div
           className="lg:flex-grow w-full flex flex-col mb-16 md:mb-0 items-center text-center">
