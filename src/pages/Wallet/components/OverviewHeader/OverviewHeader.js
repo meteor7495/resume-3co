@@ -87,8 +87,8 @@ const PieChart = ({ ChartValues }) => {
         return [`${seriesName}: ${value ? value : 0}%`];
       },
       markers: {
-        width: "15px",
-        height: "15px",
+        width: "20px",
+        height: "20px",
       },
       floating: false,
     },
@@ -119,7 +119,7 @@ const PieChart = ({ ChartValues }) => {
         </div>
       )}
       <ReactApexChart
-        className={isData ? "grow" : "w-[150px]"}
+        className={isData ? "grow" : "w-[300px]"}
         options={options}
         width="100%"
         height="100%"

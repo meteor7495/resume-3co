@@ -1,5 +1,5 @@
 import { PieChartSharp, Refresh } from "@mui/icons-material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BoxUi from "../../../../components/UiKit/BoxUi";
 import AttentionCard from "../../components/AttentionCard/AttentionCard";
 import OverviewHeader from "../../components/OverviewHeader/OverviewHeader";
@@ -12,15 +12,20 @@ import LogoSVG from "../../../../assets/images/theerco.png";
 import ProfitTable from "./components/ProfitTable/ProfitTable";
 import { useDispatch } from "react-redux";
 import { setModal } from "../../../../store/ModalSlice";
+import { getFinancial } from "pages/Wallet/store/FinancialSlice";
 
 export default function Financial({ children, ...props }) {
   const classes = useStyles();
   const [visibility, setVisibility] = useState(true);
   const ChartValues = {
-    "Remaining Shares": 40,
-    "Your Shares": 60,
+    "Remaining Shares": 0,
+    "Your Shares": 0,
     Sold: 0,
   };
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getFinancial());
+  }, []);
 
   return (
     <div className={`flex flex-col gap-[10px]`}>
@@ -135,7 +140,9 @@ const Operation = () => {
         disableRipple
         style={{ position: "inherit" }}
         className={`p-[2px] bg-[transparent_!important] ${btnClass}`}
-        onClick={() => dispatch(setModal({ visible: true, id: "FinancialModal" }))}
+        onClick={() =>
+          dispatch(setModal({ visible: true, id: "FinancialModal" }))
+        }
       >
         Deposit
       </ButtonUi>

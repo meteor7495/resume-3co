@@ -1,5 +1,8 @@
 import { Button } from "@mui/material";
-import React, { useState } from "react";
+import { walletType } from "constants/walletType.enum copy";
+import { getHistory } from "pages/Wallet/store/historySlice";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import BoxUi from "../../../../components/UiKit/BoxUi";
 import HistoryTable from "../../components/HistoryTable/HistoryTable";
 import useStyles from "./History.style";
@@ -7,6 +10,14 @@ import useStyles from "./History.style";
 export default function History({ type, ...props }) {
   const classes = useStyles();
   const [active, setActive] = useState("All");
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(
+      getHistory({
+        query: { action: type && type.toLowerCase(), limit: 5 },
+      })
+    );
+  }, [type]);
   return (
     <BoxUi
       className={`flex flex-col ${classes.wrapper}`}
@@ -34,7 +45,7 @@ export default function History({ type, ...props }) {
           </NetworkBtn>
         </div>
       </div>
-      <HistoryTable type={type} pagination={{ count: 1 }} />
+      <HistoryTable type={type} pagination />
     </BoxUi>
   );
 }

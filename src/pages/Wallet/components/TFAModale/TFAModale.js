@@ -12,6 +12,7 @@ import useAxios from "hooks/useAxios";
 import { string } from "yup";
 import { showAlert } from "store/AlertsSlice";
 import { AlertTypes } from "constants/alertTypes.enum";
+import { getHistory } from "pages/Wallet/store/historySlice";
 
 let schema = string()
   .required()
@@ -26,6 +27,7 @@ export default function TFAModale({}) {
     network,
     currency: { _id: currencyId },
   } = useSelector((s) => s.wallet.coin);
+  const { doneCallback } = useSelector((s) => s.modal);
   const activatePopUpImage = theme === "light" ? securityLight : securityDark;
   const [loading, setLoading] = useState();
   const [successful, setSuccessful] = useState();
@@ -61,7 +63,13 @@ export default function TFAModale({}) {
     setLoading(false);
   };
   const dispatch = useDispatch();
+
   const closeHandler = () => {
+    if (successful) {
+      doneCallback && doneCallback();
+      setSuccessful(false);
+    }
+    setTFA("");
     !loading && dispatch(closeModal());
   };
   return (

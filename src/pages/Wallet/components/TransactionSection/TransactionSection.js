@@ -40,7 +40,7 @@ export default function TransactionSection({ type }) {
           },
           {
             label: "Receive Amount",
-            children: <ReceiveAmount />,
+            children: <ReceiveAmount type={type} />,
           }
         );
         break;

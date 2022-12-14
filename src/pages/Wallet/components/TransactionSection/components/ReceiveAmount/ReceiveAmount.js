@@ -2,26 +2,38 @@ import { Button, InputAdornment } from "@mui/material";
 import ButtonUi from "components/UiKit/ButtonUi";
 import InputUi from "components/UiKit/InputUi";
 import routes from "configs/routes";
+import { getHistory } from "pages/Wallet/store/historySlice";
 import { selectWallets } from "pages/Wallet/store/walletsSlice";
 import { setWithdrawAmount } from "pages/Wallet/store/withdrawSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { setModal } from "store/ModalSlice";
 
-export default function ReceiveAmount() {
+export default function ReceiveAmount({ type }) {
   const { isTfaActive } = useSelector((s) => s?.user?.user);
+
   const dispatch = useDispatch();
+
   const { amount, address } = useSelector((s) => s.wallet.withdraw);
+
   const { currency } = useSelector((s) => s.wallet.coin);
+
   const Wallets = useSelector(selectWallets);
   const {
     currency: { _id },
   } = useSelector((s) => s.wallet.coin);
+
   const allHandler = () => {
     const wallet = Wallets.filter(
       ({ currency: { _id: w_id } }) => _id === w_id
     )[0];
     dispatch(setWithdrawAmount(wallet.activeBalance));
+  };
+
+  const refreshHandler = () => {
+    dispatch(
+      getHistory({ query: { action: type && type.toLowerCase(), limit: 10 } })
+    );
   };
   return (
     <div className="flex flex-col gap-[10px]">
@@ -61,7 +73,15 @@ export default function ReceiveAmount() {
         <ButtonUi
           disabled={!isTfaActive || !(amount && address)}
           variant="contained"
-          onClick={() => dispatch(setModal({ visible: true, id: "TFAModale" }))}
+          onClick={() =>
+            dispatch(
+              setModal({
+                visible: true,
+                id: "TFAModale",
+                doneCallback: refreshHandler,
+              })
+            )
+          }
         >
           Withdraw
         </ButtonUi>

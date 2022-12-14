@@ -1,6 +1,6 @@
 import { getHistory } from "pages/Wallet/store/historySlice";
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useDate from "../../../../hooks/useDate";
 import bigInt from "../../../../utils/bigInt";
 import WalletTable from "../WalletTable/WalletTable";
@@ -10,11 +10,18 @@ const statusTypes = {
   Succesful: "Succesful",
   Unsuccesful: "Unsuccesful",
   Pending: "Pending",
+  Inprogress: "inprogress",
 };
 
-export default function HistoryTable({ type, ...props }) {
+export default function HistoryTable({
+  type,
+  pagination: isPagination,
+  ...props
+}) {
   const getDate = useDate();
   const classes = useStyles();
+  const { itemsList, pagination } = useSelector((s) => s.wallet.history);
+  console.log({ itemsList });
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(
@@ -30,8 +37,8 @@ export default function HistoryTable({ type, ...props }) {
     { name: "Status" },
   ];
   !type && headerItems.splice(5, 0, { name: "Deposit/Withdraw" });
-  const newRows = rows.map(
-    ({ time, coin, amount, network, address, status, type: rowType }) => {
+  const newRows = itemsList?.map(
+    ({ createdAt, coin, amount, network, toAddress, status, action }) => {
       const className = `text-[14px]`;
       let statusEl = <div>{status}</div>;
       switch (status) {
@@ -41,8 +48,8 @@ export default function HistoryTable({ type, ...props }) {
         case statusTypes.Unsuccesful:
           statusEl = <div className="text-error">Unsuccesful</div>;
           break;
-        case statusTypes.Pending:
-          statusEl = <div className="text-warning">Pending</div>;
+        case statusTypes.Inprogress:
+          statusEl = <div className="text-warning">Inprogress</div>;
           break;
         default:
           break;
@@ -52,7 +59,7 @@ export default function HistoryTable({ type, ...props }) {
           className,
           children: (
             <div className="w-max m-auto">
-              {getDate(time).format("MM/DD - HH:mm:ss")}
+              {getDate(createdAt).format("MM/DD - HH:mm:ss")}
             </div>
           ),
         },
@@ -71,8 +78,8 @@ export default function HistoryTable({ type, ...props }) {
           children: (
             <div className="w-[85px] m-auto">
               <span className="inline-block flex items-center text-[14px] font-normal">
-                <span className="inline-block truncate">{address}</span>
-                {address.slice(-5)}
+                <span className="inline-block truncate">{toAddress}</span>
+                {toAddress.slice(-5)}
               </span>
             </div>
           ),
@@ -82,12 +89,20 @@ export default function HistoryTable({ type, ...props }) {
       !type &&
         rowElement.splice(5, 0, {
           className,
-          children: <div className="opacity-50 font-bold">{rowType}</div>,
+          children: <div className="opacity-50 font-bold">{action}</div>,
         });
       return rowElement;
     }
   );
-  return <WalletTable {...props} header={headerItems} rows={newRows} />;
+  console.log({isPagination})
+  return (
+    <WalletTable
+      {...props}
+      pagination={isPagination && pagination}
+      header={headerItems}
+      rows={newRows}
+    />
+  );
 }
 
 const CreateData = (time, coin, amount, network, address, status, type) => ({

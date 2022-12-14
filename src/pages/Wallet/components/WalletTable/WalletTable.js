@@ -15,6 +15,7 @@ import WalletTableHead from "../WalletTableHead";
 import { ReactComponent as NothingHere } from "../../../../assets/svg/NothingHere.svg";
 
 const WalletTable = ({ header, rows, className, pagination }) => {
+  console.log({pagination})
   const classes = useStyles();
   const tClasses = {
     headerCell: `border-0 z-[0] text-[15px] font-bold min-w-[100px] ${classes.headerCell}`,
