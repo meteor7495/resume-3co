@@ -17,7 +17,9 @@ export default function HistoryTable({ type, ...props }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   useEffect(() => {
-    // dispatch(getHistory({}));
+    dispatch(
+      getHistory({ query: { action: type && type.toLowerCase(), limit: 10 } })
+    );
   }, []);
   const headerItems = [
     { name: "Time" },

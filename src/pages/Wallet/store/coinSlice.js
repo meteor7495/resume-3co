@@ -29,12 +29,10 @@ const coinSlice = createSlice({
     },
   },
   extraReducers: {
-    [selectCoin.fulfilled]: (state, { payload }) => {
-      return {
-        ...state,
-        ...payload,
-      };
-    },
+    [selectCoin.fulfilled]: (state, { payload }) => ({
+      ...state,
+      ...payload,
+    }),
     [generateAddress.fulfilled]: (state, { payload }) => {
       return {
         ...state,

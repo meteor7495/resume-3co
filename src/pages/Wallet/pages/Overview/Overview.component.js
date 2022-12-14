@@ -24,10 +24,10 @@ export default function Overview({ children, ...props }) {
     : 0;
   const ChartValues = {
     Spot: walletTotalUSD
-      ? deposit.totalSpotWalletsAmountInUSD / walletTotalUSD
+      ? (deposit.totalSpotWalletsAmountInUSD / walletTotalUSD) * 100
       : 0,
     Financial: walletTotalUSD
-      ? deposit.totalFinancialWalletsAmountInUSD / walletTotalUSD
+      ? (deposit.totalFinancialWalletsAmountInUSD / walletTotalUSD) * 100
       : 0,
     Margin: 0,
     "NFT Market": 0,

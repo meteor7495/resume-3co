@@ -9,7 +9,7 @@ import {
 import React, { useEffect, useState } from "react";
 import useStyles from "./styles";
 import { useDispatch, useSelector } from "react-redux";
-import { setModal } from "../../../store/ModalSlice";
+import { closeModal } from "../../../store/ModalSlice";
 
 const ModalUi = ({
   title,
@@ -24,13 +24,13 @@ const ModalUi = ({
   const dispatch = useDispatch();
   const { modal } = useSelector((s) => s);
   const handleClose = () => {
-    dispatch(setModal({ visible: false, modal: "" }));
+    dispatch(closeModal());
   };
   return (
     <Dialog
+      onClose={handleClose}
       {...props}
       open={!!(modal?.visible && modal?.id === id)}
-      onClose={handleClose}
       classes={{
         ...classesP,
         paper: `${classes.paper} ${classesP?.paper}`,

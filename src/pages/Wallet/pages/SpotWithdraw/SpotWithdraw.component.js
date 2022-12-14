@@ -1,4 +1,6 @@
-import React from "react";
+import { getWallets } from "pages/Wallet/store/walletsSlice";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import BoxUi from "../../../../components/UiKit/BoxUi";
 import { walletType } from "../../../../constants/walletType.enum copy";
 import AttentionCard from "../../components/AttentionCard/AttentionCard";
@@ -7,6 +9,10 @@ import TransactionSection from "../../components/TransactionSection/TransactionS
 import WalletRecord from "../../components/WalletRecord/WalletRecord";
 
 export default function SpotWithdraw({ children, ...props }) {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getWallets());
+  }, []);
   return (
     <div className={`flex flex-col gap-[10px]`}>
       <BoxUi
@@ -22,9 +28,17 @@ export default function SpotWithdraw({ children, ...props }) {
             <TransactionSection type={walletType.Withdraw} />
           </div>
           <div className={`flex flex-col gap-[15px] lg:w-1/2`}>
-            <AttentionCard description={<div className={`text-[12px] opacity-50`} >
-              <span className="font-bold" >Arrival time:</span> Normal Transfers are sent via crypto network, and the arrival time depends on the number of confirmations required by the recipient.
-            </div>} items={attentionItems} />
+            <AttentionCard
+              description={
+                <div className={`text-[12px] opacity-50`}>
+                  <span className="font-bold">Arrival time:</span> Normal
+                  Transfers are sent via crypto network, and the arrival time
+                  depends on the number of confirmations required by the
+                  recipient.
+                </div>
+              }
+              items={attentionItems}
+            />
             <FAQCard className={`hidden lg:block`} />
           </div>
         </div>
@@ -41,6 +55,6 @@ const attentionItems = [
     title: "Minimum Withdrawal",
     value: "0.01",
     unit: "BTC",
-    warning: true
+    warning: true,
   },
 ];

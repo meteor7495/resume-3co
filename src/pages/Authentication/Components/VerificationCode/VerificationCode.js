@@ -36,7 +36,7 @@ export default function VerificationCode(props) {
     verifyCode(data)
   };
   const notifyHandler = ({message, alertType, key}) => {
-    dispatch(showAlert({notify: {message, type: alertType, visible: true, key},}));
+    dispatch(showAlert( {message, type: alertType, visible: true, key}));
   };
 
   useEffect(() => {

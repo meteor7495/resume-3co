@@ -3,6 +3,7 @@ import Landing from "../pages/Landing/Landing.component";
 import Authentication from "../pages/Authentication/Authentication.component";
 
 export const publicRoutes = (isLoading) => {
+  console.log("public routes", isLoading);
   return (
     <>
       <Route path="/login" element={<Authentication page={"login"} />} />

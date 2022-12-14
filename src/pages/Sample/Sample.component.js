@@ -14,7 +14,7 @@ export default function SamplePage({ children, ...props }) {
     const dispatch = useDispatch();
     const classes = useStyles();
   const notifyHandler = (alertType) => {
-    dispatch(showAlert({notify: { message: "Sample Yo", type: alertType },}));
+    dispatch(showAlert( { message: "Sample Yo", type: alertType }));
   };
   useEffect(() => {
     dispatch(resetSettings());

@@ -25,7 +25,7 @@ export default function Security() {
     updatePassword(data)
   };
   const notifyHandler = ({message, alertType, key}) => {
-    dispatch(showAlert({notify: {message, type: alertType, visible: true, key},}));
+    dispatch(showAlert( {message, type: alertType, visible: true, key}));
   };
   useEffect(() => {
     Object.keys(errors).forEach(function (key, index) {
