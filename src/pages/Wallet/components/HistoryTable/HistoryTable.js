@@ -46,7 +46,7 @@ export default function HistoryTable({
   ];
   !type && headerItems.splice(5, 0, { name: "Deposit/Withdraw" });
   const newRows = itemsList?.map(
-    ({ createdAt, coin, amount, network, toAddress, status, action }) => {
+    ({ createdAt, currency, amount, network, toAddress, status, action }) => {
       const className = `text-[14px]`;
       let statusEl = <div>{status}</div>;
       switch (status) {
@@ -71,16 +71,16 @@ export default function HistoryTable({
             </div>
           ),
         },
-        { className: `${className} ${classes.text}`, children: coin },
+        { className: `${className} ${classes.text}`, children: currency?.ticker },
         {
           className: `${className} ${classes.text}`,
           children: (
             <div className="w-max m-auto">
-              {bigInt(amount)} {coin}
+              {bigInt(amount)} {currency?.ticker}
             </div>
           ),
         },
-        { className, children: <div>{network}</div> },
+        { className, children: <div>{network?.ticker}</div> },
         {
           className,
           children: (

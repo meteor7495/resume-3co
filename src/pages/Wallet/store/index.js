@@ -4,12 +4,14 @@ import wallets from "./walletsSlice";
 import coin from "./coinSlice";
 import history from "./historySlice";
 import withdraw from "./withdrawSlice";
+import financial from "./financialSlice";
 
 const reducer = combineReducers({
   deposit,
   wallets,
   coin,
   history,
+  financial,
   withdraw,
 });
 

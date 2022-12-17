@@ -12,9 +12,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useSearchParams } from "react-router-dom";
 import { setModal } from "store/ModalSlice";
 import { selectCoins } from "store/slices/CoinsSlice";
-import useStyles from "../../styles"
+import useStyles from "../../styles";
 
-export default function SelectCoin  ({ type }) {
+export default function SelectCoin({ type }) {
   const coins = useSelector(selectCoins);
   // const { canSpotDeposit } = selecteCoin;
   const { currency } = useSelector((s) => s.wallet.coin);
@@ -68,14 +68,21 @@ export default function SelectCoin  ({ type }) {
             selectCoinHandler(v);
           }}
           value={currency}
-          options={coins.filter(({ canSpotDeposit, canSpotWithdraw }) =>
-            type === walletType.Deposit ? canSpotDeposit : canSpotWithdraw
-          )}
+          options={coins.filter(({ canSpotDeposit, canSpotWithdraw }) => {
+            switch (type) {
+              case walletType.Deposit:
+                return canSpotDeposit;
+              case walletType.Withdraw:
+                return canSpotWithdraw;
+              default:
+                return true;
+            }
+          })}
         />
       )}
     </div>
   );
-};
+}
 
 const CoinEl = ({ title, ticker, logo }) => {
   const classes = useStyles();

@@ -66,8 +66,8 @@ export default function SpotAssets({ children, ...props }) {
       {deposit && (
         <TransactionCard
           title={"Spot"}
-          btc={deposit.totalSpotWalletsAmountInUSD}
-          usd={deposit.totalSpotWalletsAmountInBTC}
+          usd={deposit.totalSpotWalletsAmountInUSD}
+          btc={deposit.totalSpotWalletsAmountInBTC}
           deposit={"../" + routes.wallet.spot.deposit}
           withdraw={"../" + routes.wallet.spot.withdraw}
         />

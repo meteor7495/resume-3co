@@ -16,11 +16,11 @@ import { getHistory } from "pages/Wallet/store/historySlice";
 
 let schema = string()
   .required()
-  .matches(/^[0-9]+$/, "Must be only digits")
+  .matches(/^[0-9]+$/, "Must be a number")
   .min(6, "Must be exactly 6 digits")
   .max(6, "Must be exactly 6 digits");
 
-export default function TFAModale({ }) {
+export default function TFAModale({}) {
   const { theme } = useSelector((s) => s.app);
   const { amount, address } = useSelector((s) => s.wallet.withdraw);
   const {
@@ -95,19 +95,17 @@ export default function TFAModale({ }) {
                 disabled={!(TFA && amount && address)}
                 onClick={submitHandler}
                 variant="contained"
+                loading={loading}
               >
-                {loading ? (
-                  <CircularProgress sx={{ color: "#fff" }} size={25} />
-                ) : (
-                  "Submit"
-                )}
+                Submit
               </ButtonUi>
               <ButtonUi
                 onClick={closeHandler}
                 color="textColor"
                 className="text-primary"
+                loading={loading}
               >
-                {loading ? <CircularProgress size={25} /> : "Cancel"}
+                Cancel
               </ButtonUi>
             </>
           )}

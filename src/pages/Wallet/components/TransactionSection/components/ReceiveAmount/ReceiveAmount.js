@@ -19,15 +19,22 @@ export default function ReceiveAmount({ type }) {
   const { currency } = useSelector((s) => s.wallet.coin);
 
   const Wallets = useSelector(selectWallets);
+
   const {
     currency: { _id },
+    fee,
   } = useSelector((s) => s.wallet.coin);
 
+  const wallet = Wallets?.filter(
+    ({ currency: { _id: w_id } }) => _id === w_id
+  )[0];
+
   const allHandler = () => {
-    const wallet = Wallets.filter(
-      ({ currency: { _id: w_id } }) => _id === w_id
-    )[0];
     dispatch(setWithdrawAmount(wallet.activeBalance));
+  };
+
+  const onChangeHandler = (e) => {
+    dispatch(setWithdrawAmount(e));
   };
 
   const refreshHandler = () => {
@@ -39,7 +46,7 @@ export default function ReceiveAmount({ type }) {
     <div className="flex flex-col gap-[10px]">
       <InputUi
         value={amount}
-        onChange={(e) => dispatch(setWithdrawAmount(e))}
+        onChange={onChangeHandler}
         InputProps={{
           type: "number",
           classes: { input: "appearance-none" },
@@ -54,7 +61,9 @@ export default function ReceiveAmount({ type }) {
       <div className="flex flex-col lg:flex-row justify-between">
         <div className="flex justify-between gap-[10px] text-[9px] w-full lg:w-[35%]">
           <div>Withdrawal Fee:</div>
-          <div>0.08686 {currency.ticker}</div>
+          <div>
+            {fee} {currency.ticker}
+          </div>
         </div>
         <div className="flex justify-between gap-[10px] text-[9px] w-full lg:w-[35%] opacity-50">
           <div>Deduction:</div>

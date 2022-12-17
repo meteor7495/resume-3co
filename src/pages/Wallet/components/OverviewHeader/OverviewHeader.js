@@ -80,7 +80,7 @@ const PieChart = ({ ChartValues }) => {
     },
 
     legend: {
-      horizontalAlign: "Left",
+      // horizontalAlign: "Left",
       fontSize: "13px",
       formatter: function (seriesName, opts) {
         const value = opts.w.globals.series[opts.seriesIndex];
@@ -90,7 +90,6 @@ const PieChart = ({ ChartValues }) => {
         width: "20px",
         height: "20px",
       },
-      floating: false,
     },
 
     colors: ["#4478A8", "#AA70B9", "#B34848", "#6ABF5C"],

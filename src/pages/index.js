@@ -23,7 +23,7 @@ function Index(props) {
     });
   }, []);
   useEffect(() => {
-    if(user && user?.isTfaActive) {
+    if(user ) {
       dispatch(getCoins())
     }
   }, [user]);

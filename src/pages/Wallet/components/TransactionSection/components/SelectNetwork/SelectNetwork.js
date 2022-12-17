@@ -14,8 +14,7 @@ export default function SelectNetwork({ type }) {
   const dispatch = useDispatch();
   const networkHandler = (_id) => {
     dispatch(setNetwork(_id));
-    type === walletType.Deposit &&
-      dispatch(generateAddress({ networkId: _id, currencyId }));
+    dispatch(generateAddress({ networkId: _id, currencyId }));
   };
   useEffect(() => {
     if (networks.length !== 0) {

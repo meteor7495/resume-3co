@@ -7,7 +7,7 @@ import OverviewHeader from "../../components/OverviewHeader/OverviewHeader";
 import TransactionCard from "../../components/TransactionCard/TransactionCard";
 
 export default function Overview({ children, ...props }) {
-  const [visibility, setVisibility] = useState(false);
+  const [visibility, setVisibility] = useState(true);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -49,16 +49,16 @@ export default function Overview({ children, ...props }) {
           <TransactionCard
             visibility={visibility}
             title="Spot"
-            btc={deposit.totalSpotWalletsAmountInUSD}
-            usd={deposit.totalSpotWalletsAmountInBTC}
+            btc={deposit.totalSpotWalletsAmountInBTC}
+            usd={deposit.totalSpotWalletsAmountInUSD}
             deposit={routes.wallet.spot.deposit}
             withdraw={routes.wallet.spot.withdraw}
           />
           <TransactionCard
             visibility={visibility}
             title="Financial"
-            btc={deposit.totalFinancialWalletsAmountInUSD}
-            usd={deposit.totalFinancialWalletsAmountInBTC}
+            usd={deposit.totalFinancialWalletsAmountInUSD}
+            btc={deposit.totalFinancialWalletsAmountInBTC}
             deposit={routes.wallet.financial}
           />
           <TransactionCard

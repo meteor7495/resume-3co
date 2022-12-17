@@ -9,7 +9,7 @@ export const getFinancial = get({
 
 const FinancialSlice = createSlice({
   name: "financial",
-  initialState: {},
+  initialState: [],
   // reducers: {
   //   sethistorySearch: {
   //     reducer: (state, action) => {

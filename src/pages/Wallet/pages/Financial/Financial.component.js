@@ -10,9 +10,9 @@ import SearchUi from "../../../../components/UiKit/SearchUi/SearchUi";
 import ButtonUi from "../../../../components/UiKit/ButtonUi";
 import LogoSVG from "../../../../assets/images/theerco.png";
 import ProfitTable from "./components/ProfitTable/ProfitTable";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setModal } from "../../../../store/ModalSlice";
-import { getFinancial } from "pages/Wallet/store/FinancialSlice";
+import { getFinancial } from "pages/Wallet/store/financialSlice";
 
 export default function Financial({ children, ...props }) {
   const classes = useStyles();
@@ -22,10 +22,13 @@ export default function Financial({ children, ...props }) {
     "Your Shares": 0,
     Sold: 0,
   };
+  const financial = useSelector((s) => s.wallet.financial);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getFinancial());
   }, []);
+
+  const rows = financial.length > 0 ? financial?.map(createData) : [];
 
   return (
     <div className={`flex flex-col gap-[10px]`}>
@@ -108,16 +111,16 @@ const headerItems = [
   { name: "Operation", className: "text-end" },
 ];
 
-const CoinEl = ({ name, ticker, icon }) => {
+const CoinEl = ({ title, ticker, logo }) => {
   const classes = useStyles();
   return (
     <div className={`flex gap-[7px] items-center`}>
       <div
         className={`flex ${classes.coinEl} w-[40px] h-[40px] p-[6px] items-center justify-center rounded-full border border-solid`}
       >
-        <img className={`w-full h-full`} src={icon} />
+        <img className="w-full h-full p-[2px]" src={logo} />
       </div>
-      <div className={`font-bold`}>{name}</div>
+      <div className={`font-bold`}>{title}</div>
       <li className={`w-1 text-[10px] opacity-50`} />
       <div className={classes.ticker}>{ticker}</div>
     </div>
@@ -157,11 +160,15 @@ const Operation = () => {
     </div>
   );
 };
-function createData(coin, amount, share) {
+function createData({ currency, balance }) {
   return [
-    { children: <CoinEl {...coin} />, align: "left", className: `w-[250px]` },
-    { children: <NumberEl value={amount} /> },
-    { children: <div>{share}</div> },
+    {
+      children: <CoinEl {...currency} />,
+      align: "left",
+      className: `w-[250px]`,
+    },
+    { children: <NumberEl value={balance} /> },
+    { children: <div>{0}%</div> },
     { children: <Operation />, align: "right", className: `w-[200px]` },
   ];
 }
@@ -169,10 +176,10 @@ const NumberEl = ({ value }) => {
   const classes = useStyles();
   return <div className={classes.ticker}>{value.toString()}</div>;
 };
-const rows = [
-  createData(
-    { name: "3co", ticker: "3CO", icon: LogoSVG },
-    "0.00000024685",
-    "0.015%"
-  ),
-];
+// const rows = [
+//   createData(
+//     { name: "3co", ticker: "3CO", icon: LogoSVG },
+//     "0.00000024685",
+//     "0.015%"
+//   ),
+// ];
