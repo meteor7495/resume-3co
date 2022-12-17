@@ -15,19 +15,27 @@ const statusTypes = {
 
 export default function HistoryTable({
   type,
-  pagination: isPagination,
+  paginator: isPaginator,
+  querys,
   ...props
 }) {
   const getDate = useDate();
   const classes = useStyles();
-  const { itemsList, pagination } = useSelector((s) => s.wallet.history);
-  console.log({ itemsList });
+  const { itemsList, paginator } = useSelector((s) => s.wallet.history);
   const dispatch = useDispatch();
-  useEffect(() => {
+  const historyHandler = (args) => {
     dispatch(
-      getHistory({ query: { action: type && type.toLowerCase(), limit: 10 } })
+      getHistory({ query: { action: type && type.toLowerCase(), limit: 10, ...args } })
     );
-  }, []);
+  }
+  useEffect(() => {
+    historyHandler(querys)
+  }, [querys, type]);
+
+  const pageHandler = (e, page) => {
+    historyHandler({ page, ...querys })
+  }
+
   const headerItems = [
     { name: "Time" },
     { name: "Coin" },
@@ -94,116 +102,14 @@ export default function HistoryTable({
       return rowElement;
     }
   );
-  console.log({isPagination})
   return (
     <WalletTable
       {...props}
-      pagination={isPagination && pagination}
+      paginator={isPaginator && paginator}
       header={headerItems}
       rows={newRows}
+      pageHandler={pageHandler}
     />
   );
 }
 
-const CreateData = (time, coin, amount, network, address, status, type) => ({
-  time,
-  coin,
-  amount,
-  network,
-  address,
-  status,
-  type,
-});
-
-const rows = [
-  CreateData(
-    "2022-11-23 15:44:00",
-    "BTC",
-    0.00000055,
-    "BTC",
-    "0X0ba42afds56f45sf4sdfaf65sfdf455454fsdfsdf",
-    "Succesful",
-    "Deposit"
-  ),
-  CreateData(
-    "2022-11-23 15:44:00",
-    "ETH",
-    0.2546,
-    "ERC20",
-    "0X0ba42afds56f45sf4sdfaf65sfdf455454fsdfsdf",
-    "Unsuccesful",
-    "Withdraw"
-  ),
-  CreateData(
-    "2022-11-23 15:44:00",
-    "USDT",
-    925.582,
-    "CSC",
-    "0X0ba42afds56f45sf4sdfaf65sfdf455454fsdfsdf",
-    "Succesful",
-    "Deposit"
-  ),
-  CreateData(
-    "2022-11-23 15:44:00",
-    "BTC",
-    0.00000258,
-    "ERC20",
-    "0X0ba42afds56f45sf4sdfaf65sfdf455454fsdfsdf",
-    "Pending",
-    "Withdraw"
-  ),
-  CreateData(
-    "2022-11-23 15:44:00",
-    "BTC",
-    0.00000055,
-    "BTC",
-    "0X0ba42afds56f45sf4sdfaf65sfdf455454fsdfsdf",
-    "Succesful",
-    "Deposit"
-  ),
-  CreateData(
-    "2022-11-23 15:44:00",
-    "ETH",
-    0.2546,
-    "ERC20",
-    "0X0ba42afds56f45sf4sdfaf65sfdf455454fsdfsdf",
-    "Unsuccesful",
-    "Withdraw"
-  ),
-  CreateData(
-    "2022-11-23 15:44:00",
-    "USDT",
-    925.582,
-    "CSC",
-    "0X0ba42afds56f45sf4sdfaf65sfdf455454fsdfsdf",
-    "Succesful",
-    "Deposit"
-  ),
-  CreateData(
-    "2022-11-23 15:44:00",
-    "BTC",
-    0.00000258,
-    "ERC20",
-    "0X0ba42afds56f45sf4sdfaf65sfdf455454fsdfsdf",
-    "Pending",
-    "Withdraw"
-  ),
-  CreateData(
-    "2022-11-23 15:44:00",
-    "USDT",
-    925.582,
-    "CSC",
-    "0X0ba42afds56f45sf4sdfaf65sfdf455454fsdfsdf",
-    "Succesful",
-    "Deposit"
-  ),
-  CreateData(
-    "2022-11-23 15:44:00",
-    "BTC",
-    0.00000258,
-    "ERC20",
-    "0X0ba42afds56f45sf4sdfaf65sfdf455454fsdfsdf",
-    "Pending",
-    "Withdraw"
-  ),
-];

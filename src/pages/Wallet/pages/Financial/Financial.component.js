@@ -71,7 +71,7 @@ export default function Financial({ children, ...props }) {
       >
         <SearchUi className={`block lg:hidden`} />
         <WalletTable
-          pagination={{ count: 1 }}
+          paginator={{ count: 1 }}
           header={headerItems}
           rows={rows}
         />

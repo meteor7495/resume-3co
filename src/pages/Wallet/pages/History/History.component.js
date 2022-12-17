@@ -1,23 +1,25 @@
 import { Button } from "@mui/material";
-import { walletType } from "constants/walletType.enum copy";
-import { getHistory } from "pages/Wallet/store/historySlice";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
 import BoxUi from "../../../../components/UiKit/BoxUi";
 import HistoryTable from "../../components/HistoryTable/HistoryTable";
 import useStyles from "./History.style";
 
+const dateTypes = [{
+  value: "",
+  name: "All"
+},
+{
+  value: "last-7-days",
+  name: "Last 7 days"
+},
+{
+  value: "last-30-days",
+  name: "Last 30 days"
+}]
+
 export default function History({ type, ...props }) {
   const classes = useStyles();
-  const [active, setActive] = useState("All");
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(
-      getHistory({
-        query: { action: type && type.toLowerCase(), limit: 5 },
-      })
-    );
-  }, [type]);
+  const [date, setDate] = useState("");
   return (
     <BoxUi
       className={`flex flex-col ${classes.wrapper}`}
@@ -31,21 +33,18 @@ export default function History({ type, ...props }) {
       <div className="flex gap-[10px] lg:gap-[20px] items-center flex-col lg:flex-row">
         <div className="font-bold">Time</div>
         <div className="flex gap-[10px]">
-          <NetworkBtn
-            onClick={() => setActive("All")}
-            active={active === "All"}
-          >
-            All
-          </NetworkBtn>
-          <NetworkBtn onClick={() => setActive("7")} active={active === "7"}>
-            Last 7 days
-          </NetworkBtn>
-          <NetworkBtn onClick={() => setActive("30")} active={active === "30"}>
-            Last 30 days
-          </NetworkBtn>
+          {dateTypes.map(({ name, value }) => (
+            <NetworkBtn
+              key={name}
+              onClick={() => setDate(value)}
+              active={date === value}
+            >
+              {name}
+            </NetworkBtn>
+          ))}
         </div>
       </div>
-      <HistoryTable type={type} pagination />
+      <HistoryTable querys={{ date }} type={type} paginator />
     </BoxUi>
   );
 }
@@ -56,11 +55,10 @@ const NetworkBtn = ({ className, children, active, ...props }) => {
   return (
     <Button
       {...props}
-      className={`h-full flex gap-[4px] text-[12px] rounded-[5px] h-[40px] px-[7px] py-[10px] gap-[10px] h-[45px] normal-case ${className} ${
-        active
-          ? `font-bold border border-solid ${classes.activeOverview}`
-          : `${classes.button} ${classes.overview}`
-      }`}
+      className={`h-full flex gap-[4px] text-[12px] rounded-[5px] h-[40px] px-[7px] py-[10px] gap-[10px] h-[45px] normal-case ${className} ${active
+        ? `font-bold border border-solid ${classes.activeOverview}`
+        : `${classes.button} ${classes.overview}`
+        }`}
     >
       {children}
     </Button>

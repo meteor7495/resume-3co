@@ -89,7 +89,7 @@ export default function SpotAssets({ children, ...props }) {
           <SearchBox className={`block lg:hidden`} />
           <WalletTable
             className={`h-[700px] lg:h-full`}
-            pagination={{ count: 1 }}
+            paginator={{ count: 1 }}
             header={headerItems}
             rows={rows}
           />

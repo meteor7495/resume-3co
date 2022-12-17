@@ -14,13 +14,17 @@ import useStyles from "./styles";
 import WalletTableHead from "../WalletTableHead";
 import { ReactComponent as NothingHere } from "../../../../assets/svg/NothingHere.svg";
 
-const WalletTable = ({ header, rows, className, pagination }) => {
-  console.log({pagination})
+const WalletTable = ({ header, rows, className, paginator, pageHandler: pageHandlerProp }) => {
   const classes = useStyles();
   const tClasses = {
     headerCell: `border-0 z-[0] text-[15px] font-bold min-w-[100px] ${classes.headerCell}`,
     cell: "border-0 text-[15px] py-[2.5px] [&:last-child]:rounded-r-[5px] [&:first-child]:rounded-l-[5px]",
   };
+
+  const { pageCount, currentPage } = paginator ? paginator : {}
+  const pageHandler = (e, page) => {
+    pageHandlerProp && pageHandlerProp(e, page)
+  }
   return (
     <div className={`flex flex-col h-full ${className}`}>
       <BoxUi
@@ -65,10 +69,12 @@ const WalletTable = ({ header, rows, className, pagination }) => {
           </div>
         )}
       </BoxUi>
-      {pagination && (
+      {paginator && (
         <div className="flex items-center flex-col pt-[15px]">
           <Pagination
-            {...pagination}
+            onChange={pageHandler}
+            count={pageCount}
+            page={currentPage}
             color="primary"
             size="small"
             renderItem={(item) => (

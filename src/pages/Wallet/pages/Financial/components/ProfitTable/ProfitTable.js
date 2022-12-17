@@ -6,7 +6,7 @@ import useStyles from "../../Financial.style";
 export default function ProfitTable({ pages, ...props }) {
   const classes = useStyles();
   const getDate = useDate();
-  const newProfitRow = profitRows.map(function ({
+  const newProfitRow = [].map(function ({
     from,
     to,
     coin,

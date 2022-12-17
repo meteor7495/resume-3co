@@ -20,6 +20,7 @@ const historySlice = createSlice({
   },
   extraReducers: {
     [getHistory.fulfilled]: (state, action) => action.payload,
+
   },
 });
 

@@ -20,7 +20,7 @@ let schema = string()
   .min(6, "Must be exactly 6 digits")
   .max(6, "Must be exactly 6 digits");
 
-export default function TFAModale({}) {
+export default function TFAModale({ }) {
   const { theme } = useSelector((s) => s.app);
   const { amount, address } = useSelector((s) => s.wallet.withdraw);
   const {
@@ -34,33 +34,34 @@ export default function TFAModale({}) {
   const [TFA, setTFA] = useState("");
   const { post } = useAxios();
   const submitHandler = async () => {
-    setLoading(true);
-    await schema
-      .validate(TFA)
-      .then(async () => {
-        const res = await post("wallet/spot/withdraw/request", {
-          networkId: network,
-          currencyId,
-          amount,
-          tfaCode: TFA,
-          toAddress: address,
+    if (!loading) {
+      setLoading(true);
+      await schema
+        .validate(TFA)
+        .then(async () => {
+          const res = await post("wallet/spot/withdraw/request", {
+            networkId: network,
+            currencyId,
+            amount,
+            tfaCode: TFA,
+            toAddress: address,
+          });
+          if (res?.status === "Success") {
+            setSuccessful(true);
+          }
+        })
+        .catch((err) => {
+          dispatch(
+            showAlert({
+              type: AlertTypes.danger,
+              result: "Error",
+              message: err.message,
+            })
+          );
         });
-        if (res?.status === "Success") {
-          setSuccessful(true);
-        }
-      })
-      .catch((err) => {
-        dispatch(
-          showAlert({
-            type: AlertTypes.danger,
-            result: "Error",
-            message: err.message,
-          })
-        );
-        console.log(err.message);
-      });
 
-    setLoading(false);
+      setLoading(false);
+    }
   };
   const dispatch = useDispatch();
 
