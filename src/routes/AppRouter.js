@@ -9,7 +9,6 @@ function AppRouter({ user, isLoading, ...props }) {
   //const routes = publicRoutes(isLoading, props);
   const [routes, setRoutes] = useState();
   useEffect(() => {
-    console.log("useruseruseruser", user);
     setRoutes(
       user ? privateRoutes(isLoading, props) : publicRoutes(isLoading, props)
     );

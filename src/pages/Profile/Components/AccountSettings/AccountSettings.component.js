@@ -7,15 +7,17 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 
+const informationSchema = yup.object().shape({
+  fullName: yup.string().min(8).max(30).required('Enter FullName'),
+  email: yup.string().required('Enter Email'),
+});
+const securitySchema = yup.object().shape({
+  oldPassword: yup.string().min(8).max(30).required('Please enter your old password'),
+  newPassword: yup.string().min(8).max(30).required('Please enter your new password'),
+  newPasswordConfirmation: yup.string().min(8).max(30).required('Please enter your new password confirmation'),
+});
+
 export default function AccountSettings() {
-  const informationSchema = yup.object().shape({
-    firstName: yup.string().required('Enter FullName'),
-    email: yup.string().required('Enter Email'),
-  });
-  const securitySchema = yup.object().shape({
-    firstName: yup.string().required('Enter FullName'),
-    email: yup.string().required('Enter Email'),
-  });
 
   const informationMethods = useForm({
     mode: "onChange",
@@ -24,7 +26,11 @@ export default function AccountSettings() {
   });
   const securityMethods = useForm({
     mode: "onChange",
-    defaultValues: {},
+    defaultValues: {
+      oldPassword: '',
+      newPassword: '',
+      newPasswordConfirmation: '',
+    },
     resolver: yupResolver(securitySchema),
   });
   const classes = useStyles();

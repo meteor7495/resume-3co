@@ -15,7 +15,6 @@ function Index(props) {
   const dispatch = useDispatch();
   useMemo(() => {
     getUser();
-    dispatch(getCoins());
   }, []);
 
   useEffect(() => {
@@ -23,6 +22,11 @@ function Index(props) {
       dispatch(setWidth(w));
     });
   }, []);
+  useEffect(() => {
+    if(user && user?.isTfaActive) {
+      dispatch(getCoins())
+    }
+  }, [user]);
   return (
     <ThemeProvider theme={Themes[theme]}>
       <CssBaseline />

@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import useStyles from "./styles";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 
-const PasswordInputUi = ({ children, className, InputProps, label, ...props }) => {
+const PasswordInputUi = ({ children, className, inputClassName, InputProps, label, ...props }) => {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false)
   const handleClickShowPassword = () => {
@@ -13,10 +13,10 @@ const PasswordInputUi = ({ children, className, InputProps, label, ...props }) =
   }
   return (
     <FormControl
-      className={'w-full'} variant="outlined">
-      <InputLabel>{label}</InputLabel>
+      className={`w-full ${className}`} variant="outlined">
+      {label && <InputLabel>{label}</InputLabel>}
       <OutlinedInput
-        className={`${className}`}
+        className={`${inputClassName}`}
         type={showPassword ? 'text' : 'password'}
         endAdornment={
           <InputAdornment position="end">

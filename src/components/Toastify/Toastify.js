@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function Toastify(props) {
   const classes = useStyles();
-  const notify  = useSelector(s => s.alerts);
+  const notify = useSelector(s => s.alerts);
   const dispatch = useDispatch();
   useEffect(() => {
     if (notify?.message) {

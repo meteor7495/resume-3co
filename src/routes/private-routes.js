@@ -17,7 +17,6 @@ export const privateRoutes = () => {
       <Route path={routes.exchange} element={<ExchangePage />} />
       <Route path={routes.walletPage} element={<WalletPage />} />
       <Route path={routes.profile} element={<Profile />} />
-      <Route path={routes.twoFactorAuth} element={<Authentication page={"twoFactorAuth"} />} />
       <Route path="*" element={<div>404</div>} />
     </>
   );

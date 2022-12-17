@@ -28,13 +28,13 @@ export default function Login(props) {
     login(data)
   };
   const notifyHandler = ({message, alertType, key}) => {
-    dispatch(showAlert({notify: {message, type: alertType, visible: true, key},}));
+    dispatch(showAlert({message, type: alertType, visible: true, key}));
   };
 
   useEffect(() => {
     Object.keys(errors).forEach(function (key, index) {
       setTimeout(() => {
-        notifyHandler(errors[key].message, AlertTypes.danger, index)
+        notifyHandler({message:errors[key].message, alertType:AlertTypes?.danger, key:index})
       }, 100)
     });
   }, [errors])
@@ -61,7 +61,7 @@ export default function Login(props) {
               name="password"
               control={control}
               render={({field}) => <PasswordInputUi {...field} label={'Password'}
-                                                    className={`mt-5 mb-5 ${classes.inputStyle}`}/>}
+                                                   className={'mt-5 mb-5'} inputClassName={`${classes.inputStyle}`}/>}
             />
             <FormGroup>
               <FormControlLabel className={'mt-3 text-[14px] font-[400] ' + classes.textColor}

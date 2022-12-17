@@ -1,6 +1,7 @@
 import { Route } from "react-router-dom";
 import Landing from "../pages/Landing/Landing.component";
 import Authentication from "../pages/Authentication/Authentication.component";
+import routes from "../configs/routes";
 
 export const publicRoutes = (isLoading) => {
   console.log("public routes", isLoading);
@@ -20,7 +21,7 @@ export const publicRoutes = (isLoading) => {
         path="/verification-code"
         element={<Authentication page={"verificationCode"} />}
       />
-
+      <Route path={routes.twoFactorAuth} element={<Authentication page={"twoFactorAuth"} />} />
       <Route path="/" element={<Landing />} />
       <Route
         path="*"
