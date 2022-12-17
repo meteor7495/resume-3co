@@ -3,19 +3,22 @@ import { AlertTypes } from "../../constants/alertTypes.enum";
 import { useDispatch } from "react-redux";
 import { showAlert } from "../../store/AlertsSlice";
 import { Button } from "@mui/material";
-import SpinnerComp from "../../components/SpinnerComp";
+import SpinnerComp from "../../components/SpinnerComp/SpinnerComp";
 import { showLoader } from "../../store/LoadingSlice";
 import { ThemeTypes } from "../../constants/themeTypes.enum";
 import { setTheme } from "../../store/appSlice";
 import useStyles from "./Sample.style";
+import { resetSettings } from "../../store/LayoutSettings";
 
 export default function SamplePage({ children, ...props }) {
     const dispatch = useDispatch();
     const classes = useStyles();
   const notifyHandler = (alertType) => {
-    dispatch(showAlert({notify: { message: "Sample Yo", type: alertType },}));
+    dispatch(showAlert( { message: "Sample Yo", type: alertType }));
   };
-
+  useEffect(() => {
+    dispatch(resetSettings());
+  }, []);
   const themeChangeHandler = (alertType) => {
     dispatch(setTheme(alertType));
   };

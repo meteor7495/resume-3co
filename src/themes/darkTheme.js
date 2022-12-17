@@ -1,96 +1,92 @@
-const primary = "#757575";
+const primary = "#007BFF";
 // const secondary = "#FF5C93";
 // const warning = "#FFC260";
 // const success = "#3CD4A0";
 // const info = "#9013FE";
 
-const darkTheme = {
+const lightTheme = {
   palette: {
     mode: "dark",
     primary: {
       main: primary,
-      light: primary,
-      dark: primary,
+      light: `${primary}0d`,
+      dark: `${primary}0d`,
+      contrastText: "#ffffff",
     },
     // secondary: {
     //   main: '#000',
     //   light: '#000',
     //   dark: '#000'
     // },
-    warning: {
-      main: "#000",
-      light: "#000",
-      dark: "#000",
-    },
     success: {
-      main: "#000",
-      light: "#000",
-      dark: "#000",
+      main: "#35C85A",
+      contrastText: "#FFF",
+      alertBg: '#193621',
     },
-    info: {
-      main: "#000",
-      light: "#000",
-      dark: "#000",
+    error: {
+      main: "#F34F45",
+      alertBg: '#3F1E1D',
+    },
+    input: {
+      main: "#2b2b2d",
+      light: "#E4E7EC",
+      dark: "#E4E7EC",
+      transparent: "rgba(242, 242, 247, 0.07)",
+      placeholder: "#F2F2F7",
+      border: "#121213",
+      hover: "#007bff66",
     },
     background: {
-      main: "#121212",
-      light: "#121212",
-      dark: "#121212",
+      paper: "#1C1C1E",
+      modal: "#1C1C1E",
+      default: "#121213",
+      main: "#121213",
+      profile: "#121213",
+      light: "#1B1C1D",
+      dark: "#E4E7EC",
+      lightBlue: "rgba(242, 242, 247, 0.07)",
     },
-    boxUiBackground: {
-      main: "#383737",
+    secondBackground: {
+      main: "#1C1C1E",
     },
-    inputColor: {
-      main: "#000",
-      light: "#000",
-      dark: "#fff",
+    headerBorderColor: {
+      main: "#000000",
     },
-    inputBackground: {
-      main: "#F2F4F7",
-      light: "#F2F4F7",
-      dark: "#F2F4F7",
+    textColor: {
+      main: "#F2F2F7",
+      gray: "#F2F2F7",
     },
-    description: {
-      main: "#98A2B3",
-      light: "#F2F4F7",
-      dark: "#F2F4F7",
+    box: {
+      background: "#1B1C1D",
+      bgBlueTransparent: "rgba(0, 123, 255, 0.05);",
+      uploadBox: '#F2F2F712'
     },
-    buttonColor: {
-      main: "#fff",
-      light: "#fff",
-      dark: "#343434",
+    border: {
+      main: "#000000",
+      light: "#121213",
+      dark: "#121213",
     },
-    headerBtnBackground: {
-      main: "#282828",
-      light: "#282828",
-      dark: "#282828",
+    text: {
+      primary: "#F2F2F7",
+      secondary: "#F2F2F780",
     },
-    headerBtnColor: {
-      main: "#000",
-      light: "#000",
-      dark: "#fff",
+    button: {
+      menuButtonBg: "#121213",
+      disabled: "#12121333",
+      active: "#007BFF1A",
     },
-    pageTitle: {
-      main: "#344054",
-      light: "#344054",
-      dark: "#fff",
+    icons: {
+      grey: '#1F263F',
     },
-    headerLine: {
-      main: "#98A2B3",
-      light: "#98A2B3",
-      dark: "#fff",
+    orderBook: {
+      sellBackground: "#271718",
+      buyBackground: "#131615",
     },
-    tableBgColor: {
-      main: "#fff",
-      light: "#fff",
-      dark: "#343434",
-    },
-    tableColor: {
-      main: "#000",
-      light: "#000",
-      dark: "#fff",
+    sidebar: {
+      buttonBg: "#1212134d",
+      vectorBg: "#121213",
     },
   },
 };
 
-export default darkTheme;
+export default lightTheme;

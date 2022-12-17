@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import useStyles from "./styles";
 
 const LoaderComponent = () => {
-  var classes = useStyles();
+  const classes = useStyles();
   const { visible, text, loaderArray } = useSelector((state) => state.loading);
   const progressBar = useSelector((state) => state.progressBar);
   return visible || (loaderArray && loaderArray.length > 0) ? (

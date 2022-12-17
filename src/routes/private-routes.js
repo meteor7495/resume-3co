@@ -1,19 +1,23 @@
-// import { Route, Switch } from "react-router-dom";
-import Layout from "../components/Layout/Layout";
-// import SpinnerComp from "../components/SpinnerComp";
-// import TermsAndConditions from "../pages/terms-and-conditions";
-// import { lazyImport } from "../utils/lazyImport";
-// import Notfound from "./Notfound";
+import { Route } from "react-router-dom";
+import { lazy } from "react";
+import Landing from "../pages/Landing/Landing.component";
+import routes from "../configs/routes";
+import Authentication from "../pages/Authentication/Authentication.component";
 
-// const { Exchange } = lazyImport(() => import("../pages/Exchange"), "Exchange");
-// const { Invest } = lazyImport(() => import("../pages/Invest"), "Invest");
-// const { Markets } = lazyImport(() => import("../pages/Markets"), "Markets");
-// const { Profile } = lazyImport(() => import("../pages/Profile"), "Profile");
-// const { Wallet } = lazyImport(() => import("../pages/Wallet"), "Wallet");
+export const privateRoutes = () => {
+  const ExchangePage = lazy(() =>
+    import("../pages/Exchange/Exchange.component")
+  );
+  const WalletPage = lazy(() => import("../pages/Wallet/Wallet.component"));
+  const Profile = lazy(() => import("../pages/Profile/Profile.component"));
 
-export const privateRoutes = (isLoading) => {
-
-    return (
-     <></>
-    );
-  };
+  return (
+    <>
+      <Route path="/" element={<Landing />} />
+      <Route path={routes.exchange} element={<ExchangePage />} />
+      <Route path={routes.walletPage} element={<WalletPage />} />
+      <Route path={routes.profile} element={<Profile />} />
+      <Route path="*" element={<div>404</div>} />
+    </>
+  );
+};

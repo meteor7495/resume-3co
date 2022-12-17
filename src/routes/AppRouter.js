@@ -1,27 +1,26 @@
-import { Suspense, useMemo } from "react";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { Suspense, useEffect, useState } from "react";
 import Layout from "../components/Layout/Layout";
-import SpinnerComp from "../components/SpinnerComp";
-import useAuth from "../hooks/useAuth";
-import SamplePage from "../pages/Sample/Sample.component";
+import SpinnerComp from "../components/SpinnerComp/SpinnerComp";
 import { publicRoutes } from "./public-routes";
+import { privateRoutes } from "./private-routes";
+import { Route, Routes } from "react-router-dom";
 
-function AppRouter(props) {
-  const { getUser, user, isLoading } = useAuth();
-
-  useMemo(() => {
-    getUser();
-  }, []);
-
-  const routes = publicRoutes(isLoading, props);
-  //user ? privateRoutes(isLoading,props) : publicRoutes(isLoading,props);
-
+function AppRouter({ user, isLoading, ...props }) {
+  //const routes = publicRoutes(isLoading, props);
+  const [routes, setRoutes] = useState();
+  useEffect(() => {
+    setRoutes(
+      user ? privateRoutes(isLoading, props) : publicRoutes(isLoading, props)
+    );
+  }, [user]);
   return (
-    <Layout>
-      <Suspense fallback={<SpinnerComp/>} >
-        {routes}
-        </Suspense>
-    </Layout>
+    <>
+      <Suspense fallback={<SpinnerComp />}>
+        <Routes>
+          <Route element={<Layout />}>{routes}</Route>
+        </Routes>
+      </Suspense>
+    </>
   );
 }
 

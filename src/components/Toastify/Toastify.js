@@ -2,12 +2,12 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
 import { showAlert } from "../../store/AlertsSlice";
-// import useStyles from "./styles";
+import useStyles from "./styles";
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Toastify(props) {
-  // var classes = useStyles();
-  const { notify } = useSelector(s => s.alerts);
+  const classes = useStyles();
+  const notify = useSelector(s => s.alerts);
   const dispatch = useDispatch();
   useEffect(() => {
     if (notify?.message) {
@@ -55,5 +55,8 @@ export default function Toastify(props) {
     }
 
   }, [notify, dispatch]);
-  return <ToastContainer />;
+  return <ToastContainer
+    className={classes.customToast}
+    position="top-center"
+  />;
 }

@@ -1,39 +1,65 @@
-import React, { useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { BrowserRouter , withRouter, Routes } from "react-router-dom";
 import AppRouter from "../routes/AppRouter";
-import { setDir } from "../store/dirSlice";
 import Themes from "../themes";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import LoaderComponent from "../components/LoaderComponent/LoaderComponent";
 import Toastify from "../components/Toastify/Toastify";
+import useAuth from "../hooks/useAuth";
+import { setWidth } from "../store/WidthSlice";
+import { getCoins } from "store/slices/CoinsSlice";
 
 function Index(props) {
-  const dispatch = useDispatch();
   const { theme } = useSelector((s) => s.app);
-  const { t } = useTranslation();
-  const isRtl = t("dir");
+  const { getUser, user, isLoading } = useAuth();
+  const dispatch = useDispatch();
+  useMemo(() => {
+    getUser();
+  }, []);
 
   useEffect(() => {
-    const body = document.querySelector("body");
-    const dirAttr = body.getAttribute("dir");
-    if (dirAttr !== isRtl) {
-      body.setAttribute("dir", isRtl);
+    responseHandler((w) => {
+      dispatch(setWidth(w));
+    });
+  }, []);
+  useEffect(() => {
+    if(user ) {
+      dispatch(getCoins())
     }
-    dispatch(setDir({ dir: isRtl }));
-  }, [isRtl, dispatch]);
-
+  }, [user]);
   return (
     <ThemeProvider theme={Themes[theme]}>
       <CssBaseline />
       <Toastify />
       <LoaderComponent />
-      
-          <AppRouter {...props} />
-     
+      <AppRouter isLoading={isLoading} user={user} {...props} />
     </ThemeProvider>
   );
 }
 
 export default Index;
+
+const responseHandler = (setWidth) => {
+  let body = document.getElementsByTagName("BODY")[0];
+  let width = body.offsetWidth;
+  setWidth(width);
+
+  const onResizeEvent = () => {
+    const bodyElement = document.getElementsByTagName("BODY")[0];
+    const newWidth = bodyElement.offsetWidth;
+    if (newWidth != width) {
+      width = newWidth;
+
+      setWidth(width);
+    }
+  };
+  if (window.addEventListener) {
+    // all browsers except IE before version 9
+    window.addEventListener("resize", onResizeEvent, true);
+  } else {
+    if (window.attachEvent) {
+      // IE before version 9
+      window.attachEvent("onresize", onResizeEvent);
+    }
+  }
+};

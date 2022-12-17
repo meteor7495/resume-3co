@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 import storage from "../utils/storage";
 
 // Define the initial state using that type
@@ -10,8 +10,7 @@ const userSlice = createSlice({
   },
   reducers: {
     setUser: (state, action) => {
-      let newState  ={ ...state, user: action.payload }
-      return newState;
+      return {...state, user: action.payload};
     },
     setToken: (state, action) => {
       storage.setToken(action.payload);
