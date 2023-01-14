@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import useStyles from "./Register.styles";
 import WelcomeSvg from "../../../../assets/images/welcome-background.png";
 import WelcomeDarkSvg from "../../../../assets/images/welcome-background-dark.png";
-import BusinessDealSvg from "../../../../assets/images/business-deal.svg";
-import BusinessDealDarkSvg from "../../../../assets/images/business-deal-dark.svg";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Checkbox,
@@ -19,40 +17,13 @@ import {
 import InputUi from "../../../../components/UiKit/InputUi";
 import ButtonUi from "../../../../components/UiKit/ButtonUi";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import useAuth from "../../../../hooks/useAuth";
-import { Controller, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { AlertTypes } from "../../../../constants/alertTypes.enum";
-import { showAlert } from "../../../../store/AlertsSlice";
+import { Controller, useFormContext } from "react-hook-form";
 import BoxUi from "../../../../components/UiKit/BoxUi";
-import { setEmail } from "../../../../store/userSlice";
-
-const schema = yup
-  .object({
-    fullName: yup
-      .string()
-      .required("Please enter your full name !")
-      .min(6)
-      .max(30),
-    email: yup
-      .string()
-      .email("Please enter a valid email !")
-      .required("Please enter your email !"),
-    password: yup
-      .string()
-      .required("Please enter your password !")
-      .min(8)
-      .max(30),
-    confirmPassword: yup
-      .string()
-      .required("Please enter your confirm password !")
-      .min(8)
-      .max(30),
-    referralCode: yup.string().default(""),
-  })
-  .required();
+import _ from "../../../../@lodash";
+import { setModal } from "../../../../store/ModalSlice";
+import ModalUi from "../../../../components/UiKit/ModalUi";
 
 export default function Login(props) {
   const classes = useStyles();
@@ -61,8 +32,12 @@ export default function Login(props) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [checked, setChecked] = useState(false);
+  const methods = useFormContext();
+  const { control, formState, getValues, setValue } = methods;
+  const { errors, isValid, dirtyFields } = formState;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -70,32 +45,17 @@ export default function Login(props) {
     setShowConfirmPassword(!showConfirmPassword);
   };
   const { registerUser } = useAuth();
+  const homeEmail = searchParams.get("email");
+  useEffect(() => {
+    setValue("email", homeEmail);
+  }, []);
 
-  const {
-    control,
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
   const onSubmit = (data) => {
     if (data?.referralCode === "") {
       delete data.referralCode;
     }
     checked && registerUser(data);
   };
-  const notifyHandler = ({ message, alertType, key }) => {
-    dispatch(showAlert({ message, type: alertType, visible: true, key }));
-  };
-
-  useEffect(() => {
-    Object.keys(errors).forEach(function (key, index) {
-      setTimeout(() => {
-        notifyHandler(errors[key].message, AlertTypes.danger, index);
-      }, 100);
-    });
-  }, [errors]);
   return (
     <section
       className={"text-gray-600 body-font " + classes.body}
@@ -118,39 +78,49 @@ export default function Login(props) {
             >
               Create Account
             </Typography>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <div>
               <Controller
                 name="fullName"
                 control={control}
                 render={({ field }) => (
                   <InputUi
                     {...field}
+                    error={!!errors.fullName}
                     label={"Full Name"}
                     className={`mt-5 ${classes.inputStyle}`}
                   />
                 )}
               />
+              <span className={"h-[30px] text-xs text-error flex items-center"}>
+                {errors?.fullName?.message}
+              </span>
               <Controller
                 name="email"
                 control={control}
                 render={({ field }) => (
                   <InputUi
                     {...field}
+                    value={field?.value}
+                    error={!!errors.email}
                     label={"Email Address"}
-                    className={`mt-5 ${classes.inputStyle}`}
+                    className={`${classes.inputStyle}`}
                   />
                 )}
               />
+              <span className={"h-[30px] text-xs text-error flex items-center"}>
+                {errors?.email?.message}
+              </span>
               <Controller
                 name="password"
                 control={control}
                 render={({ field }) => (
-                  <FormControl className={"w-full mt-5"} variant="outlined">
+                  <FormControl className={"w-full"} variant="outlined">
                     <InputLabel htmlFor="outlined-adornment-password">
                       Password
                     </InputLabel>
                     <OutlinedInput
                       {...field}
+                      error={!!errors.password}
                       className={`${classes.inputStyle}`}
                       id="outlined-adornment-password"
                       type={showPassword ? "text" : "password"}
@@ -170,16 +140,20 @@ export default function Login(props) {
                   </FormControl>
                 )}
               />
+              <span className={"h-[30px] text-xs text-error flex items-center"}>
+                {errors?.password?.message}
+              </span>
               <Controller
                 name="confirmPassword"
                 control={control}
                 render={({ field }) => (
-                  <FormControl className={"w-full mt-5"} variant="outlined">
+                  <FormControl className={"w-full"} variant="outlined">
                     <InputLabel htmlFor="outlined-adornment-password">
                       Confirm Password
                     </InputLabel>
                     <OutlinedInput
                       {...field}
+                      error={!!errors.confirmPassword}
                       className={`${classes.inputStyle}`}
                       id="outlined-adornment-password"
                       type={showConfirmPassword ? "text" : "password"}
@@ -198,11 +172,14 @@ export default function Login(props) {
                           </IconButton>
                         </InputAdornment>
                       }
-                      label="Password"
+                      label="Confirm Password"
                     />
                   </FormControl>
                 )}
               />
+              <span className={"h-[30px] text-xs text-error flex items-center"}>
+                {errors?.confirmPassword?.message}
+              </span>
               <Controller
                 name="referralCode"
                 control={control}
@@ -210,11 +187,11 @@ export default function Login(props) {
                   <InputUi
                     {...field}
                     label={"Referral Code"}
-                    className={`mt-5 ${classes.inputStyle}`}
+                    className={`${classes.inputStyle}`}
                   />
                 )}
               />
-              <div className="flex items-center mt-3 ">
+              <div className="flex items-center">
                 <FormGroup>
                   <FormControlLabel
                     className={
@@ -230,25 +207,30 @@ export default function Login(props) {
                   />
                 </FormGroup>
                 <ButtonUi
+                  variant="text"
                   disableFocusRipple
                   disableTouchRipple
                   disableRipple
-                  className={"p-0"}
+                  className={"p-0 bg-[transparent_!important]"}
                   sx={{ minWidth: "auto" }}
                   color={"primary"}
+                  onClick={() =>
+                    dispatch(setModal({ visible: true, id: "termsConditions" }))
+                  }
                 >
                   Terms & Conditions
                 </ButtonUi>
               </div>
               <ButtonUi
                 type={checked ? "submit" : "button"}
-                disabled={!checked}
                 variant={"contained"}
                 className={`mt-3 ${classes.button}`}
+                disabled={_.isEmpty(dirtyFields) || !isValid || !checked}
+                onClick={() => onSubmit(getValues())}
               >
                 Create Account
               </ButtonUi>
-            </form>
+            </div>
           </BoxUi>
           <Typography className={"mt-3 text-center"} color={"text.primary"}>
             Already have an account? &nbsp;
@@ -260,6 +242,87 @@ export default function Login(props) {
           </Typography>
         </div>
       </div>
+      <ModalUi
+        maxWidth={"lg"}
+        fullWidth={true}
+        id={"termsConditions"}
+        actions={
+          <div className={"flex flex-col w-full"}>
+            <ButtonUi
+              onClick={() => dispatch(setModal({ visible: false, modal: "" }))}
+              variant={"contained"}
+              className={`w-full h-[42px] mt-3 ${classes.button}`}
+            >
+              Close
+            </ButtonUi>
+          </div>
+        }
+      >
+        <Typography variant={"h4"} className={"text-xl font-bold mb-2"}>
+          Terms and Conditions
+        </Typography>
+        {Terms.map(({ title, body }) => (
+          <>
+            <Typography variant={"h5"} className={"font-bold text-base mb-1"}>
+              {title}
+            </Typography>
+            {body.map((text) => (
+              <Typography className={"text-base mb-1"}>{text}</Typography>
+            ))}
+          </>
+        ))}
+      </ModalUi>
     </section>
   );
 }
+
+const Terms = [
+  {
+    title: "1- Introduction",
+    body: [
+      "1.1 These terms and conditions apply to your use of our website, 3CO Exchange, and the services we offer through the website.",
+    ],
+  },
+  {
+    title: "2- Service",
+    body: [
+      "2.1 We offer trading and investing services through our website.",
+      "2.2 We reserve the right to modify or discontinue, temporarily or permanently, our services (or any part thereof) with or without notice at any time.",
+    ],
+  },
+  {
+    title: "3- Use of website",
+    body: [
+      "3.1 You must not use our website in any way that causes damage or impairs its availability.",
+      "3.2 You must not use our website to transmit or send unsolicited commercial communications.",
+    ],
+  },
+  {
+    title: "4- Restricted access",
+    body: [
+      "4.1 We reserve the right to restrict access to certain areas of our website or the entire website at our discretion and without notice.",
+      "4.2 If we provide you with a user ID and password to access restricted areas of our website or other content or services, you must keep this information confidential at all times.",
+      "4.3 We reserve the right to disable your user ID and password if we believe you have not complied with these terms and conditions.",
+    ],
+  },
+  {
+    title: "5- Disclaimer of warranties",
+    body: [
+      '5.1 The website is provided on an "as is" and "as available" basis without any representations or warranties of any kind.',
+      "5.2 We will not be liable for any indirect or consequential loss or damage arising out of or in connection with the use of the website.",
+      "5.3 We make no warranty that the website will be uninterrupted or error-free, or that defects will be corrected.",
+    ],
+  },
+  {
+    title: "6- Limitation of liability",
+    body: [
+      "6.1 We will not be liable for any losses or damages resulting from your use of the website or the services we offer.",
+    ],
+  },
+  {
+    title: "7- Governing law",
+    body: [
+      "7.1 These terms and conditions are governed by and construed in accordance with the laws of [Country] and you irrevocably submit to the exclusive jurisdiction of the courts in that location.",
+    ],
+  },
+];

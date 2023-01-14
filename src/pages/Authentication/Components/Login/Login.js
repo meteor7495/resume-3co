@@ -13,6 +13,7 @@ import {showAlert} from "../../../../store/AlertsSlice";
 import {AlertTypes} from "../../../../constants/alertTypes.enum";
 import useAuth from "../../../../hooks/useAuth";
 import PasswordInputUi from "../../../../components/UiKit/PasswordInputUi";
+import _ from "../../../../@lodash";
 
 export default function Login(props) {
   const classes = useStyles();
@@ -22,22 +23,11 @@ export default function Login(props) {
   const dispatch = useDispatch();
   const methods = useFormContext();
   const {control, formState, getValues} = methods;
-  const {errors} = formState;
+  const {errors, isValid, dirtyFields} = formState;
 
-  const onSubmit = data => {
-    login(data)
+  const onSubmit = async(data) => {
+    await login(data)
   };
-  const notifyHandler = ({message, alertType, key}) => {
-    dispatch(showAlert({message, type: alertType, visible: true, key}));
-  };
-
-  useEffect(() => {
-    Object.keys(errors).forEach(function (key, index) {
-      setTimeout(() => {
-        notifyHandler({message:errors[key].message, alertType:AlertTypes?.danger, key:index})
-      }, 100)
-    });
-  }, [errors])
   return (
     <section className={"text-gray-600 body-font " + classes.body} style={{
       backgroundImage: 'url(' + backgroundUrl + ') ',
@@ -47,27 +37,50 @@ export default function Login(props) {
         className="container w-full mx-auto flex px-5 py-8 justify-center lg:py-24 md:flex-row flex-col items-center">
         <div className="p-0 lg:p-4 w-full max-w-[414px]">
           <BoxUi
-            className={"h-full p-[18px] lg:p-[36px] border-solid border rounded-lg overflow-hidden"}>
-            <Typography className={'text-center font-[700] text-[25px]'} color={'text.primary'} variant={'h1'}>
+            className={"gap-2 flex flex-col h-full p-[18px] lg:p-[36px] border-solid border rounded-lg overflow-hidden"}>
+            <Typography className={'text-center font-[700] text-[25px] mb-4'} color={'text.primary'} variant={'h1'}>
               Log In
             </Typography>
-            <Controller
-              name="email"
-              control={control}
-              render={({field}) => <InputUi {...field} label={'Email address'}
-                                            className={`mt-5 mb-5 ${classes.inputStyle}`}/>}
-            />
-            <Controller
-              name="password"
-              control={control}
-              render={({field}) => <PasswordInputUi {...field} label={'Password'}
-                                                   className={'mt-5 mb-5'} inputClassName={`${classes.inputStyle}`}/>}
-            />
-            <FormGroup>
-              <FormControlLabel className={'mt-3 text-[14px] font-[400] ' + classes.textColor}
-                                control={<Checkbox size={'small'}/>} label="Remember me"/>
-            </FormGroup>
-            <ButtonUi onClick={() => onSubmit(getValues())} type={'button'} variant={'contained'} className={`mt-3 ${classes.button}`}>
+            <div>
+              <Controller
+                name="email"
+                control={control}
+                render={({field}) => <InputUi
+                  {...field}
+                  label={'Email address'}
+                  error={!!errors.email}
+                  className={`${classes.inputStyle}`}/>}
+              />
+              <span className={'h-[30px] text-xs text-error flex items-center'}>
+              {errors?.email?.message}
+            </span>
+            </div>
+            <div>
+              <Controller
+                name="password"
+                control={control}
+                render={({field}) => <PasswordInputUi
+                  {...field}
+                  label={'Password'}
+                  error={!!errors.password}
+                  inputClassName={`${classes.inputStyle}`}/>}
+              />
+              <span className={'h-[30px] text-xs text-error flex items-center'}>
+              {errors?.password?.message}
+            </span>
+            </div>
+            <div>
+              <FormGroup>
+                <FormControlLabel className={'text-[14px] font-[400] ' + classes.textColor}
+                                  control={<Checkbox size={'small'}/>} label="Remember me"/>
+              </FormGroup>
+            </div>
+            <ButtonUi
+              disabled={_.isEmpty(dirtyFields) || !isValid}
+              onClick={() => onSubmit(getValues())}
+              type={'button'}
+              variant={'contained'}
+              className={`mt-3 ${classes.button}`}>
               Log In
             </ButtonUi>
             <Link to={'/reset-password'}>

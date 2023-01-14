@@ -4,7 +4,6 @@ import Authentication from "../pages/Authentication/Authentication.component";
 import routes from "../configs/routes";
 
 export const publicRoutes = (isLoading) => {
-  console.log("public routes", isLoading);
   return (
     <>
       <Route path="/login" element={<Authentication page={"login"} />} />
@@ -28,7 +27,6 @@ export const publicRoutes = (isLoading) => {
         element={
           isLoading ? (
             <div className="w-full h-full flex flex-col items-center ">
-              Please wait...
             </div>
           ) : (
             <Authentication page={"login"} />

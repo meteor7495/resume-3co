@@ -12,7 +12,7 @@ import BoxUi from "../../../../components/UiKit/BoxUi";
 import ScrollbarsUi from "../../../../components/UiKit/PerfectScrollbarUi/ScrollbarsUi";
 import useStyles from "./styles";
 import WalletTableHead from "../WalletTableHead";
-import { ReactComponent as NothingHere } from "../../../../assets/svg/NothingHere.svg";
+import NoData from "components/NoData/NoData";
 
 const WalletTable = ({ header, rows, className, paginator, pageHandler: pageHandlerProp }) => {
   const classes = useStyles();
@@ -60,14 +60,7 @@ const WalletTable = ({ header, rows, className, paginator, pageHandler: pageHand
             </Table>
           </ScrollbarsUi>
         </TableContainer>
-        {!rows?.length > 0 && (
-          <div
-            className={`h-full w-full flex flex-col absolute items-center justify-center gap-[16px] ${classes.tableTextColor}`}
-          >
-            <div>No Data!</div>
-            <NothingHere className={`w-[210px] h-[180px]`} />
-          </div>
-        )}
+        <NoData visible={!rows?.length > 0} className={`w-[150px] h-[130px]`} />
       </BoxUi>
       {paginator && (
         <div className="flex items-center flex-col pt-[15px]">

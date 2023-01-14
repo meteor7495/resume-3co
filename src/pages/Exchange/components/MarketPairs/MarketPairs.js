@@ -1,7 +1,9 @@
 import { Button, Container } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { selectPairs, setSelectedPair } from "pages/Exchange/store/pairsSlice";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
 import Icons from "../../../../assets/icons";
 import BoxUi from "../../../../components/UiKit/BoxUi";
 import InputUi from "../../../../components/UiKit/InputUi/InputUi";
@@ -11,7 +13,7 @@ import useStyles from "./styles";
 
 const MarketPairs = () => {
   const classes = useStyles();
-  const [selected, setSelected] = useState("favorites");
+  const [selected, setSelected] = useState("USDT");
   return (
     <>
       <div>
@@ -24,16 +26,16 @@ const MarketPairs = () => {
           setSelected={setSelected}
         />
       </div>
-      <div className="h-full"  >
-        <PairsTable />
+      <div className="h-full">
+        <PairsTable selected={selected} />
       </div>
     </>
   );
 };
 
 const PairsTypes = [
-  { children: <Icons.Favorites />, value: "favorites" },
-  { children: "BTC", value: "BTC" },
+  { children: <Icons.Favorites />, value: "Favorites" },
+  // { children: "BTC", value: "BTC" },
   { children: "USDT", value: "USDT" },
 ];
 

@@ -15,11 +15,11 @@ import {
 import BoxUi from "../../../../../../components/UiKit/BoxUi";
 import ScrollbarsUi from "../../../../../../components/UiKit/PerfectScrollbarUi";
 import WalletTableHead from "../../../../../Wallet/components/WalletTableHead";
-import {ReactComponent as NothingHere} from "../../../../../../assets/svg/NothingHere.svg";
 import {getTickets} from "../../Store/ticketsSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import useAuth from "../../../../../../hooks/useAuth";
+import NoData from "components/NoData/NoData";
 
 export default function TicketsList() {
   const classes = useStyles();
@@ -85,7 +85,6 @@ export default function TicketsList() {
   const { getUser} = useAuth();
   return (
     <section className={"body-font h-[700px] lg:h-full"}>
-      <Button onClick={() => getUser()}>check user</Button>
       <div className="container mx-auto flex md:flex-row flex-col items-center">
         <div
           className="lg:flex-grow w-full flex flex-col mb-16 md:mb-0 items-center text-center">
@@ -141,14 +140,7 @@ export default function TicketsList() {
                     </Table>
                   </ScrollbarsUi>
                 </TableContainer>
-                {!rows?.length > 0 && (
-                  <div
-                    className={`h-full w-full flex flex-col absolute items-center justify-center gap-[16px] ${classes.tableTextColor}`}
-                  >
-                    <div>No Data!</div>
-                    <NothingHere className={`w-[210px] h-[180px]`}/>
-                  </div>
-                )}
+                <NoData visible={!rows?.length > 0} className={`w-[210px] h-[180px]`} />
               </BoxUi>
               {pagination && (
                 <div className="flex items-center flex-col pt-[15px]">

@@ -5,6 +5,7 @@ const { get, post } = axiosService("Coin");
 export const selectCoin = get({
   url: "currencies",
   name: "selectCoin",
+  dataHandler: (data) => ({ ...data, fee: data.fee.toNormalNumber() }),
 });
 
 export const generateAddress = post({

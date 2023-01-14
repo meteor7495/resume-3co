@@ -1,9 +1,9 @@
 import { Suspense, useEffect, useState } from "react";
 import Layout from "../components/Layout/Layout";
-import SpinnerComp from "../components/SpinnerComp/SpinnerComp";
 import { publicRoutes } from "./public-routes";
 import { privateRoutes } from "./private-routes";
 import { Route, Routes } from "react-router-dom";
+import LoaderComponent from "components/LoaderComponent/LoaderComponent";
 
 function AppRouter({ user, isLoading, ...props }) {
   //const routes = publicRoutes(isLoading, props);
@@ -15,7 +15,15 @@ function AppRouter({ user, isLoading, ...props }) {
   }, [user]);
   return (
     <>
-      <Suspense fallback={<SpinnerComp />}>
+      <Suspense
+        fallback={
+          <Layout>
+            <div className="h-screen">
+              <LoaderComponent visible />
+            </div>
+          </Layout>
+        }
+      >
         <Routes>
           <Route element={<Layout />}>{routes}</Route>
         </Routes>

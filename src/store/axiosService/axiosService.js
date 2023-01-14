@@ -6,21 +6,21 @@ import { axios } from "lib/axios";
 import { cleanUser } from "store/userSlice";
 
 const axiosService = (name) => {
-  const get = ({ url, name, errorCallback }) => {
-    return axiosHandler({ type: "get", url, name, errorCallback });
+  const get = ({ ...props }) => {
+    return axiosHandler({ type: "get", ...props });
   };
 
-  const post = ({ url, name, errorCallback }) => {
-    return axiosHandler({ type: "post", url, name, errorCallback });
+  const post = ({ ...props }) => {
+    return axiosHandler({ type: "post", ...props });
   };
-  const put = ({ url, name, errorCallback }) => {
-    return axiosHandler({ type: "put", url, name, errorCallback });
+  const put = ({ ...props }) => {
+    return axiosHandler({ type: "put", ...props });
   };
-  const deleteHandler = ({ url, name, errorCallback }) => {
-    return axiosHandler({ type: "delete", url, name, errorCallback });
+  const deleteHandler = ({ ...props }) => {
+    return axiosHandler({ type: "delete", ...props });
   };
-  const patch = ({ url, name, errorCallback }) => {
-    return axiosHandler({ type: "patch", url, name, errorCallback });
+  const patch = ({ ...props }) => {
+    return axiosHandler({ type: "patch", ...props });
   };
 
   const axiosHandler = ({
@@ -28,11 +28,14 @@ const axiosService = (name) => {
     url: oldUrl,
     name: getName,
     errorCallback,
+    disabelLoading,
+    dataHandler,
+    urlTail,
   }) => {
     const actionName = `${name}/${getName}`;
     return createAsyncThunk(actionName, async (oldBody, { dispatch }) => {
-      dispatch(addLoader(actionName));
-      const { url, body } = bodyHandler(oldUrl, oldBody);
+      !disabelLoading && dispatch(addLoader(actionName));
+      const { url, body } = bodyHandler(oldUrl, oldBody, urlTail);
       const result = await axios[type](url, body);
       if (result.status === "Failed") {
         if (result.unAuthorize === false) {
@@ -53,7 +56,7 @@ const axiosService = (name) => {
         return result;
       } else {
         dispatch(deleteLoader(actionName));
-        return result;
+        return dataHandler ? dataHandler(result, { dispatch }) : result;
       }
     });
   };
@@ -61,20 +64,22 @@ const axiosService = (name) => {
   return { axiosHandler, get, post, put, deleteHandler, patch };
 };
 
-const urlHandler = (url, { selectId, addedUrl, queries }) =>
-  `${url}${selectId ? "/" + selectId : ""}${addedUrl ? "/" + addedUrl : ""}${
-    queries ? `?${queries}` : ""
-  }`;
+const urlHandler = (url, { selectId, addedUrl, queries }, urlTail) =>
+  `${url}${selectId ? `/${selectId}` : ""}${addedUrl ? `/${addedUrl}` : ""}${
+    urlTail ? `/${urlTail}` : ""
+  }${queries ? `?${queries}` : ""}`;
 
 const bodyHandler = (
   url,
-  { query, selectId, addedUrl, formData: oldFormData, ...oldBody } = {}
+  { query, selectId, addedUrl, formData: oldFormData, ...oldBody } = {},
+  urlTail
 ) => {
   const formData = new FormData();
 
   oldFormData &&
-    Object.entries(oldFormData)
-    .map(([key, value]) => formData.append(key, value));
+    Object.entries(oldFormData).map(([key, value]) =>
+      formData.append(key, value)
+    );
 
   const body = oldFormData ? formData : { ...oldBody };
 
@@ -89,7 +94,7 @@ const bodyHandler = (
         )
         .join("")
     : "";
-  const newUrl = urlHandler(url, { selectId, addedUrl, queries });
+  const newUrl = urlHandler(url, { selectId, addedUrl, queries }, urlTail);
   return { url: newUrl, body };
 };
 

@@ -13,24 +13,26 @@ import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import * as yup from "yup";
 
 const loginSchema = yup.object().shape({
-  email: yup.string().required('Enter Email'),
-  password: yup.string().required('Enter Password'),
+  email: yup.string().required('Enter Email').email(),
+  password: yup.string().required('Enter Password').min(8).max(30),
 });
 const registerSchema = yup.object().shape({
   fullName: yup.string().required('Please enter your full name !').min(6).max(30),
-  email: yup.string().email('Please enter a valid email !').required('Please enter your email !'),
+  email: yup.string().required('Please enter your email !').email('Please enter a valid email !'),
   password: yup.string().required('Please enter your password !').min(8).max(30),
-  confirmPassword: yup.string().required('Please enter your confirm password !').min(8).max(30),
+  confirmPassword: yup.string().required('Please enter your confirm password !').min(8).max(30).oneOf([yup.ref('password'), null], 'Passwords must match'),
   referralCode: yup.string().default(''),
 });
 const resetPasswordSchema = yup.object({
-  email: yup.string(),
+  email: yup.string().required().email(),
 }).required();
 const twoFactorAuthSchema = yup.object({
   email: yup.string(),
 }).required();
 const choosePasswordSchema = yup.object({
-  email: yup.string(),
+  verificationCode: yup.string().required('Please enter Verification Code!').min(6).max(6),
+  password: yup.string().required('Please enter your password !').min(8).max(30),
+  confirmPassword: yup.string().required('Please enter your confirm password !').min(8).max(30).oneOf([yup.ref('password'), null], 'Passwords must match'),
 }).required();
 const verificationCodeSchema = yup.object({
   verificationCode: yup.string(),

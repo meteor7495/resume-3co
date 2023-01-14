@@ -34,9 +34,9 @@ export default function YourPlatform(props) {
                             <img src={secureUrl} />
                         </div>
                         <div className="flex-grow">
-                            <Typography color={'primary'} className={'font-[500] text-[18px] mb-[20px]'} variant={'h2'}>The Catalyzer</Typography>
+                            <Typography color={'primary'} className={'font-[500] text-[18px] mb-[20px]'} variant={'h2'}>Security</Typography>
                             <Typography color={'text.primary'}>
-                                We store the vast majority of the digital assets in secure offline storage.
+                                Our exchange has robust security measures in place to protect user accounts and assets. This includes measures such as two-factor authentication, cold storage for digital assets, and regular security audits.
                             </Typography>
                         </div>
                     </div>
@@ -46,9 +46,9 @@ export default function YourPlatform(props) {
                             <img src={protectedUrl}/>
                         </div>
                         <div className="flex-grow">
-                            <Typography color={'primary'} className={'font-[500] text-[18px] mb-[20px]'} variant={'h2'}>The Catalyzer</Typography>
+                            <Typography color={'primary'} className={'font-[500] text-[18px] mb-[20px]'} variant={'h2'}>Fast transaction processing</Typography>
                             <Typography color={'text.primary'}>
-                                3co maintains crypto insurance and all USD cash balances are covered by FDIC insurance, up to a maximum of $250,000.
+                                Our exchange has a robust infrastructure in place to ensure fast and efficient processing of transactions. This can be especially important for those looking to take advantage of market fluctuations and trade quickly.
                             </Typography>
                         </div>
                     </div>
@@ -58,9 +58,9 @@ export default function YourPlatform(props) {
                             <img src={industryUrl} />
                         </div>
                         <div className="flex-grow">
-                            <Typography color={'primary'} className={'font-[500] text-[18px] mb-[20px]'} variant={'h2'}>The Catalyzer</Typography>
+                            <Typography color={'primary'} className={'font-[500] text-[18px] mb-[20px]'} variant={'h2'}>User-friendly interface</Typography>
                             <Typography color={'text.primary'}>
-                                Coinbase supports a variety of the most popular digital currencies.
+                                Our exchange has a clean, intuitive interface that makes it easy for users to buy and sell cryptocurrencies. This can be especially appealing for those new to the world of cryptocurrency.
                             </Typography>
                         </div>
                     </div>

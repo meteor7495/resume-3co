@@ -17,7 +17,7 @@ export default function AttentionCard({ items, description, className }) {
           >
             <div>{title}</div>
             <div className={`font-bold ${warning ? classes.warningTitle : ""}`}>
-              {value.toLocaleString()}{" "}
+              {value?.toLocaleString()}{" "}
               <span className={`font-normal ${classes.textSecondary}`}>
                 {unit}
               </span>

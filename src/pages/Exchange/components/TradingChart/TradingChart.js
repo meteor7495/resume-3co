@@ -1,29 +1,43 @@
+import ComingSoon from "components/ComingSoon/ComingSoon";
+import { selectPairById } from "pages/Exchange/store/pairsSlice";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { AdvancedChart } from "react-tradingview-embed";
-import BoxUi from "../../../../components/UiKit/BoxUi";
-// import { useSelector } from "react-redux";
 
 export default function TradingChart() {
-  const { selectedCoin, theme } = useSelector((state) => state.app);
+  const { theme } = useSelector((state) => state.app);
   const [chart, setChart] = useState("");
-
+  const selectedPair = useSelector((s) =>
+    selectPairById(s, s.exchange.pairs.selectedPair)
+  );
   useEffect(() => {
-    setChart(
-      <AdvancedChart
-        widgetProps={{
-          theme: theme,
-          symbol: `BINANCE:${selectedCoin.symbol}`,
-          allow_symbol_change: true,
-          toolbar_bg: "#fff",
-          height: "100%",
-          withdateranges: false,
-          hide_top_toolbar: true,
-          hide_side_toolbar: true,
-        }}
-      />
-    );
-  }, [selectedCoin, theme]);
+    if (selectedPair) {
+      const {
+        baseCurrency: { ticker: baseTicker },
+        pairCurrency: { ticker: pairTicker },
+      } = selectedPair;
+
+      const symbol = baseTicker + pairTicker;
+
+      setChart(
+        <>
+          <AdvancedChart
+            widgetProps={{
+              theme: theme,
+              symbol,
+              allow_symbol_change: true,
+              toolbar_bg: "#fff",
+              height: "100%",
+              withdateranges: false,
+              hide_top_toolbar: true,
+              hide_side_toolbar: true,
+            }}
+          />
+          <ComingSoon visible={symbol === "3COUSDT"} />
+        </>
+      );
+    }
+  }, [selectedPair, theme]);
   return (
     <>
       {chart ? (

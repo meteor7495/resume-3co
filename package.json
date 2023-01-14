@@ -17,7 +17,7 @@
     "@testing-library/user-event": "^13.5.0",
     "apexcharts": "^3.36.3",
     "axios": "^0.27.2",
-    "ethers": "^5.7.0",
+    "ethers": "^5.7.2",
     "jalali-moment": "^3.3.11",
     "jss": "^10.9.0",
     "jss-rtl": "^0.3.0",
@@ -53,6 +53,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "sourcBuild": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

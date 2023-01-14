@@ -17,11 +17,30 @@ export default function TwoFactorAuthentication(props) {
   const backgroundUrl = theme === 'light' ? WelcomeSvg : WelcomeDarkSvg;
   const {tfaSignIn} = useAuth();
   const [values, setValues] = React.useState(['', '', '','', '', '']);
-
-  const onSubmit = () => {
+  const [buttonStatus, setButtonStatus] = React.useState(true);
+  const inputValidator = () => {
+    let statusArray = [];
+    values?.map((item) => {
+      if(item === ''){
+        statusArray.push(false)
+      }
+    })
+    if(statusArray.includes(false)){
+      setButtonStatus(true);
+      return false
+    }
+  }
+  const onSubmit = async() => {
+    inputValidator()
     let data = values.join('')
-    tfaSignIn({tfaCode:data})
+    await tfaSignIn({tfaCode:data})
   };
+  const changeValueHandler = () => {
+    inputValidator()
+  };
+  const changeButtonStatus = () => {
+    setButtonStatus(false)
+  }
 
   return (
     <section className={"text-gray-600 body-font " + classes.body} style={{
@@ -33,7 +52,7 @@ export default function TwoFactorAuthentication(props) {
         <div className="p-0 lg:p-4 w-full max-w-[414px]">
           <BoxUi
             className={"h-full p-[18px] lg:p-[36px] border-solid border rounded-lg overflow-hidden"}>
-            <Typography className={'text-center font-[700] text-[25px] mb-3'} color={'text.primary'} variant={'h1'}>
+            <Typography className={'text-center font-[700] text-[18px] lg:text-[25px] mb-3'} color={'text.primary'} variant={'h1'}>
               Two-Factor Authentication
             </Typography>
             <Typography color={'text.primary'} className={'opacity-50 text-[14px] font-[400] mb-3 text-center'}>
@@ -44,10 +63,14 @@ export default function TwoFactorAuthentication(props) {
               <PinInput
                 values={values}
                 placeholder={''}
-                onChange={(value, index, values) => setValues(values)}
+                onComplete={() => changeButtonStatus()}
+                onChange={(value, index, values) => {
+                  changeValueHandler()
+                  setValues(values)
+                }}
               />
             </div>
-            <ButtonUi onClick={() => onSubmit()} variant={'contained'} className={`mt-3 ${classes.button}`}>
+            <ButtonUi disabled={buttonStatus} onClick={() => onSubmit()} variant={'contained'} className={`mt-3 ${classes.button}`}>
               Verify Code
             </ButtonUi>
           </BoxUi>

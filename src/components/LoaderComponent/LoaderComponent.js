@@ -4,11 +4,11 @@ import React from "react";
 import { useSelector } from "react-redux";
 import useStyles from "./styles";
 
-const LoaderComponent = () => {
+const LoaderComponent = ({ visible: visibleProp }) => {
   const classes = useStyles();
   const { visible, text, loaderArray } = useSelector((state) => state.loading);
   const progressBar = useSelector((state) => state.progressBar);
-  return visible || (loaderArray && loaderArray.length > 0) ? (
+  return visible || (loaderArray && loaderArray.length > 0) || visibleProp ? (
     <div id="Loader" className={classes.divLoader}>
       <CircularProgress
         className={classes.loading}

@@ -3,11 +3,14 @@ import { cleanUser } from "../store/userSlice";
 import { useDispatch } from "react-redux";
 import { showAlert } from "../store/AlertsSlice";
 import { AlertTypes } from "../constants/alertTypes.enum";
+import {addLoader, deleteLoader} from "../store/LoadingSlice";
 
 const useAxios = () => {
   const dispatch = useDispatch();
   const get = async (url) => {
+    dispatch(addLoader(`get/${url}`))
     let result = await axios.get(url);
+    dispatch(deleteLoader(`get/${url}`))
     if (result.status === "Failed") {
       if (result.unAuthorize === false) {
         dispatch(
@@ -30,7 +33,9 @@ const useAxios = () => {
   };
 
   const post = async (url, data, config = {}) => {
+    dispatch(addLoader(`post/${url}`))
     let result = await axios.post(url, data, config);
+    dispatch(deleteLoader(`post/${url}`))
     if (result?.status === "Failed") {
       dispatch(
         showAlert({
@@ -46,7 +51,9 @@ const useAxios = () => {
     }
   };
   const put = async (url, data, config = {}) => {
+    dispatch(addLoader(`put/${url}`))
     let result = await axios.put(url, data, config);
+    dispatch(deleteLoader(`put/${url}`))
     if (result?.status === "Failed") {
       dispatch(
         showAlert({

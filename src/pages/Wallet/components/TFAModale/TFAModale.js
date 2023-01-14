@@ -5,14 +5,12 @@ import securityLight from "../../../../assets/images/securityLight.svg";
 import securityDark from "../../../../assets/images/securityDark.svg";
 import { useDispatch, useSelector } from "react-redux";
 import InputUi from "../../../../components/UiKit/InputUi";
-import { CircularProgress } from "@mui/material";
 import { TaskAlt } from "@mui/icons-material";
 import { closeModal } from "../../../../store/ModalSlice";
 import useAxios from "hooks/useAxios";
 import { string } from "yup";
 import { showAlert } from "store/AlertsSlice";
 import { AlertTypes } from "constants/alertTypes.enum";
-import { getHistory } from "pages/Wallet/store/historySlice";
 
 let schema = string()
   .required()
@@ -20,7 +18,7 @@ let schema = string()
   .min(6, "Must be exactly 6 digits")
   .max(6, "Must be exactly 6 digits");
 
-export default function TFAModale({}) {
+export default function TFAModale() {
   const { theme } = useSelector((s) => s.app);
   const { amount, address } = useSelector((s) => s.wallet.withdraw);
   const {
@@ -42,7 +40,7 @@ export default function TFAModale({}) {
           const res = await post("wallet/spot/withdraw/request", {
             networkId: network,
             currencyId,
-            amount,
+            amount: amount.toCurrency(),
             tfaCode: TFA,
             toAddress: address,
           });
@@ -131,7 +129,7 @@ export default function TFAModale({}) {
         ) : (
           <>
             <div className={"flex justify-center"}>
-              <img src={activatePopUpImage} />
+              <img alt="" src={activatePopUpImage} />
             </div>
             <div className="flex flex-col gap-[8px]">
               <div className="text-[15px] text-center font-bold">
@@ -147,6 +145,7 @@ export default function TFAModale({}) {
                 value={TFA}
                 onChange={(e) => setTFA(e.target.value)}
                 placeholder={"2FA Code"}
+                onEnter={submitHandler}
               />
             </div>
           </>

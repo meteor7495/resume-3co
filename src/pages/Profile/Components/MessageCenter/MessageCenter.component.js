@@ -14,8 +14,8 @@ import reducer from "./Store";
 function MessageCenter() {
   const classes = useStyles();
   const schema = yup.object().shape({
-    issue: yup.string().required('Enter FullName'),
-    description: yup.string().required('Enter Email'),
+    issue: yup.object().required('Please select on of the issues'),
+    description: yup.string().required('Please enter your description'),
     coin: yup.string().default(''),
     txId: yup.string().default(''),
     amount: yup.string().default(''),

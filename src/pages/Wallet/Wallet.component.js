@@ -5,6 +5,7 @@ import routes from "../../configs/routes";
 import { walletType } from "../../constants/walletType.enum copy";
 import reducer from "./store";
 import withReducer from "store/withReducer";
+import TradeHistory from "./pages/TradeHistory/TradeHistory.component";
 
 function Wallet({ children, ...props }) {
   const OverviewPage = lazy(() =>
@@ -55,14 +56,19 @@ function Wallet({ children, ...props }) {
       element: <HistoryPage />,
     },
     {
-      name: "history/all",
+      name: "history/deposit",
       path: routes.wallet.history.deposit,
       element: <HistoryPage type={walletType.Deposit} />,
     },
     {
-      name: "history/all",
+      name: "history/withdraw",
       path: routes.wallet.history.withdraw,
       element: <HistoryPage type={walletType.Withdraw} />,
+    },
+    {
+      name: "history/trade",
+      path: routes.wallet.history.trade,
+      element: <TradeHistory />,
     },
   ];
   return (

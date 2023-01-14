@@ -21,11 +21,17 @@ import useStyles from "./styles";
 import ButtonUi from "../../UiKit/ButtonUi";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import routes from "../../../configs/routes";
-import { AlignHorizontalLeft } from "@mui/icons-material";
+import { AlignHorizontalLeft, SupportAgent } from "@mui/icons-material";
 import PersonIcon from "@mui/icons-material/Person";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import LogoutIcon from "@mui/icons-material/Logout";
 import useAuth from "../../../hooks/useAuth";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import MuiAccordion from "@mui/material/Accordion";
+import MuiAccordionSummary from "@mui/material/AccordionSummary";
+import MuiAccordionDetails from "@mui/material/AccordionDetails";
+import { styled } from "@mui/material/styles";
+import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 
 const Header = (props) => {
   const classes = useStyles();
@@ -36,6 +42,7 @@ const Header = (props) => {
   const navigate = useNavigate();
   const { logOut } = useAuth();
   const themeChangeHandler = (theme) => {
+    localStorage.setItem("theme", theme);
     dispatch(setTheme(theme));
   };
   useEffect(() => {}, [dispatch]);
@@ -69,7 +76,7 @@ const Header = (props) => {
     };
     return (
       <>
-        <div className={"flex items-center"}>
+        {/* <div className={"flex items-center"}>
           <Typography>Balance:</Typography>
           <ButtonUi
             color="textColor"
@@ -77,9 +84,12 @@ const Header = (props) => {
             onClick={() => navigate("/wallet")}
             className={`mr-3 ${classes.balance}`}
           >
-            0.00 USDT
+            {user?.user?.totalBalance > 0
+              ? parseFloat(user?.user?.totalBalance).toFixed(2)
+              : "0.00"}{" "}
+            USDT
           </ButtonUi>
-        </div>
+        </div> */}
         <ButtonUi
           color="textColor"
           className={"mr-3"}
@@ -135,6 +145,17 @@ const Header = (props) => {
           <MenuItem disableTouchRipple onClick={() => navigate("/profile")}>
             <MenuCustomItem color={"textColor"} title={"Profile"}>
               <PersonIcon color={"icons"} />
+            </MenuCustomItem>
+          </MenuItem>
+          <MenuItem
+            disableTouchRipple
+            onClick={() => {
+              setOpen(false);
+              navigate("/profile/message-center");
+            }}
+          >
+            <MenuCustomItem color={"textColor"} title={"Support"}>
+              <SupportAgent color={"icons"} />
             </MenuCustomItem>
           </MenuItem>
           <MenuItem disableTouchRipple onClick={() => navigate("/wallet")}>
@@ -202,21 +223,24 @@ const Header = (props) => {
     }
   };
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const openProfileMenu = Boolean(anchorEl);
+  const openAssets = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const [expanded, setExpanded] = React.useState("panel1");
+
+  const handleChange = (panel) => (event, newExpanded) => {
+    setExpanded(newExpanded ? panel : false);
+  };
   return (
     <>
-      <nav className={`body-font z-10 relative ${classes.header}`}>
-        <div
-          className={
-            "mx-auto container w-full px-2 sm:px-5 lg:px-5 border-0 border-b border-solid lg:border-0"
-          }
-        >
+      <nav
+        className={`body-font z-10 relative border-0 border-b border-solid ${classes.header}`}
+      >
+        <div className={`mx-auto container w-full px-2 sm:px-5 lg:px-5`}>
           <div className="relative flex h-16 items-center justify-between">
             <div className="absolute inset-y-0 right-0 flex gap-[10px] items-center lg:hidden">
               <ButtonUi
@@ -237,7 +261,7 @@ const Header = (props) => {
               {headerSidebar && (
                 <IconButton
                   className={
-                    "border-0 inline-flex items-center justify-center rounded-md p-[10px] w-fit text-black " +
+                    "border-0 inline-flex items-center justify-center rounded-md p-[10px] w-fit " +
                     classes.buttonColor
                   }
                   onClick={() => setHeaderSidebarOpen((o) => !o)}
@@ -254,7 +278,7 @@ const Header = (props) => {
               )}
               <IconButton
                 className={
-                  "border-0 inline-flex items-center justify-center rounded-md p-[10px] w-fit text-black " +
+                  "border-0 inline-flex items-center justify-center rounded-md p-[10px] w-fit " +
                   classes.buttonColor
                 }
                 onClick={() => setOpen((o) => !o)}
@@ -283,25 +307,108 @@ const Header = (props) => {
                   <Link to={routes.exchange} className={"mr-5 " + classes.link}>
                     Exchange
                   </Link>
-                  <Link to={"#"} className={"mr-5 " + classes.link}>
+                  <Link
+                    dis
+                    to={"#"}
+                    className={`mr-5 opacity-50 cursor-default ${classes.link}`}
+                  >
                     Trade Bot
                   </Link>
-                  <Link to={"#"} className={"mr-5 " + classes.link}>
+                  <Link
+                    to={"#"}
+                    className={`mr-5 opacity-50 cursor-default ${classes.link}`}
+                  >
                     NFT Market
                   </Link>
-                  <Link to={"#"} className={"mr-5 " + classes.link}>
+                  <Link
+                    to={"#"}
+                    className={`mr-5 opacity-50 cursor-default ${classes.link}`}
+                  >
                     DEX
                   </Link>
-                  <Link to={"#"} className={"mr-5 " + classes.link}>
+                  <Link
+                    to={"#"}
+                    className={`mr-5 opacity-50 cursor-default ${classes.link}`}
+                  >
                     Margin
                   </Link>
                   <Link
-                    to={routes.wallet.index}
-                    className={"mr-5 " + classes.link}
+                    // to={routes.wallet.index}
+                    to={"#"}
+                    className={"mr-5 flex items-center " + classes.link}
+                    onMouseOver={handleClick}
                   >
                     Assets
+                    <KeyboardArrowDownIcon
+                      className={"ml-1"}
+                      fontSize={"10px"}
+                    />
                   </Link>
-                  <ButtonUi variant="outlined">Financial</ButtonUi>
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={openAssets}
+                    onClose={handleClose}
+                    MenuListProps={{
+                      "aria-labelledby": "basic-button",
+                      onMouseLeave: handleClose,
+                    }}
+                    sx={{ mt: 2.5, boxShadow: "none" }}
+                  >
+                    <MenuItem
+                      onClick={(e) => {
+                        navigate(routes.wallet.index);
+                        handleClose(e);
+                      }}
+                    >
+                      Overview
+                    </MenuItem>
+                    <MenuItem
+                      onClick={(e) => {
+                        navigate(
+                          `${routes.wallet.index}/${routes.wallet.spot.assets}`
+                        );
+                        handleClose(e);
+                      }}
+                    >
+                      Wallet
+                    </MenuItem>
+                    <MenuItem
+                      onClick={(e) => {
+                        navigate(
+                          `${routes.wallet.index}/${routes.wallet.spot.deposit}`
+                        );
+                        handleClose(e);
+                      }}
+                    >
+                      Deposit
+                    </MenuItem>
+                    <MenuItem
+                      onClick={(e) => {
+                        navigate(
+                          `${routes.wallet.index}/${routes.wallet.spot.withdraw}`
+                        );
+                        handleClose(e);
+                      }}
+                    >
+                      Withdraw
+                    </MenuItem>
+                    <MenuItem
+                      onClick={(e) => {
+                        navigate(
+                          `${routes.wallet.index}/${routes.wallet.history.allAssets}`
+                        );
+                        handleClose(e);
+                      }}
+                    >
+                      History
+                    </MenuItem>
+                  </Menu>
+                  <Link
+                    to={`${routes.wallet.index}/${routes.wallet.financial}`}
+                  >
+                    <ButtonUi variant="outlined">Financial</ButtonUi>
+                  </Link>
                 </nav>
               </div>
             </div>
@@ -365,20 +472,15 @@ const Header = (props) => {
                     <PersonIcon color={"icons"} />
                   </MenuCustomItem>
                 </MenuItem>
-                <MenuItem disableTouchRipple onClick={() => {
-                  setOpen(false)
-                  navigate("/profile/message-center")
-                }}>
-                  <MenuCustomItem color={"textColor"} title={"Message Center"}>
-                    <PersonIcon color={"icons"} />
-                  </MenuCustomItem>
-                </MenuItem>
-                <MenuItem disableTouchRipple onClick={() => {
-                  setOpen(false)
-                  navigate("/profile/message-center/submit-ticket")
-                }}>
-                  <MenuCustomItem color={"textColor"} title={"Submit a Ticket"}>
-                    <PersonIcon color={"icons"} />
+                <MenuItem
+                  disableTouchRipple
+                  onClick={() => {
+                    setOpen(false);
+                    navigate("/profile/message-center");
+                  }}
+                >
+                  <MenuCustomItem color={"textColor"} title={"Support"}>
+                    <SupportAgent color={"icons"} />
                   </MenuCustomItem>
                 </MenuItem>
                 <MenuItem
@@ -448,38 +550,112 @@ const Header = (props) => {
           <Link
             onClick={() => setOpen(false)}
             to={"#"}
-            className={"lg:mr-5 mb-3 lg:mb-0 " + classes.link}
+            className={
+              "lg:mr-5 mb-3 lg:mb-0 opacity-50 cursor-default " + classes.link
+            }
           >
             Trade Bot
           </Link>
           <Link
             onClick={() => setOpen(false)}
             to={"#"}
-            className={"lg:mr-5 mb-3 lg:mb-0 " + classes.link}
+            className={
+              "lg:mr-5 mb-3 lg:mb-0 opacity-50 cursor-default " + classes.link
+            }
           >
             NFT Market
           </Link>
           <Link
             onClick={() => setOpen(false)}
             to={"#"}
-            className={"lg:mr-5 mb-3 lg:mb-0 " + classes.link}
+            className={
+              "lg:mr-5 mb-3 lg:mb-0 opacity-50 cursor-default " + classes.link
+            }
           >
             DEX
           </Link>
           <Link
             onClick={() => setOpen(false)}
             to={"#"}
-            className={"lg:mr-5 mb-3 lg:mb-0 " + classes.link}
+            className={
+              "lg:mr-5 mb-3 lg:mb-0 opacity-50 cursor-default " + classes.link
+            }
           >
             Margin
           </Link>
-          <Link
+          {/*<Link
             onClick={() => setOpen(false)}
             to={routes.wallet.index}
             className={"lg:mr-5 mb-3 lg:mb-0 " + classes.link}
           >
             Assets
-          </Link>
+          </Link>*/}
+          <Accordion
+            expanded={expanded === "panel1"}
+            onChange={handleChange("panel1")}
+          >
+            <AccordionSummary
+              aria-controls="panel1d-content"
+              id="panel1d-header"
+            >
+              <Typography>Assets</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <MenuItem
+                sx={{ opacity: 0.6 }}
+                onClick={(e) => {
+                  setOpen(false);
+                  navigate(routes.wallet.index);
+                }}
+              >
+                Overview
+              </MenuItem>
+              <MenuItem
+                sx={{ opacity: 0.6 }}
+                onClick={(e) => {
+                  setOpen(false);
+                  navigate(
+                    `${routes.wallet.index}/${routes.wallet.spot.assets}`
+                  );
+                }}
+              >
+                Wallet
+              </MenuItem>
+              <MenuItem
+                sx={{ opacity: 0.6 }}
+                onClick={(e) => {
+                  setOpen(false);
+                  navigate(
+                    `${routes.wallet.index}/${routes.wallet.spot.deposit}`
+                  );
+                }}
+              >
+                Deposit
+              </MenuItem>
+              <MenuItem
+                sx={{ opacity: 0.6 }}
+                onClick={(e) => {
+                  setOpen(false);
+                  navigate(
+                    `${routes.wallet.index}/${routes.wallet.spot.withdraw}`
+                  );
+                }}
+              >
+                Withdraw
+              </MenuItem>
+              <MenuItem
+                sx={{ opacity: 0.6 }}
+                onClick={(e) => {
+                  setOpen(false);
+                  navigate(
+                    `${routes.wallet.index}/${routes.wallet.history.allAssets}`
+                  );
+                }}
+              >
+                History
+              </MenuItem>
+            </AccordionDetails>
+          </Accordion>
           <ButtonUi className={"mb-3 lg:mb-0"} variant="outlined">
             Financial
           </ButtonUi>
@@ -505,49 +681,34 @@ const Header = (props) => {
           {headerSidebar(setHeaderSidebarOpen)}
         </Drawer>
       )}
-      {/*<header className={"body-font border-0 border-b border-solid " + classes.header}>
-                <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-                    <Link to={'/'} className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-                        <Logo/>
-                    </Link>
-                    <nav className="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
-                        <Link to={'/'} className={"mr-5 " + classes.link}>
-                            Home
-                        </Link>
-                        <Link to={'/exchange'} className={"mr-5 " + classes.link}>Exchange</Link>
-                        <Link to={'#'} className={"mr-5 " + classes.link}>Trade Bot</Link>
-                        <Link to={'#'} className={"mr-5 " + classes.link}>NFT Market</Link>
-                        <Link to={'#'} className={"mr-5 " + classes.link}>DEX</Link>
-                        <Link to={'#'} className={"mr-5 " + classes.link}>Margin</Link>
-                        <Link to={'#'} className={"mr-5 " + classes.link}>Assets</Link>
-                        <ButtonUi variant="outlined">
-                            Financial
-                        </ButtonUi>
-                    </nav>
-                    <div>
-                        <ButtonUi className={'mr-3 ' + classes.loginBtn}>
-                            Login
-                        </ButtonUi>
-                        <ButtonUi className={'mr-3'} variant={'contained'}>
-                            Register
-                        </ButtonUi>
-                        <ButtonUi className={'mr-3'}
-                                  sx={{minWidth :'auto'}}
-                                  onClick={() => {
-                                      theme === 'light' ? themeChangeHandler(ThemeTypes.dark) : themeChangeHandler(ThemeTypes.light)
-                                  }}
-                        >
-                            <img src={theme === 'light' ? DarkSvg : LightSvg}/>
-                        </ButtonUi>
-                        <ButtonUi
-                            sx={{minWidth :'auto'}}
-                        >
-                            <img src={NotificationsSvg}/>
-                        </ButtonUi>
-                    </div>
-                </div>
-            </header>*/}
     </>
   );
 };
 export default Header;
+
+const Accordion = styled((props) => (
+  <MuiAccordion disableGutters elevation={0} square {...props} />
+))(({ theme }) => ({
+  marginBottom: 10,
+  "&:before": {
+    display: "none",
+  },
+}));
+
+const AccordionSummary = styled((props) => (
+  <MuiAccordionSummary
+    sx={{ minHeight: 30 }}
+    expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: "0.9rem" }} />}
+    {...props}
+  />
+))(({ theme }) => ({
+  flexDirection: "row-reverse",
+  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
+    transform: "rotate(90deg)",
+  },
+  "& .MuiAccordionSummary-content": {
+    marginLeft: theme.spacing(1),
+  },
+}));
+
+const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({}));

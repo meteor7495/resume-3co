@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axiosService from "store/axiosService";
+import objectToNormalNumber from "utils/objectToNormalNumber";
 
 const { get } = axiosService("Deposit");
 export const getDeposit = get({
   url: "wallet/Overview",
   name: "getDeposit",
+  dataHandler: (data) => objectToNormalNumber(data),
 });
 
 const depositSlice = createSlice({

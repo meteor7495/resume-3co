@@ -42,6 +42,7 @@ const Sidebar = ({ responsive, setClose }) => {
         routes.wallet.history.allAssets,
         routes.wallet.history.deposit,
         routes.wallet.history.withdraw,
+        routes.wallet.history.trade,
       ])
     ) {
       setOpen("history");
@@ -67,7 +68,7 @@ const Sidebar = ({ responsive, setClose }) => {
         </Button>
       </Link>
       <BoxUi
-        className={`flex gap-[10px] flex-col border-0 p-0 lg:p-[10px] lg:border`}
+        className={`flex gap-[10px] flex-col border-0 p-0 lg:p-[10px] lg:border ${classes.body}`}
       >
         <WalletCollapse
           open={open === "spot"}
@@ -133,6 +134,13 @@ const Sidebar = ({ responsive, setClose }) => {
           >
             Withdraw
           </WalletLink>
+          <WalletLink
+            setClose={setClose}
+            responsive={responsive}
+            to={routes.wallet.history.trade}
+          >
+            Trade History
+          </WalletLink>
         </WalletCollapse>
       </BoxUi>
     </div>
@@ -182,7 +190,7 @@ const WalletCollapse = ({ children, ...props }) => {
   return (
     <CollapseUi
       {...props}
-      className={`border-0`}
+      className={`border-0 ${classes.OverviewButton}`}
       classes={{
         button: `border-b-0 h-[24px] gap-0 lg:gap-[10px] lg:h-[45px] font-bold ${classes.CollapseUiButton}`,
         vector: ` ${classes.vector}`,

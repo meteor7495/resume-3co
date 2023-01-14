@@ -12,7 +12,7 @@ export default function VerticalStepper({ steps }) {
   return (
     <Stepper
       orientation="vertical"
-      className={`w-full`}
+      className={`w-full h-fit`}
       connector={
         <StepConnector
           className="h-[26px]"

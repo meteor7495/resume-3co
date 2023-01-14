@@ -7,29 +7,27 @@ import SearchUi from "../../../../components/UiKit/SearchUi/SearchUi";
 import TransactionCard from "../../components/TransactionCard/TransactionCard";
 import WalletTable from "../../components/WalletTable/WalletTable";
 import useStyles from "./SpotAssets.style";
-import {
-  getWallets,
-  selectWallets,
-  setWalletsSearch,
-  UpdateOneWallet,
-} from "pages/Wallet/store/walletsSlice";
 import { getDeposit } from "pages/Wallet/store/depositSlice";
 import routes from "configs/routes";
 import bigInt from "utils/bigInt";
 import { Link } from "react-router-dom";
+import {
+  getWallets,
+  selectWallets,
+  setWalletsSearch,
+  updateOneWallet,
+} from "store/slices/walletsSlice";
 
 export default function SpotAssets({ children, ...props }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const wallets = useSelector(selectWallets);
-  const {
-    deposit = {},
-    wallets: { searchText },
-  } = useSelector((s) => s.wallet);
+  const { deposit = {} } = useSelector((s) => s.wallet);
+  const { searchText } = useSelector((s) => s.wallets);
   useEffect(() => {
     dispatch(getWallets());
     dispatch(getDeposit());
-    // dispatch(setWalletsSearch(""));
+    dispatch(setWalletsSearch(""));
   }, []);
   function createData({ currency, activeBalance, lockedBalance, _id }) {
     return [
@@ -109,7 +107,7 @@ const headerItems = [
 
 const SearchBox = (props) => {
   const dispatch = useDispatch();
-  const { searchText } = useSelector((s) => s.wallet.wallets);
+  const { searchText } = useSelector((s) => s.wallets);
   return (
     <SearchUi
       {...props}
@@ -146,7 +144,7 @@ const Operation = ({
 }) => {
   const dispatch = useDispatch();
   const updateOne = () => {
-    dispatch(UpdateOneWallet({ selectId: _id }));
+    dispatch(updateOneWallet({ selectId: _id }));
   };
   return (
     <div className={`inline-flex items-center gap-[10px] w-fit justify-center`}>
@@ -166,7 +164,7 @@ const Operation = ({
         disabled={!canSpotWithdraw}
         to={`../${routes.wallet.spot.withdraw}?coinId=${currencyId}`}
       >
-        Withdrow
+        Withdraw
       </OperationBtn>
     </div>
   );

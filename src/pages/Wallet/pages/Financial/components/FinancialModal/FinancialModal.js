@@ -6,46 +6,56 @@ import InputUi from "../../../../../../components/UiKit/InputUi";
 import { closeModal } from "../../../../../../store/ModalSlice";
 import useStyles from "./styles";
 import AutocompleteUi from "../../../../../../components/UiKit/AutocompleteUi/AutocompleteUi";
-import { getWallets, selectWallets } from "pages/Wallet/store/walletsSlice";
 import bigInt from "utils/bigInt";
 import { number } from "yup";
 import { showAlert } from "store/AlertsSlice";
 import { AlertTypes } from "constants/alertTypes.enum";
 import useAxios from "hooks/useAxios";
-import { getFinancial } from "pages/Wallet/store/financialSlice";
+import {
+  getFinancialOverview,
+  getFinancialList,
+} from "pages/Wallet/store/financialSlice";
+import { getWallets, selectWallets } from "store/slices/walletsSlice";
 
-export default function FinancialModal({}) {
-  const { selectedCoin: { baseTicker, pairTicker } = {} } = useSelector(
-    (state) => state.app
-  );
+export default function FinancialModal() {
+  const classes = useStyles();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getWallets());
-  }, []);
+  }, [dispatch]);
 
   const Wallets = useSelector(selectWallets);
   const wallet = Wallets?.filter(
     ({ currency: { ticker } }) => ticker === "USDT"
   )[0];
-  const [amount, setAmount] = useState("");
 
+  const activeBalance = wallet?.activeBalance;
+
+  const [amount, setAmount] = useState("");
+  const { portfolio, attention } = useSelector((s) => s.wallet.financial);
   let schema = number()
     .required()
-    // .matches(/^[0-9]+$/, "Must be a number")
     .min(100, "the minimum amount is 100 USDT")
-    .max(wallet?.activeBalance, "Insignificant Balance");
+    .max(activeBalance, "Insignificant Balance");
   const { post } = useAxios();
   const submitHandler = () => {
     schema
       .validate(amount)
       .then(async () => {
         const res = await post("financial/3co", {
-          tetherAmount: amount,
+          amount: amount.toCurrency(),
+          paidCurrencyId: wallet.currency._id,
         });
         if (res?.status === "Success") {
-          dispatch(closeModal());
-          dispatch(getFinancial());
-          // setSuccessful(true);
+          closeHandler();
+          dispatch(getFinancialList());
+          dispatch(getFinancialOverview());
+          dispatch(
+            showAlert({
+              type: AlertTypes.success,
+              message: "Deposit Successfully",
+            })
+          );
         }
       })
       .catch((err) => {
@@ -61,6 +71,7 @@ export default function FinancialModal({}) {
 
   const closeHandler = () => {
     dispatch(closeModal());
+    setAmount("");
   };
 
   const amountHandler = (e) => {
@@ -69,7 +80,8 @@ export default function FinancialModal({}) {
       : typeof e === "string" || typeof e === "number"
       ? e
       : "";
-    setAmount(value);
+    // setAmount(parseFloat((+value).toFixed(8)));
+    setAmount(value.toFixedNumber());
   };
   return (
     <ModalUi
@@ -90,33 +102,63 @@ export default function FinancialModal({}) {
         </div>
       }
     >
+      <div
+        className={`px-[10px] py-[16px] border border-solid rounded-[5px] text-center mb-[20px] ${classes.attentionWrapper}`}
+      >
+        <div className="max-w-[360px] m-auto text-[12px]" >
+          Please deposit USDT into your spot wallet before transferring them to
+          your Financial wallet and Invest in 3CO
+        </div>
+      </div>
       <div className="flex flex-col gap-[10px]">
         <div className="font-bold">Coin</div>
         <AutocompleteUi
           options={options}
           value={{ label: "USDT", value: "USDT" }}
         />
-        <AmountShow title="Spot Stock" value={wallet?.activeBalance} />
+        <AmountShow title="Spot Stock" value={activeBalance} unit="USDT" />
         <div className="font-bold">
           Amount <span className="font-normal text-error">(from Spot)</span>
         </div>
-        <InputUi value={amount} placeholder="Amount" onChange={amountHandler} />
-        <AssetsSelect value={wallet?.activeBalance} onClick={amountHandler} />
+        <InputUi
+          type="number"
+          value={amount}
+          placeholder="Amount"
+          onChange={amountHandler}
+          onEnter={submitHandler}
+        />
+        <AssetsSelect value={activeBalance} onClick={amountHandler} />
         <div className="flex gap-[10px] flex-col lg:flex-row justify-between ">
-          <AmountShow title="Minimum Stake" value={100} />
-          <AmountShow title="Availabe Share" value={124623.135} />
+          <AmountShow
+            title="you will receive"
+            unit={"3CO"}
+            value={amount ? amount / 0.008 : 0}
+            // value={amount ? +(amount / 0.008).toString().toCurrency() : 0}
+          />
+        </div>
+        <div className="flex gap-[10px] flex-col lg:flex-row justify-between ">
+          <AmountShow
+            title="Minimum Stake"
+            value={attention?.minimumStake}
+            unit="USDT"
+          />
+          <AmountShow
+            title="Available Share"
+            value={portfolio?.remainingShares}
+            unit="3CO"
+          />
         </div>
       </div>
     </ModalUi>
   );
 }
 
-const AmountShow = ({ title, value }) => {
+const AmountShow = ({ title, value, unit }) => {
   return (
     <div className="flex text-[13px] gap-[5px]">
       <div className="opacity-50">{title}:</div>
       <div className="text-primary">
-        {value && bigInt(+value)} <span className="font-bold">USDT</span>
+        {value && bigInt(+value)} <span className="font-bold">{unit}</span>
       </div>
     </div>
   );

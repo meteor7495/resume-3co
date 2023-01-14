@@ -12,24 +12,86 @@ import LogoSVG from "../../../../assets/images/theerco.png";
 import ProfitTable from "./components/ProfitTable/ProfitTable";
 import { useDispatch, useSelector } from "react-redux";
 import { setModal } from "../../../../store/ModalSlice";
-import { getFinancial } from "pages/Wallet/store/financialSlice";
+import {
+  getFinancialOverview,
+  getFinancialList,
+} from "pages/Wallet/store/financialSlice";
+import bigInt from "utils/bigInt";
 
 export default function Financial({ children, ...props }) {
   const classes = useStyles();
-  const [visibility, setVisibility] = useState(true);
-  const ChartValues = {
-    "Remaining Shares": 0,
-    "Your Shares": 0,
-    Sold: 0,
-  };
-  const financial = useSelector((s) => s.wallet.financial);
+  const [visibility, setVisibility] = useState();
+  const {
+    financialList,
+    overview = {},
+    attention = {},
+    portfolio,
+  } = useSelector((s) => s.wallet.financial);
+
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getFinancial());
+    dispatch(getFinancialList());
+    dispatch(getFinancialOverview());
   }, []);
+  const shareHandler = (v) =>
+    portfolio?.totalInvestCap && bigInt((v / portfolio?.totalInvestCap) * 100)
+      ? bigInt((v / portfolio?.totalInvestCap) * 100)
+      : 0;
 
-  const rows = financial.length > 0 ? financial?.map(createData) : [];
-
+  function createData({ currency, balance }) {
+    return [
+      {
+        children: <CoinEl {...currency} />,
+        align: "left",
+        className: `w-[250px]`,
+      },
+      { children: <NumberEl value={balance} /> },
+      { children: <div>{shareHandler(portfolio?.yourShares)}%</div> },
+      { children: <Operation />, align: "right", className: `w-[200px]` },
+    ];
+  }
+  // console.log({ portfolioportfolioportfolio: portfolio });
+  const rows = financialList.length > 0 ? financialList?.map(createData) : [];
+  const ChartValues = portfolio
+    ? {
+        "Remaining Shares": +shareHandler(portfolio.remainingShares),
+        "Your Shares": +shareHandler(portfolio.yourShares),
+        Sold: +shareHandler(portfolio.sold),
+      }
+    : {
+        "Remaining Shares": 0,
+        "Your Shares": 0,
+        Sold: 0,
+      };
+  const attentionItems = [
+    {
+      title: "Minimum Stack",
+      value: attention?.minimumStake,
+      unit: "USDT",
+      warning: true,
+    },
+    {
+      title: "Maximum Stack",
+      value: bigInt(+attention?.maximumStake * 0.008),
+      unit: "USDT",
+      warning: true,
+    },
+    { title: "Price of 1 Share", value: "0.008", unit: "USDT", warning: true },
+    {
+      title: "Unlock Time",
+      value: "365",
+      unit: (
+        <span>
+          {" "}
+          Days{" "}
+          <span className="hidden lg:inline-block">
+            (After Investment Complition)
+          </span>
+        </span>
+      ),
+      warning: true,
+    },
+  ];
   return (
     <div className={`flex flex-col gap-[10px]`}>
       <OverviewHeader
@@ -37,6 +99,13 @@ export default function Financial({ children, ...props }) {
         ChartValues={ChartValues}
         visibility={visibility}
         setVisibility={setVisibility}
+        data={{
+          USD: overview ? overview.totalFinancialAmountInUSD : 0,
+          // BTC: overview ? overview.totalFinancialAmountInBTC : 0,
+          "3CO": portfolio?.yourShares,
+          // lock: ,
+        }}
+        title={"Financial"}
       />
       <div className={`flex flex-col lg:flex-row gap-[10px] leading-none`}>
         <AttentionCard className={`flex-[3]`} items={attentionItems} />
@@ -84,26 +153,6 @@ export default function Financial({ children, ...props }) {
   );
 }
 
-const attentionItems = [
-  { title: "Minimum Stack", value: "1000", unit: "USDT", warning: true },
-  { title: "Maximum Stack", value: "125000", unit: "USDT", warning: true },
-  { title: "Price of 1 Share", value: "0.008", unit: "USDT", warning: true },
-  {
-    title: "Unlock Time",
-    value: "365",
-    unit: (
-      <span>
-        {" "}
-        Days{" "}
-        <span className="hidden lg:inline-block">
-          (After Investment Complition)
-        </span>
-      </span>
-    ),
-    warning: true,
-  },
-];
-
 const headerItems = [
   { name: "Coin", className: "text-start" },
   { name: "Stacked Amount" },
@@ -133,6 +182,7 @@ const Operation = () => {
   return (
     <div className={`inline-flex items-center gap-[10px] w-fit justify-center`}>
       <ButtonUi
+        onClick={() => dispatch(getFinancialList())}
         disableRipple
         style={{ position: "inherit" }}
         className={`p-[2px] bg-[transparent_!important] ${btnClass}`}
@@ -147,7 +197,7 @@ const Operation = () => {
           dispatch(setModal({ visible: true, id: "FinancialModal" }))
         }
       >
-        Deposit
+        Invest
       </ButtonUi>
       <ButtonUi
         disableRipple
@@ -155,26 +205,14 @@ const Operation = () => {
         style={{ position: "inherit" }}
         className={`p-[2px] bg-[transparent_!important] ${btnClass}`}
       >
-        Withdrow
+        Withdraw
       </ButtonUi>
     </div>
   );
 };
-function createData({ currency, balance }) {
-  return [
-    {
-      children: <CoinEl {...currency} />,
-      align: "left",
-      className: `w-[250px]`,
-    },
-    { children: <NumberEl value={balance} /> },
-    { children: <div>{0}%</div> },
-    { children: <Operation />, align: "right", className: `w-[200px]` },
-  ];
-}
 const NumberEl = ({ value }) => {
   const classes = useStyles();
-  return <div className={classes.ticker}>{value.toString()}</div>;
+  return <div className={classes.ticker}>{value && bigInt(value)}</div>;
 };
 // const rows = [
 //   createData(

@@ -1,22 +1,23 @@
 import { Button, InputAdornment } from "@mui/material";
 import ButtonUi from "components/UiKit/ButtonUi";
 import InputUi from "components/UiKit/InputUi";
-import routes from "configs/routes";
 import { getHistory } from "pages/Wallet/store/historySlice";
-import { selectWallets } from "pages/Wallet/store/walletsSlice";
 import { setWithdrawAmount } from "pages/Wallet/store/withdrawSlice";
+import { clearError, setError } from "pages/Wallet/store/errorSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { setModal } from "store/ModalSlice";
+import { number, object, string } from "yup";
+import { selectWallets, updateOneWallet } from "store/slices/walletsSlice";
 
 export default function ReceiveAmount({ type }) {
   const { isTfaActive } = useSelector((s) => s?.user?.user);
+  const { currency } = useSelector((s) => s.wallet.coin);
 
   const dispatch = useDispatch();
 
   const { amount, address } = useSelector((s) => s.wallet.withdraw);
-
-  const { currency } = useSelector((s) => s.wallet.coin);
+  const { amount: amountError } = useSelector((s) => s.wallet.error);
 
   const Wallets = useSelector(selectWallets);
 
@@ -28,6 +29,15 @@ export default function ReceiveAmount({ type }) {
   const wallet = Wallets?.filter(
     ({ currency: { _id: w_id } }) => _id === w_id
   )[0];
+
+  let schema = object().shape({
+    address: string().required("address is required"),
+    // .min(100, "wtf"),
+    amount: number()
+      .required("amount is required")
+      .moreThan(fee, `must be more than ${fee} ${currency.ticker}`)
+      .max(wallet?.activeBalance, "Insignificant Balance"),
+  });
 
   const allHandler = () => {
     dispatch(setWithdrawAmount(wallet.activeBalance));
@@ -42,10 +52,38 @@ export default function ReceiveAmount({ type }) {
       getHistory({ query: { action: type && type.toLowerCase(), limit: 10 } })
     );
   };
+
+  const submitHandler = () => {
+    dispatch(clearError());
+    schema
+      .validate({ address, amount }, { abortEarly: false })
+      .then(() => {
+        dispatch(
+          setModal({
+            visible: true,
+            id: "TFAModale",
+            doneCallback: () => {
+              refreshHandler();
+              dispatch(updateOneWallet({ selectId: wallet._id }));
+            },
+          })
+        );
+      })
+      .catch((err) => {
+        const errors = {};
+        err.inner.forEach(({ path, message }) => {
+          errors[path] = message;
+        });
+        dispatch(setError(errors));
+      });
+  };
+
   return (
     <div className="flex flex-col gap-[10px]">
       <InputUi
         value={amount}
+        error={!!amountError}
+        helperText={amountError}
         onChange={onChangeHandler}
         InputProps={{
           type: "number",
@@ -66,8 +104,10 @@ export default function ReceiveAmount({ type }) {
           </div>
         </div>
         <div className="flex justify-between gap-[10px] text-[9px] w-full lg:w-[35%] opacity-50">
-          <div>Deduction:</div>
-          <div>0.00051 {currency.ticker}</div>
+          <div>you will receive:</div>
+          <div>
+            {amount && amount - fee > 0 ? amount - fee : 0} {currency.ticker}
+          </div>
         </div>
       </div>
       <div className="flex flex-col gap-[8px]">
@@ -82,15 +122,7 @@ export default function ReceiveAmount({ type }) {
         <ButtonUi
           disabled={!isTfaActive || !(amount && address)}
           variant="contained"
-          onClick={() =>
-            dispatch(
-              setModal({
-                visible: true,
-                id: "TFAModale",
-                doneCallback: refreshHandler,
-              })
-            )
-          }
+          onClick={submitHandler}
         >
           Withdraw
         </ButtonUi>

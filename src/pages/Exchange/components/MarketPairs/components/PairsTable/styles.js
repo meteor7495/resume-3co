@@ -4,14 +4,17 @@ export default makeStyles((theme) => ({
   tableRow: {
     "&:hover>td": {
       background: `${theme.palette.primary.main}0d`,
-    }
+    },
+  },
+  tableTextColor: {
+    color: theme.palette.text.secondary,
   },
   headerCell: {
     background: `${theme.palette.box.background}`,
     color: theme.palette.text.secondary,
     "&>span": {
       background: `${theme.palette.box.background}`,
-    }
+    },
   },
   unFavorite: {
     "&>path": {
@@ -27,7 +30,6 @@ export default makeStyles((theme) => ({
     background: `${theme.palette.primary.main}1a`,
     "&:hover": {
       background: `${theme.palette.primary.main}1a`,
-
-    }
+    },
   },
 }));

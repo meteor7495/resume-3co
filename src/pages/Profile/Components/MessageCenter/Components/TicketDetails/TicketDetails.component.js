@@ -14,7 +14,6 @@ import {
 import BoxUi from "../../../../../../components/UiKit/BoxUi";
 import ScrollbarsUi from "../../../../../../components/UiKit/PerfectScrollbarUi";
 import WalletTableHead from "../../../../../Wallet/components/WalletTableHead";
-import {ReactComponent as NothingHere} from "../../../../../../assets/svg/NothingHere.svg";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ButtonUi from "../../../../../../components/UiKit/ButtonUi";
 import FileSvg from "../../../../../../assets/icons/file.svg";
@@ -36,12 +35,17 @@ export default function TicketsList() {
   const { ticket } = useSelector((s) => s.messageCenter);
   const { user } = useSelector((s) => s.user);
   const [value, setValue] = useState('')
+  const [buttonStatus, setButtonStatus] = useState(true)
   useEffect(() => {
     console.log('paramsparamsparamsparamsparams',params)
     dispatch(getTicket({selectId: params?.id}));
   }, []);
   useEffect(() => {
-    console.log('valuevaluevaluevaluevalue',value)
+    if(value === ''){
+      setButtonStatus(true)
+    }else{
+      setButtonStatus(false)
+    }
   },[value])
   const onSubmit = () => {
     dispatch(replyTicket({formData: {
@@ -64,7 +68,7 @@ export default function TicketsList() {
   }
   const MessageUiHandler = (item) => {
     console.log('itemitemitemitem',item)
-    const object = item?.sender?.role === 'USER' ?
+    const object = item?.sender?.role?.toUpperCase() === 'USER' ?
       {
         boxRounded: 'rounded-t-[10px] rounded-br-[10px]',
         name: item?.sender?.fullName,
@@ -232,9 +236,11 @@ export default function TicketsList() {
                         </div>
                     }
 
-                    <ButtonUi onClick={() => {
-                      onSubmit()
-                    }} size={'small'} variant={'contained'}>
+                    <ButtonUi
+                      disabled={buttonStatus}
+                      onClick={() => onSubmit()}
+                      size={'small'}
+                      variant={'contained'}>
                       Send Reply
                     </ButtonUi>
                   </div>

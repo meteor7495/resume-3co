@@ -1,7 +1,7 @@
 import React from "react";
 import ReactApexChart from 'react-apexcharts';
 
-export default function PopularMarketsList({data, options, type, ...props}) {
+export default function Charts({data, options, type, ...props}) {
     return (
         <ReactApexChart
             type="area"
@@ -24,7 +24,7 @@ export default function PopularMarketsList({data, options, type, ...props}) {
                     }
                 },
                 xaxis: {
-                    categories: ['2شنبه', '3شنبه', '4شنبه', '5شنبه', 'جمعه', 'شنبه', '1شنبه']
+                    categories: ['2شنبه', '3شنبه', '4شنبه', '5شنبه', 'جمعه', 'شنبه', 'شنبه', '1شنبه']
                 },
                 fill: {
                     type: 'solid',

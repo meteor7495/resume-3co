@@ -111,9 +111,12 @@ const responsiveHeaderItems = [
 ];
 const headerItems = [
   { name: "Time" },
-  { filter: { name: "pair", items: tableSorts.pair } },
-  { filter: { name: "type", items: tableSorts.type } },
-  { filter: { name: "buySell", items: tableSorts.buySell } },
+  { name: "All Pairs" },
+  { name: "All Types" },
+  { name: "Buy/Sell" },
+  // { filter: { name: "pair", items: tableSorts.pair } },
+  // { filter: { name: "type", items: tableSorts.type } },
+  // { filter: { name: "buySell", items: tableSorts.buySell } },
   { name: "Price" },
   { name: "Amount" },
 ];

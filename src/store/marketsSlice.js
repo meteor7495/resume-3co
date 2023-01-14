@@ -1,6 +1,6 @@
 import {createEntityAdapter, createSlice} from "@reduxjs/toolkit";
 // import useMarkets from "../hooks/useMarkets";
-import Markets from "../hooks/Markets";
+import UseMarkets from "../hooks/useMarkets";
 
 /*const {GetIndexMarkets} = useMarkets()
 export const getMarkets = GetIndexMarkets();*/

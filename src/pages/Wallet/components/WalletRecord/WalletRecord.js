@@ -35,7 +35,11 @@ export default function WalletRecord({ children, type, ...props }) {
         </div>
       }
     >
-      <HistoryTable type={type} className={`h-[310px]`} />
+      <HistoryTable
+        type={type}
+        querys={{ limit: 10 }}
+        className={`h-[310px]`}
+      />
       <div className="lg:hidden">
         <AllRecords type={type} />
       </div>

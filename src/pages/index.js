@@ -8,14 +8,18 @@ import Toastify from "../components/Toastify/Toastify";
 import useAuth from "../hooks/useAuth";
 import { setWidth } from "../store/WidthSlice";
 import { getCoins } from "store/slices/CoinsSlice";
+import {setTheme} from "../store/appSlice";
+import {ThemeTypes} from "../constants/themeTypes.enum";
 
 function Index(props) {
-  const { theme } = useSelector((s) => s.app);
   const { getUser, user, isLoading } = useAuth();
   const dispatch = useDispatch();
-  useMemo(() => {
-    getUser();
+  useMemo(async() => {
+    await getUser();
+    const localTheme = localStorage.getItem('theme') ?? ThemeTypes.light
+    dispatch(setTheme(localTheme));
   }, []);
+  const { theme } = useSelector((s) => s.app);
 
   useEffect(() => {
     responseHandler((w) => {
@@ -23,7 +27,7 @@ function Index(props) {
     });
   }, []);
   useEffect(() => {
-    if(user ) {
+    if(user) {
       dispatch(getCoins())
     }
   }, [user]);

@@ -16,36 +16,26 @@ import {
 import ButtonUi from "../../../../components/UiKit/ButtonUi";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import useAuth from "../../../../hooks/useAuth";
-import { Controller, useForm } from "react-hook-form";
+import {Controller, useForm, useFormContext} from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
 import { showAlert } from "../../../../store/AlertsSlice";
 import { AlertTypes } from "../../../../constants/alertTypes.enum";
 import * as yup from "yup";
 import InputUi from "../../../../components/UiKit/InputUi";
-
-const schema = yup
-  .object({
-    email: yup.string(),
-  })
-  .required();
+import _ from "../../../../@lodash";
+import {useSearchParams} from "react-router-dom";
 
 export default function ChoosePassword(props) {
   const classes = useStyles();
   const { theme } = useSelector((s) => s.app);
-  const imageUrl = theme === "light" ? BusinessDealSvg : BusinessDealDarkSvg;
   const backgroundUrl = theme === "light" ? WelcomeSvg : WelcomeDarkSvg;
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const methods = useFormContext();
+  const {control, formState, getValues} = methods;
+  const {errors, isValid, dirtyFields} = formState;
   const { resetPassword } = useAuth();
-  const dispatch = useDispatch();
-  const {
-    control,
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
+  const [searchParams] = useSearchParams();
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -53,20 +43,11 @@ export default function ChoosePassword(props) {
   const handleClickShowConfirmPassword = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
-  const onSubmit = (data) => {
-    resetPassword(data);
+  const onSubmit = async(data) => {
+    Object.assign(data, {email: searchParams.get('email')})
+    console.log('datadatadatadata',data);
+    await resetPassword(data);
   };
-  const notifyHandler = ({ message, alertType, key }) => {
-    dispatch(showAlert({ message, type: alertType, visible: true, key }));
-  };
-
-  useEffect(() => {
-    Object.keys(errors).forEach(function (key, index) {
-      setTimeout(() => {
-        notifyHandler(errors[key].message, AlertTypes.danger, index);
-      }, 100);
-    });
-  }, [errors]);
 
   return (
     <section
@@ -91,7 +72,7 @@ export default function ChoosePassword(props) {
             >
               Reset password
             </Typography>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <div>
               <Controller
                 name="password"
                 control={control}
@@ -102,6 +83,7 @@ export default function ChoosePassword(props) {
                     </InputLabel>
                     <OutlinedInput
                       {...field}
+                      error={!!errors.password}
                       className={`${classes.inputStyle}`}
                       id="outlined-adornment-password"
                       type={showPassword ? "text" : "password"}
@@ -116,21 +98,25 @@ export default function ChoosePassword(props) {
                           </IconButton>
                         </InputAdornment>
                       }
-                      label="Password"
+                      label="New Password"
                     />
                   </FormControl>
                 )}
               />
+              <span className={'h-[30px] text-xs text-error flex items-center'}>
+                {errors?.password?.message}
+              </span>
               <Controller
                 name="confirmPassword"
                 control={control}
                 render={({ field }) => (
-                  <FormControl className={"w-full mt-5"} variant="outlined">
+                  <FormControl className={"w-full "} variant="outlined">
                     <InputLabel htmlFor="outlined-adornment-password">
                       Confirm New Password
                     </InputLabel>
                     <OutlinedInput
                       {...field}
+                      error={!!errors.confirmNewPassword}
                       className={`${classes.inputStyle}`}
                       id="outlined-adornment-password"
                       type={showConfirmPassword ? "text" : "password"}
@@ -149,30 +135,38 @@ export default function ChoosePassword(props) {
                           </IconButton>
                         </InputAdornment>
                       }
-                      label="Password"
+                      label="Confirm New Password"
                     />
                   </FormControl>
                 )}
               />
+              <span className={'h-[30px] text-xs text-error flex items-center'}>
+                {errors?.confirmPassword?.message}
+              </span>
               <Controller
                 name="verificationCode"
                 control={control}
                 render={({ field }) => (
                   <InputUi
                     {...field}
+                    error={!!errors.verificationCode}
                     label={"Verification Code"}
-                    className={`mt-5 mb-5 ${classes.inputStyle}`}
+                    className={`${classes.inputStyle}`}
                   />
                 )}
               />
+              <span className={'h-[30px] text-xs text-error flex items-center'}>
+                {errors?.verificationCode?.message}
+              </span>
               <ButtonUi
-                type={"submit"}
                 variant={"contained"}
+                disabled={_.isEmpty(dirtyFields) || !isValid}
+                onClick={() => onSubmit(getValues())}
                 className={`mt-3 ${classes.button}`}
               >
                 Submit
               </ButtonUi>
-            </form>
+            </div>
           </div>
         </div>
       </div>

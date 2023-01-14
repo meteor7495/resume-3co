@@ -1,9 +1,10 @@
 import { makeStyles } from "@mui/styles";
-import { elementHight } from "../../../../constants/elementHight.enum";
 
 export default makeStyles((theme) => ({
   body: {
-    minHeight: `calc(100vh - ${elementHight.header}px)`,
+    [theme.breakpoints.down("lg")]: {
+      backgroundColor: theme.palette.background.default,
+    },
   },
   activeOverview: {
     backgroundColor: `${theme.palette.primary.main}0d`,
@@ -13,6 +14,9 @@ export default makeStyles((theme) => ({
     color: theme.palette.text.primary,
     "&:hover": {
       color: theme.palette.primary.main,
+    },
+    [theme.breakpoints.down("lg")]: {
+      backgroundColor: theme.palette.background.default,
     },
   },
   CollapseUiButton: {
@@ -34,6 +38,9 @@ export default makeStyles((theme) => ({
   },
   OverviewButton: {
     backgroundColor: theme.palette.box.background,
+    [theme.breakpoints.down("lg")]: {
+      backgroundColor: theme.palette.background.default,
+    },
   },
   CollapseLink: {
     color: theme.palette.text.primary,

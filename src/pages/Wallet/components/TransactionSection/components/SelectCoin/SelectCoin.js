@@ -1,16 +1,11 @@
 import { Box, Button, InputAdornment } from "@mui/material";
 import AutocompleteUi from "components/UiKit/AutocompleteUi";
 import ButtonUi from "components/UiKit/ButtonUi";
-import InputUi from "components/UiKit/InputUi";
-import routes from "configs/routes";
 import { walletType } from "constants/walletType.enum copy";
 import { selectCoin } from "pages/Wallet/store/coinSlice";
-import { selectWallets } from "pages/Wallet/store/walletsSlice";
-import { setWithdrawAmount } from "pages/Wallet/store/withdrawSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useSearchParams } from "react-router-dom";
-import { setModal } from "store/ModalSlice";
+import { useSearchParams } from "react-router-dom";
 import { selectCoins } from "store/slices/CoinsSlice";
 import useStyles from "../../styles";
 

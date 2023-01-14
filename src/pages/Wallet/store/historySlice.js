@@ -5,6 +5,13 @@ const { get } = axiosService("history");
 export const getHistory = get({
   url: "transactions/history",
   name: "getHistory",
+  dataHandler: (data) => ({
+    ...data,
+    itemsList: data.itemsList.map((item) => ({
+      ...item,
+      amount: item.amount.toNormalNumber(),
+    })),
+  }),
 });
 
 const historySlice = createSlice({
@@ -20,7 +27,6 @@ const historySlice = createSlice({
   },
   extraReducers: {
     [getHistory.fulfilled]: (state, action) => action.payload,
-
   },
 });
 

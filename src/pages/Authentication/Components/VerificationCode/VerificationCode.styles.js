@@ -64,7 +64,38 @@ export default makeStyles((theme) => ({
         "& .sc-bcXHqe":{
             width:'100%',
         },
-        "& .kQWrbv":{
+        // general
+
+        "& input":{
+            width: '16.5%',
+            height:56,
+            marginRight:9,
+            backgroundColor: theme.palette.input.transparent + '!important',
+            boxShadow: 'none!important',
+            borderColor: theme.palette.input.border,
+            color: theme.palette.text.primary,
+            "&:valid":{
+                borderColor: theme.palette.input.border,
+            },
+            [theme.breakpoints.between("xs",'sm')]: {
+                height:45,
+            },
+        },
+        /*// success
+        "& .jfBcaH":{
+            width: 44,
+            height:56,
+            marginRight:9,
+            backgroundColor: theme.palette.input.transparent + '!important',
+            boxShadow: 'none!important',
+            borderColor: theme.palette.input.border,
+            color: theme.palette.text.primary,
+            "&:valid":{
+                borderColor: theme.palette.input.border,
+            }
+        },
+        //error
+        "& .bJVynL":{
             width: 44,
             height:56,
             marginRight:9,
@@ -72,24 +103,6 @@ export default makeStyles((theme) => ({
             boxShadow: 'none!important',
             borderColor: theme.palette.input.border,
             color: theme.palette.text.primary
-        },
-        "& .jfBcaH":{
-            width: 44,
-            height:56,
-            marginRight:9,
-            backgroundColor:theme.palette.success.alertBg+'!important',
-            borderColor:theme.palette.success.main+'!important',
-            color:theme.palette.success.main+'!important',
-            boxShadow: 'none!important',
-        },
-        "& .bJVynL":{
-            width: 44,
-            height:56,
-            marginRight:9,
-            backgroundColor:theme.palette.error.alertBg+'!important',
-            borderColor:theme.palette.error.main+'!important',
-            color:theme.palette.error.main+'!important',
-            boxShadow: 'none!important',
-        },
+        },*/
     }
 }));

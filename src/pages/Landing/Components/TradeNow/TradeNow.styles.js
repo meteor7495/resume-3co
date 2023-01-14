@@ -18,6 +18,7 @@ export default makeStyles((theme) => ({
         fontWeight: 300,
         fontSize: 16,
         marginBottom: 20,
+        textAlign:'justify'
     },
 
     button:{

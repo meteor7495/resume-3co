@@ -10,17 +10,74 @@ import BoxUi from "../../components/UiKit/BoxUi";
 import CollapseUi from "../../components/UiKit/CollapseUi/CollapseUi";
 import { useDispatch, useSelector } from "react-redux";
 import { setSettings } from "../../store/LayoutSettings";
+import reducer from "./store";
+import withReducer from "store/withReducer";
+import {
+  getPairs,
+  getPairWallet,
+  selectPairById,
+  selectPairs,
+  setSelectedPair,
+} from "./store/pairsSlice";
+import { useSearchParams } from "react-router-dom";
+import { getOnlinePairs } from "./store/onlinePairsSlice";
 
-export default function Exchange({ children, ...props }) {
+function Exchange({ children, ...props }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setSettings({ footerMainDisplay: false }));
   }, []);
-  const { width } = useSelector((s) => s.width);
-  const { selectedCoin: { baseTicker, pairTicker } = {} } = useSelector(
-    (state) => state.app
+  const selectedPair = useSelector((s) =>
+    selectPairById(s, s.exchange.pairs.selectedPair)
   );
+  const {
+    pairCurrency: { ticker: pairTicker, _id: pairId } = {},
+    baseCurrency: { ticker: baseTicker } = {},
+  } = selectedPair
+    ? selectedPair
+    : {
+        pairCurrency: {},
+        baseCurrency: {},
+      };
+  useEffect(() => {
+    if (pairId) {
+      dispatch(getPairWallet({ selectId: pairId }));
+    }
+  }, [pairId]);
+
+  useEffect(() => {
+    dispatch(getOnlinePairs());
+    dispatch(getPairs());
+    const interval = setInterval(() => {
+      dispatch(getOnlinePairs());
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, []);
+  const pairs = useSelector(selectPairs);
+  const [searchParams] = useSearchParams();
+  const coinId = searchParams.get("coinId");
+  const queryPairId = searchParams.get("pairId");
+  useEffect(() => {
+    let id;
+    if (queryPairId) {
+      id = queryPairId;
+    } else if (coinId) {
+      let pair = pairs?.filter(
+        ({ baseCurrency: { _id } }) => _id === coinId
+      )[0];
+      id = pair?._id;
+    } else {
+      let TCO = pairs?.filter(
+        ({ baseCurrency: { ticker } = {} }) => ticker === "3CO"
+      )[0];
+      id = TCO?._id;
+    }
+    id && dispatch(setSelectedPair(id));
+  }, [coinId, queryPairId, pairs]);
+
+  const { width } = useSelector((s) => s.width);
   return (
     <PagesLayout className={classes.body}>
       {width > 1024 ? (
@@ -30,7 +87,7 @@ export default function Exchange({ children, ...props }) {
           </div>
           <div className={`flex-[3] flex flex-col gap-[10px]`}>
             <div className="flex-[3] min-h-[440px]">
-              <BoxUi className={`h-full px-[17px] py-[30px]`}>
+              <BoxUi className={`h-full relative px-[17px] py-[30px]`}>
                 <TradingChart />
               </BoxUi>
             </div>
@@ -53,7 +110,7 @@ export default function Exchange({ children, ...props }) {
       ) : (
         <div className={`flex flex-col lg:hidden gap-[10px] h-full`}>
           <CollapseUi name={"Chart"}>
-            <div className="min-h-[440px] px-[10px] py-[10px]">
+            <div className="relative min-h-[440px] px-[10px] py-[10px]">
               <TradingChart />
             </div>
           </CollapseUi>
@@ -62,7 +119,7 @@ export default function Exchange({ children, ...props }) {
               <MarketPairs />
             </div>
           </CollapseUi>
-          <div className=" block h-[420px]">
+          <div className=" block h-[540px]">
             <OrderBook />
           </div>
           <MarketTrade type="buy" />
@@ -75,3 +132,5 @@ export default function Exchange({ children, ...props }) {
     </PagesLayout>
   );
 }
+
+export default withReducer("exchange", reducer)(Exchange);

@@ -12,19 +12,18 @@ import {setModal} from "../../../../../../store/ModalSlice";
 import DisableAccount from "./Components/DisableAccount/DisableAccount";
 import TFAuthentication from "./Components/TFAuthentication/TFAuthentication";
 import PasswordInputUi from "../../../../../../components/UiKit/PasswordInputUi";
+import _ from "../../../../../../@lodash";
 
 export default function Security() {
   const methods = useFormContext();
-  const {control, formState:{errors}, reset, getValues} = methods;
+  const {control, formState, reset, getValues} = methods;
+  const {errors, isValid, dirtyFields} = formState;
   const classes = useStyles();
   const {updatePassword, TFADeActivator} = useAuth();
   const dispatch = useDispatch();
   const {user} = useSelector((s) => s);
   const {modal} = useSelector((s) => s);
   const onSubmit = async(data) => {
-    console.log('errorserrorserrorserrorserrors data',data)
-    console.log('errorserrorserrorserrorserrors',errors)
-    return false;
     await updatePassword(data)
     reset({
       oldPassword:'',
@@ -63,9 +62,12 @@ export default function Security() {
             <Controller
               name="oldPassword"
               control={control}
-              render={({field}) => <PasswordInputUi {...field} placeholder={'Old Password'}
+              render={({field}) => <PasswordInputUi autocomplete="new-password" {...field} placeholder={'Old Password'}
                                                     inputClassName={`${classes.inputStyle}`}/>}
             />
+            <span className={'h-[30px] text-error flex items-center'}>
+              {errors?.oldPassword?.message}
+            </span>
           </div>
           <div className={'w-[100%] lg:w-[49%]'}>
             <Typography className={'mb-3 font-[700] text-[1rem]'} color={'text.primary'}>
@@ -77,6 +79,9 @@ export default function Security() {
               render={({field}) => <PasswordInputUi {...field} placeholder={'New Password'}
                                                     inputClassName={`${classes.inputStyle}`}/>}
             />
+            <span className={'h-[30px] text-error flex items-center'}>
+              {errors?.newPassword?.message}
+            </span>
           </div>
           <div className={'w-[100%] lg:w-[49%] mt-4'}>
             <Typography className={'mb-3 font-[700] text-[1rem]'} color={'text.primary'}>
@@ -116,6 +121,9 @@ export default function Security() {
               render={({field}) => <PasswordInputUi {...field} placeholder={'New Password Confirmation'}
                                                  inputClassName={`${classes.inputStyle}`}/>}
             />
+            <span className={'h-[30px] text-error flex items-center'}>
+              {errors?.newPasswordConfirmation?.message}
+            </span>
           </div>
           <div className={'w-[100%] lg:w-[49%] mt-4'}>
             <Typography className={'mb-3 font-[700] text-[1rem]'} color={'text.primary'}>
@@ -132,8 +140,11 @@ export default function Security() {
             </div>
           </div>
           <div className={'w-full flex justify-end mt-8'}>
-            <ButtonUi onClick={() => onSubmit(getValues())} variant={'contained'}
-                      className={`w-full lg:w-[127px] h-[42px] mt-3 ${classes.button}`}>
+            <ButtonUi
+              disabled={_.isEmpty(dirtyFields) || !isValid}
+              onClick={() => onSubmit(getValues())}
+              variant={'contained'}
+              className={`w-full lg:w-[127px] h-[42px] mt-3 ${classes.button}`}>
               Update
             </ButtonUi>
           </div>

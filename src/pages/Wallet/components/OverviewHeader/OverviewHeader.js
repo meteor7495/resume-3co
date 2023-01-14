@@ -3,7 +3,7 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 import bigInt from "utils/bigInt";
 import BoxUi from "../../../../components/UiKit/BoxUi";
-
+import useStyles from "./styles";
 export default function OverviewHeader({
   pages,
   visibility,
@@ -11,10 +11,9 @@ export default function OverviewHeader({
   ChartValues,
   lockIcon,
   data,
+  title,
   ...props
 }) {
-  // {width > 1024 ? (
-
   return (
     <div className={`flex flex-col lg:flex-row gap-[10px] leading-none`}>
       <BoxUi
@@ -23,7 +22,7 @@ export default function OverviewHeader({
         <div
           className={`flex gap-[10px] pb-[13px] text-[15px] items-center justify-center`}
         >
-          Asset Overview
+          {title} Overview
           <span
             onClick={() => setVisibility((v) => !v)}
             className={`flex cursor-pointer`}
@@ -37,23 +36,31 @@ export default function OverviewHeader({
         </div>
         <div className={`py-[13px] flex gap-[5px]`}>
           <span className={`text-[20px] font-bold items-center flex`}>
-            {numberHandler({ number: data?.BTC, visibility })} BTC
+            {data?.BTC !== undefined &&
+              numberHandler({ number: data?.BTC, visibility }) + " BTC"}
+            {data &&
+              data["3CO"] !== undefined &&
+              numberHandler({ number: data["3CO"], visibility }) + " 3CO"}
           </span>
           <span className={`opacity-50 text-center flex items-center`}>
-            ≈ {numberHandler({ number: data?.USD, visibility })} USD
+            ≈ {numberHandler({ number: data?.USD, visibility })} USDT
           </span>
         </div>
-        <div
-          className={`flex gap-[5px] opacity-50 text-[15px] items-center justify-center`}
-        >
-          <span className={`flex`}>
-            {lockIcon ? lockIcon : <Lock className="text-[16px]" />}
-          </span>
-          <span>{numberHandler({ number: data?.lock, visibility })} USD</span>
-        </div>
+        {(data?.lock || +data?.lock == 0) && (
+          <div
+            className={`flex gap-[5px] opacity-50 text-[15px] items-center justify-center`}
+          >
+            <span className={`flex`}>
+              {lockIcon ? lockIcon : <Lock className="text-[16px]" />}
+            </span>
+            <span>
+              {numberHandler({ number: data?.lock, visibility })} USDT
+            </span>
+          </div>
+        )}
       </BoxUi>
       <BoxUi className={`flex flex-col flex-[2] text-center `}>
-        <div>Asset Portfolio</div>
+        <div>{title} Portfolio</div>
         <PieChart ChartValues={ChartValues} />
       </BoxUi>
     </div>
@@ -61,10 +68,12 @@ export default function OverviewHeader({
 }
 
 const numberHandler = ({ number, visibility }) => {
-  return visibility ? "****" : number && bigInt(number);
+  return visibility ? "****" : number && bigInt(+number);
 };
 const PieChart = ({ ChartValues }) => {
+  const classes = useStyles();
   const data = Object.values(ChartValues);
+  // const isData = false;
   const isData = data.filter((v) => v !== 0).length > 0;
   const series = isData ? data : [];
 
@@ -80,20 +89,23 @@ const PieChart = ({ ChartValues }) => {
     },
 
     legend: {
-      // horizontalAlign: "Left",
+      onItemClick: {
+        toggleDataSeries: false,
+      },
+      labels: {
+        colors: ["inherit"],
+      },
       fontSize: "13px",
       formatter: function (seriesName, opts) {
         const value = opts.w.globals.series[opts.seriesIndex];
-        return [`${seriesName}: ${value ? value : 0}%`];
+        return [`${seriesName}: ${value ? value.toFixedNumber(3) : 0}%`];
       },
       markers: {
         width: "20px",
         height: "20px",
       },
     },
-
     colors: ["#4478A8", "#AA70B9", "#B34848", "#6ABF5C"],
-
     dataLabels: {
       enabled: false,
     },
@@ -104,27 +116,32 @@ const PieChart = ({ ChartValues }) => {
         breakpoint: 1024,
         options: {
           legend: {
-            floating: true,
+            position: "bottom",
+            // floating: true,
           },
         },
       },
     ],
   };
   return (
-    <div className={`flex`}>
+    <div className={`flex flex-col lg:flex-row h-full relative`}>
       {!isData && (
-        <div className={`grow flex flex-col justify-center text-center`}>
-          No data
+        <div
+          className={`grow flex flex-col justify-center absolute w-full lg:w-1/2 top-[40px] lg:top-1/2 text-center`}
+        >
+          No Data
         </div>
       )}
-      <ReactApexChart
-        className={isData ? "grow" : "w-[300px]"}
-        options={options}
-        width="100%"
-        height="100%"
-        series={series}
-        type="donut"
-      />
+      <div className={`flex w-full lg:h-full`}>
+        <ReactApexChart
+          className={`${classes.chart} grow`}
+          options={options}
+          width="100%"
+          height={"180px"}
+          series={series}
+          type="donut"
+        />
+      </div>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import useStyles from "./Information.styles";
 import {Controller, useFormContext} from "react-hook-form";
 import InputUi from "../../../../../../components/UiKit/InputUi";
@@ -7,17 +7,18 @@ import ButtonUi from "../../../../../../components/UiKit/ButtonUi";
 import {useDispatch, useSelector} from "react-redux";
 import useAuth from "../../../../../../hooks/useAuth";
 import AutocompleteUi from "../../../../../../components/UiKit/AutocompleteUi/AutocompleteUi";
+import _ from "@lodash";
 
 export default function PopularMarketsList() {
   const methods = useFormContext();
-  const {control, reset, formState, getValues} = methods;
-  const {errors} = formState;
+  const {control, reset, formState, watch, getValues} = methods;
+  const {errors, isValid, dirtyFields} = formState;
   const classes = useStyles();
   const {updateUser, getUser} = useAuth();
   const {user} = useSelector((s) => s.user);
   const dispatch = useDispatch();
-  const onSubmit = data => {
-    updateUser(data)
+  const onSubmit = async(data) => {
+    await updateUser(data)
   };
   useEffect( () => {
     reset(user);
@@ -38,10 +39,20 @@ export default function PopularMarketsList() {
             <Controller
               name="fullName"
               control={control}
-              render={({field}) => <InputUi {...field} id={'fullName'} placeholder={'Full Name'}
-                                className={`${classes.inputStyle}`}/>
+              render={({field}) =>
+                <>
+                  <InputUi
+                    {...field}
+                    id={'fullName'}
+                    placeholder={'Full Name'}
+                    error={!!errors.fullName}
+                    className={`${classes.inputStyle}`}/>
+                </>
               }
             />
+            <span className={'h-[30px] text-error flex items-center'}>
+              {errors?.fullName?.message}
+            </span>
           </div>
           <div className={'w-[100%] lg:w-[49%] mt-4 lg:mt-0'}>
             <Typography className={'mb-3 font-[700] text-[1rem]'} color={'text.primary'}>
@@ -50,7 +61,7 @@ export default function PopularMarketsList() {
             <Controller
               name="email"
               control={control}
-              render={({field}) => <InputUi {...field} id={'email'} placeholder={'Email Address'}
+              render={({field}) => <InputUi disabled {...field} id={'email'} placeholder={'Email Address'}
                                             className={`${classes.inputStyle}`}/>}
             />
           </div>
@@ -65,7 +76,7 @@ export default function PopularMarketsList() {
                 [
                   {label: 'English', value: 'English'},
                 ]
-              } {...field} placeholder={'Language'} className={`${classes.inputStyle}`}/>}
+              } {...field} value={'English'} disabled placeholder={'Language'} className={`${classes.inputStyle}`}/>}
             />
           </div>
           <div className={'w-[100%] lg:w-[49%] mt-4'}>
@@ -75,15 +86,17 @@ export default function PopularMarketsList() {
             <Controller
               name="currency"
               control={control}
-              render={({field}) => <AutocompleteUi id={'currency'} options={
+              render={({field}) => <AutocompleteUi autocomplete="new-password" id={'currency'} options={
                 [
                   {label: 'USD', value: 'USD'},
                 ]
-              } {...field} placeholder={'Currency'} className={`${classes.inputStyle}`}/>}
+              } {...field} value={'USD'} disabled placeholder={'Currency'} className={`${classes.inputStyle}`}/>}
             />
           </div>
           <div className={'w-full flex justify-end'}>
-            <ButtonUi onClick={() => onSubmit(getValues())} variant={'contained'}
+            <ButtonUi
+              disabled={_.isEmpty(dirtyFields) || !isValid}
+              onClick={() => onSubmit(getValues())} variant={'contained'}
                       className={`w-full lg:w-[127px] h-[42px] mt-5 ${classes.button}`}>
               Update
             </ButtonUi>

@@ -8,13 +8,13 @@ import * as yup from "yup";
 
 
 const informationSchema = yup.object().shape({
-  fullName: yup.string().min(8).max(30).required('Enter FullName'),
-  email: yup.string().required('Enter Email'),
+  fullName: yup.string().required('Enter your fullName').min(8).max(30),
+  email: yup.string().required('Enter your email').email("Please enter a valid email"),
 });
 const securitySchema = yup.object().shape({
   oldPassword: yup.string().min(8).max(30).required('Please enter your old password'),
   newPassword: yup.string().min(8).max(30).required('Please enter your new password'),
-  newPasswordConfirmation: yup.string().min(8).max(30).required('Please enter your new password confirmation'),
+  newPasswordConfirmation: yup.string().min(8).max(30).required('Please enter your new password confirmation').oneOf([yup.ref('newPassword'), null], 'Passwords must match'),
 });
 
 export default function AccountSettings() {

@@ -3,7 +3,10 @@ import { makeStyles } from "@mui/styles";
 export default makeStyles((theme) => ({
   header: {
     background: theme.palette.secondBackground.main,
-    borderColor: theme.palette.border.main,
+    borderColor: theme.palette.headerBorderColor.main,
+  },
+  headerInner: {
+    borderColor: theme.palette.headerBorderColor.main,
   },
   balance:{
     color:theme.palette.primary.main

@@ -23,10 +23,4 @@ export default makeStyles((theme) => ({
     borderColor: theme.palette.border.main,
     backgroundColor: `${theme.palette.sidebar.buttonBg}`,
   },
-  tooltip: {
-    backgroundColor: theme.palette.success.main,
-  },
-  tooltipColor: {
-    color: theme.palette.success.main,
-  },
 }));

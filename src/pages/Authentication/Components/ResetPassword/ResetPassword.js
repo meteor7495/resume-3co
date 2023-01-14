@@ -1,63 +1,29 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import useStyles from "./ResetPassword.styles";
 import WelcomeSvg from '../../../../assets/images/welcome-background.png'
 import WelcomeDarkSvg from '../../../../assets/images/welcome-background-dark.png'
-import BusinessDealSvg from '../../../../assets/images/business-deal.svg'
-import BusinessDealDarkSvg from '../../../../assets/images/business-deal-dark.svg'
 import {useDispatch, useSelector} from "react-redux";
-import {
-  Checkbox,
-  FormControl,
-  FormControlLabel, FormGroup,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Typography
-} from "@mui/material";
+import {Typography} from "@mui/material";
 import InputUi from "../../../../components/UiKit/InputUi";
 import ButtonUi from "../../../../components/UiKit/ButtonUi";
-import {Visibility, VisibilityOff} from "@mui/icons-material";
 import {Link} from "react-router-dom";
 import BoxUi from "../../../../components/UiKit/BoxUi";
-import {Controller, useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
-import {showAlert} from "../../../../store/AlertsSlice";
-import {AlertTypes} from "../../../../constants/alertTypes.enum";
-import * as yup from "yup";
+import {Controller, useFormContext} from "react-hook-form";
 import useAuth from "../../../../hooks/useAuth";
-
-
-const schema = yup.object({
-  email: yup.string(),
-}).required();
-
+import _ from "../../../../@lodash";
 
 export default function ResetPassword(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const {theme} = useSelector((s) => s.app);
   const backgroundUrl = theme === 'light' ? WelcomeSvg : WelcomeDarkSvg;
-  const [showPassword,setShowPassword] = useState(false)
   const {requestResetPassword} = useAuth();
-  const {control, register, handleSubmit, formState: {errors}} = useForm({
-    resolver: yupResolver(schema)
-  });
-  const onSubmit = data => {
-    requestResetPassword(data)
+  const methods = useFormContext();
+  const {control, formState, getValues} = methods;
+  const {errors, isValid, dirtyFields} = formState;
+  const onSubmit = async (data) => {
+    await requestResetPassword(data)
   };
-  const notifyHandler = ({message, alertType, key}) => {
-    dispatch(showAlert( {message, type: alertType, visible: true, key}));
-  };
-
-  useEffect(() => {
-    Object.keys(errors).forEach(function (key, index) {
-      setTimeout(() => {
-        notifyHandler(errors[key].message, AlertTypes.danger, index)
-      }, 100)
-    });
-
-  }, [errors])
 
   return (
     <section className={"text-gray-600 body-font " + classes.body} style={{
@@ -72,16 +38,30 @@ export default function ResetPassword(props) {
             <Typography className={'text-center font-[700] text-[25px]'} color={'text.primary'} variant={'h1'}>
               Reset Password
             </Typography>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <div>
               <Controller
                 name="email"
                 control={control}
-                render={({field}) => <InputUi {...field} label={'Email address'} className={`mt-5 mb-5 ${classes.inputStyle}`}/>}
+                render={({field}) => <InputUi
+                  {...field}
+                  label={'Email address'}
+                  error={!!errors.email}
+                  className={`mt-5 ${classes.inputStyle}`}
+                />
+                }
               />
-              <ButtonUi type={'submit'} variant={'contained'} className={`mt-3 ${classes.button}`}>
+              <span className={'h-[30px] text-xs text-error flex items-center'}>
+                {errors?.email?.message}
+              </span>
+              <ButtonUi
+                variant={'contained'}
+                className={`mt-1 ${classes.button}`}
+                onClick={() => onSubmit(getValues())}
+                disabled={_.isEmpty(dirtyFields) || !isValid}
+              >
                 Submit
               </ButtonUi>
-            </form>
+            </div>
           </BoxUi>
           <Typography className={'mt-3 text-center'} color={'text.primary'}>
             Remember password?  &nbsp;

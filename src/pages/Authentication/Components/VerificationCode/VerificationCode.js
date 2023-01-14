@@ -28,26 +28,34 @@ export default function VerificationCode(props) {
   const [searchParams] = useSearchParams();
   const dispatch = useDispatch();
   const backgroundUrl = theme === 'light' ? WelcomeSvg : WelcomeDarkSvg;
+  const [values, setValues] = React.useState(['', '', '', '', '', '']);
+  const [buttonStatus, setButtonStatus] = React.useState(true);
   const {control, register, handleSubmit, formState: {errors}} = useForm({
     resolver: yupResolver(schema)
   });
-  const onSubmit = data => {
+  const inputValidator = () => {
+    let statusArray = [];
+    values?.map((item) => {
+      if(item === ''){
+        statusArray.push(false)
+      }
+    })
+    if(statusArray.includes(false)){
+      setButtonStatus(true);
+      return false
+    }
+  }
+  const onSubmit = async() => {
+    let data = {};
     Object.assign(data, {email: searchParams.get('email'), verificationCode: values.join('')})
-    verifyCode(data)
+    await verifyCode(data)
   };
-  const notifyHandler = ({message, alertType, key}) => {
-    dispatch(showAlert( {message, type: alertType, visible: true, key}));
+  const changeValueHandler = () => {
+    inputValidator()
   };
-
-  useEffect(() => {
-    Object.keys(errors).forEach(function (key, index) {
-      setTimeout(() => {
-        notifyHandler(errors[key].message, AlertTypes.danger, index)
-      }, 100)
-    });
-
-  }, [errors])
-  const [values, setValues] = React.useState(['', '', '', '', '', '']);
+  const changeButtonStatus = () => {
+    setButtonStatus(false)
+  }
   return (
     <section className={"text-gray-600 body-font " + classes.body} style={{
       backgroundImage: 'url(' + backgroundUrl + ') ',
@@ -62,10 +70,10 @@ export default function VerificationCode(props) {
               Verification Code
             </Typography>
             <Typography color={'text.primary'} className={'opacity-50 text-[14px] font-[400] mb-3 text-center'}>
-              Enter the verification code generated
-              by your mobile application
+              Enter the verification code sent
+              to your email: {searchParams.get('email')}
             </Typography>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <div>
               <Controller
                 name="verificationCode"
                 control={control}
@@ -74,10 +82,14 @@ export default function VerificationCode(props) {
                                                                                         name={'verificationCode'}
                                                                                         values={values}
                                                                                         placeholder={''}
-                                                                                        onChange={(value, index, values) => setValues(values)}
+                                                                                        onComplete={() => changeButtonStatus()}
+                                                                                        onChange={(value, index, values) => {
+                                                                                          changeValueHandler()
+                                                                                          setValues(values)
+                                                                                        }}
                 /></div>}
               />
-              <ButtonUi type={'submit'} variant={'contained'} className={`mt-3 ${classes.button}`}>
+              <ButtonUi disabled={buttonStatus} onClick={() => onSubmit()} variant={'contained'} className={`mt-3 ${classes.button}`}>
                 Verify Code
               </ButtonUi>
               <ButtonUi type={'button'} variant={'text'}
@@ -85,7 +97,7 @@ export default function VerificationCode(props) {
                         className={`mt-3 ${classes.button}`}>
                 Resend the code
               </ButtonUi>
-            </form>
+            </div>
           </BoxUi>
         </div>
       </div>

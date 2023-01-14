@@ -30,6 +30,16 @@ export default makeStyles((theme) => ({
         "& fieldset":{
             borderColor: theme.palette.input.border + '!important',
         },
+        "&.Mui-error": {
+            "& fieldset": {
+                borderColor: theme.palette.error.main + '!important',
+            },
+        },
+        "& .Mui-error": {
+            "& fieldset": {
+                borderColor: theme.palette.error.main + '!important',
+            },
+        },
         "& .MuiInputBase-root":{
             height: '100%',
             backgroundColor: 'transparent!important',

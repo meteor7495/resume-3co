@@ -86,8 +86,8 @@ const lightTheme = {
       active: "#007BFF1A",
     },
     orderBook: {
-      sellBackground: "#f9eaeb",
-      buyBackground: "#f8f8fb",
+      sellBackground: "#feefee",
+      buyBackground: "#fbfdfc",
     },
     sidebar: {
       buttonBg: "#F9F9FC",

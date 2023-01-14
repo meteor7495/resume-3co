@@ -3,11 +3,12 @@ import routes from "configs/routes";
 import { getDeposit } from "pages/Wallet/store/depositSlice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import bigInt from "utils/bigInt";
 import OverviewHeader from "../../components/OverviewHeader/OverviewHeader";
 import TransactionCard from "../../components/TransactionCard/TransactionCard";
 
 export default function Overview({ children, ...props }) {
-  const [visibility, setVisibility] = useState(true);
+  const [visibility, setVisibility] = useState();
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -15,19 +16,19 @@ export default function Overview({ children, ...props }) {
   }, [dispatch]);
   const { deposit = {} } = useSelector((s) => s.wallet);
   const walletTotalUSD = deposit
-    ? deposit.totalFinancialWalletsAmountInUSD +
-      deposit.totalSpotWalletsAmountInUSD
+    ? +deposit.totalFinancialWalletsAmountInUSD +
+      +deposit.totalSpotWalletsAmountInUSD
     : 0;
   const walletTotalBTC = deposit
-    ? deposit.totalFinancialWalletsAmountInBTC +
-      deposit.totalSpotWalletsAmountInBTC
+    ? +deposit.totalFinancialWalletsAmountInBTC +
+      +deposit.totalSpotWalletsAmountInBTC
     : 0;
   const ChartValues = {
     Spot: walletTotalUSD
-      ? (deposit.totalSpotWalletsAmountInUSD / walletTotalUSD) * 100
+      ? +bigInt(deposit.totalSpotWalletsAmountInUSD / walletTotalUSD) * 100
       : 0,
     Financial: walletTotalUSD
-      ? (deposit.totalFinancialWalletsAmountInUSD / walletTotalUSD) * 100
+      ? +bigInt(deposit.totalFinancialWalletsAmountInUSD / walletTotalUSD) * 100
       : 0,
     Margin: 0,
     "NFT Market": 0,
@@ -43,6 +44,7 @@ export default function Overview({ children, ...props }) {
           lock: deposit?.totalSpotWalletsLockedBalanceInUSD,
         }}
         setVisibility={setVisibility}
+        title="Asset"
       />
       {deposit ? (
         <div className={`flex flex-col gap-[10px]`}>

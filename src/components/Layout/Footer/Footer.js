@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import useStyles from "./style";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 // import { Navbar, Nav, NavDropdown, Dropdown, Button } from "react-bootstrap";
 
 const Footer = (props) => {
@@ -12,6 +12,254 @@ const Footer = (props) => {
     footerCopyRightDisplay,
     footerLinksSectionDisplay,
   } = useSelector((s) => s.layoutSettings);
+
+  const footerDataMock = [
+    {
+      title: "About Us",
+      items: [
+        {
+          title: "About",
+          link: "/",
+        },
+        {
+          title: "Careers",
+          link: "/",
+        },
+        {
+          title: "Business Contacts",
+          link: "/",
+        },
+        {
+          title: "Community",
+          link: "/",
+        },
+        {
+          title: "Binance Blog",
+          link: "/",
+        },
+        {
+          title: "Terms",
+          link: "/",
+        },
+        {
+          title: "Privacy",
+          link: "/",
+        },
+        {
+          title: "Risk Warning",
+          link: "/",
+        },
+        {
+          title: "Announcements",
+          link: "/",
+        },
+        {
+          title: "News",
+          link: "/",
+        },
+        {
+          title: "Notices",
+          link: "/",
+        },
+        {
+          title: "Cookie Preferences",
+          link: "/",
+        },
+      ],
+    },
+    {
+      title: "Products",
+      items: [
+        {
+          title: "Exchange",
+          link: "/",
+        },
+        {
+          title: "Academy",
+          link: "/",
+        },
+        {
+          title: "3co Live",
+          link: "/",
+        },
+        {
+          title: "Charity",
+          link: "/",
+        },
+        {
+          title: "Card",
+          link: "/",
+        },
+        {
+          title: "Labs",
+          link: "/",
+        },
+        {
+          title: "Launchpad",
+          link: "/",
+        },
+        {
+          title: "Research",
+          link: "/",
+        },
+        {
+          title: "Trust Wallet",
+          link: "/",
+        },
+        {
+          title: "NFT",
+          link: "/",
+        },
+        {
+          title: "3co Pay",
+          link: "/",
+        },
+        {
+          title: "3co Gift Card",
+          link: "/",
+        },
+      ],
+    },
+    {
+      title: "Service",
+      items: [
+        {
+          title: "Downloads",
+          link: "/",
+        },
+        {
+          title: "Desktop Applications",
+          link: "/",
+        },
+        {
+          title: "Buy Crypto",
+          link: "/",
+        },
+        {
+          title: "OTC Trading",
+          link: "/",
+        },
+        {
+          title: "Referral",
+          link: "/",
+        },
+        {
+          title: "Affiliate",
+          link: "/",
+        },
+        {
+          title: "BNB",
+          link: "/",
+        },
+        {
+          title: "Listing Application",
+          link: "/",
+        },
+        {
+          title: "Historical Market Data",
+          link: "/",
+        },
+        {
+          title: "Proof of Asset",
+          link: "/",
+        },
+      ],
+    },
+    {
+      title: "Support",
+      items: [
+        {
+          title: "About",
+          link: "/",
+        },
+        {
+          title: "Careers",
+          link: "/",
+        },
+        {
+          title: "Business Contacts",
+          link: "/",
+        },
+        {
+          title: "Community",
+          link: "/",
+        },
+        {
+          title: "Binance Blog",
+          link: "/",
+        },
+        {
+          title: "Terms",
+          link: "/",
+        },
+        {
+          title: "Privacy",
+          link: "/",
+        },
+        {
+          title: "Risk Warning",
+          link: "/",
+        },
+        {
+          title: "Announcements",
+          link: "/",
+        },
+        {
+          title: "News",
+          link: "/",
+        },
+        {
+          title: "Notices",
+          link: "/",
+        },
+        {
+          title: "Cookie Preferences",
+          link: "/",
+        },
+      ],
+    },
+    {
+      title: "Learn",
+      items: [
+        {
+          title: "Learn and Earn",
+          link: "/",
+        },
+        {
+          title: "Brows Crypto Prices",
+          link: "/",
+        },
+        {
+          title: "Buy BNB",
+          link: "/",
+        },
+        {
+          title: "Buy BUSD",
+          link: "/",
+        },
+        {
+          title: "Buy Bitcoin",
+          link: "/",
+        },
+        {
+          title: "Buy Ethereum",
+          link: "/",
+        },
+        {
+          title: "Buy Litecoin",
+          link: "/",
+        },
+        {
+          title: "Buy Ripple",
+          link: "/",
+        },
+        {
+          title: "Buy SHIB",
+          link: "/",
+        },
+      ],
+    },
+  ];
   return (
     <>
       {footerMainDisplay ? (
@@ -19,161 +267,30 @@ const Footer = (props) => {
           {footerLinksSectionDisplay ? (
             <div className="container px-5 py-24 mx-auto">
               <div className="flex flex-wrap md:text-left text-center -mb-10 -mx-4">
-                <div className="lg:w-1/5 md:w-1/2 w-full px-4 text-center">
-                  <Typography
-                    variant={"h4"}
-                    color={"text.primary"}
-                    className={"text-[20px] font-[700] mb-[30px]"}
-                  >
-                    CATEGORIES
-                  </Typography>
-                  <nav className="list-none mb-10">
-                    <li className={"mb-[20px]"}>
-                      <Link to={"/"} className={classes.link}>
-                        First Link
-                      </Link>
-                    </li>
-                    <li className={"mb-[20px]"}>
-                      <Link to={"/"} className={classes.link}>
-                        First Link
-                      </Link>
-                    </li>
-                    <li className={"mb-[20px]"}>
-                      <Link to={"/"} className={classes.link}>
-                        First Link
-                      </Link>
-                    </li>
-                    <li className={"mb-[20px]"}>
-                      <Link to={"/"} className={classes.link}>
-                        First Link
-                      </Link>
-                    </li>
-                  </nav>
-                </div>
-                <div className="lg:w-1/5 md:w-1/2 w-full px-4 text-center">
-                  <Typography
-                    variant={"h4"}
-                    color={"text.primary"}
-                    className={"text-[20px] font-[700] mb-[30px]"}
-                  >
-                    CATEGORIES
-                  </Typography>
-                  <nav className="list-none mb-10">
-                    <li className={"mb-[20px]"}>
-                      <Link to={"/"} className={classes.link}>
-                        First Link
-                      </Link>
-                    </li>
-                    <li className={"mb-[20px]"}>
-                      <Link to={"/"} className={classes.link}>
-                        First Link
-                      </Link>
-                    </li>
-                    <li className={"mb-[20px]"}>
-                      <Link to={"/"} className={classes.link}>
-                        First Link
-                      </Link>
-                    </li>
-                    <li className={"mb-[20px]"}>
-                      <Link to={"/"} className={classes.link}>
-                        First Link
-                      </Link>
-                    </li>
-                  </nav>
-                </div>
-                <div className="lg:w-1/5 md:w-1/2 w-full px-4 text-center">
-                  <Typography
-                    variant={"h4"}
-                    color={"text.primary"}
-                    className={"text-[20px] font-[700] mb-[30px]"}
-                  >
-                    CATEGORIES
-                  </Typography>
-                  <nav className="list-none mb-10">
-                    <li className={"mb-[20px]"}>
-                      <Link to={"/"} className={classes.link}>
-                        First Link
-                      </Link>
-                    </li>
-                    <li className={"mb-[20px]"}>
-                      <Link to={"/"} className={classes.link}>
-                        First Link
-                      </Link>
-                    </li>
-                    <li className={"mb-[20px]"}>
-                      <Link to={"/"} className={classes.link}>
-                        First Link
-                      </Link>
-                    </li>
-                    <li className={"mb-[20px]"}>
-                      <Link to={"/"} className={classes.link}>
-                        First Link
-                      </Link>
-                    </li>
-                  </nav>
-                </div>
-                <div className="lg:w-1/5 md:w-1/2 w-full px-4 text-center">
-                  <Typography
-                    variant={"h4"}
-                    color={"text.primary"}
-                    className={"text-[20px] font-[700] mb-[30px]"}
-                  >
-                    CATEGORIES
-                  </Typography>
-                  <nav className="list-none mb-10">
-                    <li className={"mb-[20px]"}>
-                      <Link to={"/"} className={classes.link}>
-                        First Link
-                      </Link>
-                    </li>
-                    <li className={"mb-[20px]"}>
-                      <Link to={"/"} className={classes.link}>
-                        First Link
-                      </Link>
-                    </li>
-                    <li className={"mb-[20px]"}>
-                      <Link to={"/"} className={classes.link}>
-                        First Link
-                      </Link>
-                    </li>
-                    <li className={"mb-[20px]"}>
-                      <Link to={"/"} className={classes.link}>
-                        First Link
-                      </Link>
-                    </li>
-                  </nav>
-                </div>
-                <div className="lg:w-1/5 md:w-1/2 w-full px-4 text-center">
-                  <Typography
-                    variant={"h4"}
-                    color={"text.primary"}
-                    className={"text-[20px] font-[700] mb-[30px]"}
-                  >
-                    CATEGORIES
-                  </Typography>
-                  <nav className="list-none mb-10">
-                    <li className={"mb-[20px]"}>
-                      <Link to={"/"} className={classes.link}>
-                        First Link
-                      </Link>
-                    </li>
-                    <li className={"mb-[20px]"}>
-                      <Link to={"/"} className={classes.link}>
-                        First Link
-                      </Link>
-                    </li>
-                    <li className={"mb-[20px]"}>
-                      <Link to={"/"} className={classes.link}>
-                        First Link
-                      </Link>
-                    </li>
-                    <li className={"mb-[20px]"}>
-                      <Link to={"/"} className={classes.link}>
-                        First Link
-                      </Link>
-                    </li>
-                  </nav>
-                </div>
+                {footerDataMock?.map((item) => {
+                  return (
+                    <div className="lg:w-1/5 md:w-1/2 w-full px-4 text-center">
+                      <Typography
+                        variant={"h4"}
+                        color={"text.primary"}
+                        className={"text-[20px] font-[700] mb-[30px]"}
+                      >
+                        {item?.title}
+                      </Typography>
+                      <nav className="list-none mb-10">
+                        {item?.items?.map((child) => {
+                          return (
+                            <li className={"mb-[20px]"}>
+                              <Link to={child?.link} className={classes.link}>
+                                {child?.title}
+                              </Link>
+                            </li>
+                          );
+                        })}
+                      </nav>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           ) : (
@@ -247,17 +364,13 @@ const Footer = (props) => {
                   </a>
                 </span>
                 <div className="flex w-full lg:w-auto md:flex-nowrap flex-wrap justify-center items-end">
-                  <p className="text-gray-500 text-sm text-center lg:text-left">
-                    © 2020 Tailblocks —
-                    <a
-                      href="https://twitter.com/knyttneve"
-                      className="text-gray-600 ml-1"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      @knyttneve
-                    </a>
-                  </p>
+                  <a
+                    href={"https://3co.net"}
+                    target={"_blank"}
+                    className="text-gray-500 text-sm text-center lg:text-left"
+                  >
+                    © 2023 Tree Co-Operation
+                  </a>
                 </div>
               </div>
             </div>

@@ -5,17 +5,35 @@ const { get } = axiosService("Wallets");
 export const getWallets = get({
   url: "wallet/spot/assets",
   name: "getWallets",
+  dataHandler: (data) =>
+    data.map((item) => ({
+      ...item,
+      activeBalance: item.activeBalance.toNormalNumber(),
+    })),
 });
 
-export const UpdateOneWallet = get({
+export const updateOneWallet = get({
   url: "wallet/spot",
-  name: "UpdateOneWallet",
+  name: "updateOneWallet",
+  dataHandler: (data) => ({
+    ...data,
+    activeBalance: data.activeBalance.toNormalNumber(),
+  }),
+});
+
+export const getOneWalletByCurrency = get({
+  url: "wallet/spot/currency",
+  name: "getOneWalletByCurrency",
+  dataHandler: (data) => ({
+    ...data,
+    activeBalance: data.activeBalance.toNormalNumber(),
+  }),
 });
 
 const walletAdapter = createEntityAdapter({ selectId: (i) => i._id });
 export const { selectAll: selectWallets, selectById: selectWalletById } =
   walletAdapter.getSelectors((state) => {
-    return state.wallet.wallets;
+    return state.wallets;
   });
 const walletSlice = createSlice({
   name: "Wallets",
@@ -32,7 +50,8 @@ const walletSlice = createSlice({
   },
   extraReducers: {
     [getWallets.fulfilled]: walletAdapter.setAll,
-    [UpdateOneWallet.fulfilled]: walletAdapter.upsertOne,
+    [updateOneWallet.fulfilled]: walletAdapter.setOne,
+    [getOneWalletByCurrency.fulfilled]: walletAdapter.setOne,
   },
 });
 

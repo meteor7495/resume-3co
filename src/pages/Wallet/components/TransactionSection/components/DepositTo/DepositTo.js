@@ -1,12 +1,11 @@
-import { ContentCopy, ContentPaste } from "@mui/icons-material";
+import { ContentCopy } from "@mui/icons-material";
 import ButtonUi from "components/UiKit/ButtonUi";
-import InputUi from "components/UiKit/InputUi";
-import { setWithdrawAddress } from "pages/Wallet/store/withdrawSlice";
 import { useState } from "react";
 import useStyles from "../../styles";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Tooltip } from "@mui/material";
 import QRCodeUi from "components/UiKit/QRCodeUi";
+import CopyButton from "components/CopyButton/CopyButton";
 
 export default function DepositTo() {
   const classes = useStyles();
@@ -21,23 +20,14 @@ export default function DepositTo() {
   return (
     <div className="flex gap-[10px]">
       <div className="flex grow flex-col gap-[5px] grow">
-        <Tooltip
-          placement="top"
-          color={"success"}
-          onClose={() => setTooltip(false)}
+        <CopyButton
+          className={`flex flex-1 items-center text-[7px] lg:text-[12px] px-[7px] w-full rounded-[5px] ${classes.button}`}
+          setOpen={setTooltip}
           open={tooltip}
-          classes={{ tooltip: classes.tooltip, arrow: classes.tooltipColor }}
-          title={<span>Copied!</span>}
-          leaveDelay={500}
-          arrow
+          value={address}
         >
-          <div
-            onClick={copyHandler}
-            className={`flex flex-1 items-center text-[7px] lg:text-[12px] px-[7px] w-full rounded-[5px] ${classes.button}`}
-          >
-            {address}
-          </div>
-        </Tooltip>
+          {address}
+        </CopyButton>
         <ButtonUi
           onClick={copyHandler}
           className={`flex flex-1 gap-[4px] items-center leading-none `}
@@ -46,7 +36,27 @@ export default function DepositTo() {
         </ButtonUi>
       </div>
       {address ? (
-        <QRCodeUi value={address} style={{ width: 80, height: 80 }} size={64} />
+        <Tooltip
+          placement="top"
+          arrow
+          disableFocusListener
+          color="#fff"
+          title={
+            <QRCodeUi
+              value={address}
+              style={{ width: 165, height: 165 }}
+              size={150}
+            />
+          }
+        >
+          <div>
+            <QRCodeUi
+              value={address}
+              style={{ width: 80, height: 80 }}
+              size={64}
+            />
+          </div>
+        </Tooltip>
       ) : (
         <div className="w-[80px] h-[80px]" />
       )}
